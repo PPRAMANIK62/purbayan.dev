@@ -50,7 +50,7 @@ export const projects: Project[] = [
     description: "Lightweight drawing app with layers, tools, and export",
     longDescription:
       "A lightweight drawing application built with Next.js and React featuring multiple drawing tools, a layer system with reordering and visibility toggles, keyboard shortcuts, and PNG export. Clean Canvas API usage with a modern component architecture.",
-    tags: ["next.js", "react", "typescript", "canvas", "creative"],
+    tags: ["next.js", "react", "typescript", "canvas"],
     github: "https://github.com/PPRAMANIK62/canvas-kit",
     demo: "https://canvas-kit.vercel.app",
     language: "TypeScript",
@@ -80,7 +80,7 @@ export const projects: Project[] = [
     description: "Multi-user TCP chat server in Rust with rate limiting",
     longDescription:
       "A TCP chat server written in both Rust and Go, comparing OS threads vs green threads for concurrent connection handling. Features token-based authentication, rate limiting, ban system, and broadcast messaging \u2014 all built from raw TCP sockets with no frameworks.",
-    tags: ["rust", "tcp", "concurrency", "systems", "networking"],
+    tags: ["rust", "tcp", "concurrency", "networking"],
     github: "https://github.com/PPRAMANIK62/4at",
     language: "Rust",
     tagline: "Multi-user TCP chat server in Rust with rate limiting",
@@ -109,7 +109,7 @@ export const projects: Project[] = [
     description: "Local search engine using TF-IDF algorithm in Rust",
     longDescription:
       "A local search engine that indexes documents using TF-IDF (Term Frequency-Inverse Document Frequency), ranks them by relevance, and serves results over HTTP. No search library \u2014 just the math and Rust. Full-stack: Rust backend with a JavaScript/HTML web frontend.",
-    tags: ["rust", "search", "algorithms", "tf-idf", "information-retrieval"],
+    tags: ["rust", "search", "algorithms", "tf-idf"],
     github: "https://github.com/PPRAMANIK62/seroost",
     language: "Rust",
     tagline: "Local search engine using TF-IDF algorithm in Rust",
@@ -138,7 +138,7 @@ export const projects: Project[] = [
     description: "Real-time audio spectrum visualizer using FFT in C",
     longDescription:
       "A real-time audio frequency spectrum visualizer that takes audio input, applies FFT through a custom header-only C library, and renders the frequency spectrum using raylib. ~670 lines of C, one external dependency, and a README that explains the theory behind audio processing and DSP.",
-    tags: ["c", "fft", "audio", "dsp", "raylib", "real-time"],
+    tags: ["c", "fft", "audio", "dsp", "raylib"],
     github: "https://github.com/PPRAMANIK62/musializer",
     language: "C",
     tagline: "Real-time audio spectrum visualizer using FFT in C",
