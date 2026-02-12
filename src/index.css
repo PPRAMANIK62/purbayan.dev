@@ -1,0 +1,155 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  /* Font families */
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Iosevka", ui-monospace, SFMono-Regular, "SF Mono", Menlo,
+    Consolas, "Liberation Mono", monospace;
+
+  /* Tokyo Night extended color tokens */
+  --color-tokyo-cyan: hsl(197 100% 74%);
+  --color-tokyo-green: hsl(89 54% 61%);
+  --color-tokyo-magenta: hsl(265 60% 78%);
+  --color-tokyo-red: hsl(352 79% 75%);
+  --color-tokyo-yellow: hsl(35 63% 64%);
+  --color-tokyo-orange: hsl(22 100% 70%);
+  --color-tokyo-teal: hsl(161 58% 65%);
+
+  /* shadcn radius */
+  --radius: 0.5rem;
+
+  /* shadcn color mappings */
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+  --color-sidebar: hsl(var(--sidebar));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+}
+
+/*
+  Tokyo Night — dark only, no light mode.
+  This IS the brand identity.
+*/
+@layer base {
+  :root {
+    --background: 228 14% 13%;
+    --foreground: 227 56% 87%;
+    --card: 226 19% 17%;
+    --card-foreground: 227 56% 87%;
+    --popover: 225 19% 19%;
+    --popover-foreground: 227 56% 87%;
+    --primary: 224 79% 72%;
+    --primary-foreground: 228 14% 13%;
+    --secondary: 226 19% 17%;
+    --secondary-foreground: 226 39% 74%;
+    --muted: 225 16% 21%;
+    --muted-foreground: 226 15% 44%;
+    --accent: 225 16% 21%;
+    --accent-foreground: 227 56% 87%;
+    --destructive: 352 79% 75%;
+    --destructive-foreground: 228 14% 13%;
+    --border: 227 13% 28%;
+    --input: 227 13% 28%;
+    --ring: 224 79% 72%;
+    --radius: 0.5rem;
+
+    /* Extended Tokyo Night tokens */
+    --tokyo-cyan: 197 100% 74%;
+    --tokyo-green: 89 54% 61%;
+    --tokyo-magenta: 265 60% 78%;
+    --tokyo-red: 352 79% 75%;
+    --tokyo-yellow: 35 63% 64%;
+    --tokyo-orange: 22 100% 70%;
+    --tokyo-teal: 161 58% 65%;
+
+    /* Chart colors (Tokyo Night palette) */
+    --chart-1: 224 79% 72%;
+    --chart-2: 197 100% 74%;
+    --chart-3: 89 54% 61%;
+    --chart-4: 265 60% 78%;
+    --chart-5: 352 79% 75%;
+
+    /* Sidebar (matches main theme) */
+    --sidebar: 226 19% 17%;
+    --sidebar-foreground: 227 56% 87%;
+    --sidebar-primary: 224 79% 72%;
+    --sidebar-primary-foreground: 228 14% 13%;
+    --sidebar-accent: 225 16% 21%;
+    --sidebar-accent-foreground: 227 56% 87%;
+    --sidebar-border: 227 13% 28%;
+    --sidebar-ring: 224 79% 72%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    margin: 0;
+    min-height: 100vh;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(228 14% 13%);
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(227 13% 28%);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(226 15% 44%);
+}
+
+/* Selection color */
+::selection {
+  background: rgba(122, 162, 247, 0.3);
+  color: #c0caf5;
+}
+
+/* Focus states */
+*:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+}
