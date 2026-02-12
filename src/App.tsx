@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { TooltipProvider } from "@/components/ui/tooltip"
+import { Layout } from "@/components/layout"
 
 import HomePage from "@/pages/home"
 import AboutPage from "@/pages/about"
@@ -11,14 +12,19 @@ import BlogPostPage from "@/pages/blog-post"
 import NotFoundPage from "@/pages/not-found"
 
 const router = createBrowserRouter([
-  { path: "/", Component: HomePage },
-  { path: "/about", Component: AboutPage },
-  { path: "/projects", Component: ProjectsPage },
-  { path: "/projects/:slug", Component: ProjectPage },
-  { path: "/uses", Component: UsesPage },
-  { path: "/blog", Component: BlogPage },
-  { path: "/blog/:slug", Component: BlogPostPage },
-  { path: "*", Component: NotFoundPage },
+  {
+    element: <Layout />,
+    children: [
+      { path: "/", element: <HomePage /> },
+      { path: "/about", element: <AboutPage /> },
+      { path: "/projects", element: <ProjectsPage /> },
+      { path: "/projects/:slug", element: <ProjectPage /> },
+      { path: "/uses", element: <UsesPage /> },
+      { path: "/blog", element: <BlogPage /> },
+      { path: "/blog/:slug", element: <BlogPostPage /> },
+      { path: "*", element: <NotFoundPage /> },
+    ],
+  },
 ])
 
 export default function App() {

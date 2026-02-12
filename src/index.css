@@ -148,8 +148,27 @@
   color: #c0caf5;
 }
 
-/* Focus states */
+/* Focus states — exclude command palette input */
 *:focus-visible {
   outline: 2px solid hsl(var(--primary));
   outline-offset: 2px;
+}
+
+[data-slot="command-input"]:focus-visible {
+  outline: none;
+}
+
+/* Command palette scrollbar */
+[data-slot="command-list"]::-webkit-scrollbar {
+  width: 4px;
+}
+[data-slot="command-list"]::-webkit-scrollbar-track {
+  background: transparent;
+}
+[data-slot="command-list"]::-webkit-scrollbar-thumb {
+  background: hsl(227 13% 28%);
+  border-radius: 2px;
+}
+[data-slot="command-list"]::-webkit-scrollbar-thumb:hover {
+  background: hsl(226 15% 44%);
 }
