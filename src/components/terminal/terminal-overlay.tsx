@@ -4,14 +4,14 @@ import { useTerminalStore } from "@/stores/terminal-store"
 import { TerminalOutput, type OutputLine } from "./terminal-output"
 import { TerminalPrompt } from "./terminal-prompt"
 import { TerminalInput, focusTerminalInput } from "./terminal-input"
+import { dispatch, type CommandContext } from "./commands/index"
+// Side-effect imports — trigger self-registration of all commands
+import "./commands/filesystem"
+import "./commands/system"
 
 const MAX_LINES = 500
 const HOME = "/home/purbayan"
 const EASING = [0.25, 0.46, 0.45, 0.94] as const
-
-function processCommand(input: string): OutputLine[] {
-  return [{ text: `${input}: command not found`, color: "error" }]
-}
 
 function formatPromptText(cwd: string, flagCount: number): string {
   const displayPath =
@@ -51,6 +51,12 @@ export function TerminalOverlay() {
     currentDirectory,
     commandHistory,
     addToHistory,
+    setDirectory,
+    captureFlag,
+    terminalTheme,
+    setTheme,
+    snakeHighScore,
+    updateSnakeHighScore,
   } = useTerminalStore()
 
   const [outputLines, setOutputLines] = useState<OutputLine[]>([])
@@ -104,12 +110,7 @@ export function TerminalOverlay() {
   const handleSubmit = useCallback(
     (text: string) => {
       if (text === "^C") {
-        appendLines([
-          {
-            text: "^C",
-            color: "muted",
-          },
-        ])
+        appendLines([{ text: "^C", color: "muted" }])
         setInputValue("")
         setHistoryIndex(-1)
         return
@@ -126,12 +127,58 @@ export function TerminalOverlay() {
       }
 
       addToHistory(trimmed)
-      const result = processCommand(trimmed)
-      appendLines([{ text: `${prompt}${trimmed}`, color: "default" }, ...result])
+
+      const ctx: CommandContext = {
+        cwd: currentDirectory,
+        setCwd: setDirectory,
+        flags: flagsFound,
+        captureFlag,
+        addToHistory,
+        soundEnabled,
+        toggleSound,
+        terminalTheme,
+        setTheme: setTheme as (theme: string) => void,
+        snakeHighScore,
+        updateSnakeHighScore,
+      }
+
+      const result = dispatch(trimmed, ctx)
+
+      if (result.clearScreen) {
+        setOutputLines([])
+        setInputValue("")
+        setHistoryIndex(-1)
+        return
+      }
+
+      appendLines([{ text: `${prompt}${trimmed}`, color: "default" }, ...result.lines])
+
+      if (result.exit) {
+        closeTerminal()
+      }
+
+      if (result.openUrl) {
+        window.open(result.openUrl, "_blank")
+      }
+
       setInputValue("")
       setHistoryIndex(-1)
     },
-    [addToHistory, appendLines, currentDirectory, flagsFound.length],
+    [
+      addToHistory,
+      appendLines,
+      currentDirectory,
+      flagsFound,
+      captureFlag,
+      soundEnabled,
+      toggleSound,
+      terminalTheme,
+      setTheme,
+      snakeHighScore,
+      updateSnakeHighScore,
+      setDirectory,
+      closeTerminal,
+    ],
   )
 
   const handleClear = useCallback(() => {
