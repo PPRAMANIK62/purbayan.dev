@@ -8,6 +8,9 @@ import { dispatch, type CommandContext } from "./commands/index"
 // Side-effect imports — trigger self-registration of all commands
 import "./commands/filesystem"
 import "./commands/system"
+import "./commands/meta"
+import "./commands/fun"
+import "./commands/network"
 
 const MAX_LINES = 500
 const HOME = "/home/purbayan"
