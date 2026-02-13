@@ -4,7 +4,9 @@ import { useTerminalStore } from "@/stores/terminal-store"
 import { TerminalOutput, type OutputLine } from "./terminal-output"
 import { TerminalPrompt } from "./terminal-prompt"
 import { TerminalInput, focusTerminalInput } from "./terminal-input"
-import { dispatch, type CommandContext } from "./commands/index"
+import { dispatch, registry, type CommandContext } from "./commands/index"
+import { ROOT } from "./filesystem/contents"
+import { resolvePath, getNode, listChildren } from "./filesystem/index"
 // Side-effect imports — trigger self-registration of all commands
 import "./commands/filesystem"
 import "./commands/system"
@@ -15,6 +17,18 @@ import "./commands/network"
 const MAX_LINES = 500
 const HOME = "/home/purbayan"
 const EASING = [0.25, 0.46, 0.45, 0.94] as const
+
+function longestCommonPrefix(strings: string[]): string {
+  if (strings.length === 0) return ""
+  let prefix = strings[0]
+  for (let i = 1; i < strings.length; i++) {
+    while (!strings[i].startsWith(prefix)) {
+      prefix = prefix.slice(0, -1)
+      if (prefix === "") return ""
+    }
+  }
+  return prefix
+}
 
 function formatPromptText(cwd: string, flagCount: number): string {
   const displayPath =
@@ -214,9 +228,99 @@ export function TerminalOverlay() {
     [commandHistory, historyIndex],
   )
 
-  const handleTab = useCallback((_partial: string) => {
-    // Tab completion placeholder — Phase 4
-  }, [])
+  const handleTab = useCallback(
+    (partial: string) => {
+      if (!partial || partial.trim() === "") return
+
+      const firstSpace = partial.indexOf(" ")
+
+      if (firstSpace === -1) {
+        // Case A: Command completion
+        const prefix = partial.toLowerCase()
+        const matches = Array.from(registry.keys()).filter((name) =>
+          name.startsWith(prefix),
+        )
+
+        if (matches.length === 0) return
+        if (matches.length === 1) {
+          setInputValue(matches[0] + " ")
+        } else {
+          const common = longestCommonPrefix(matches)
+          setInputValue(common)
+          appendLines([{ text: matches.join("  "), color: "info" }])
+        }
+      } else {
+        // Case B: Path completion
+        const lastSpaceIndex = partial.lastIndexOf(" ")
+        const commandPart = partial.slice(0, lastSpaceIndex + 1)
+        const pathPart = partial.slice(lastSpaceIndex + 1)
+
+        if (pathPart === "") return
+
+        const showHidden =
+          pathPart.startsWith(".") || pathPart.includes("/.")
+
+        const lastSlashIndex = pathPart.lastIndexOf("/")
+        let dirPath: string
+        let prefix: string
+
+        if (lastSlashIndex === -1) {
+          dirPath = currentDirectory
+          prefix = pathPart
+        } else {
+          const dirPart = pathPart.slice(0, lastSlashIndex + 1)
+          prefix = pathPart.slice(lastSlashIndex + 1)
+          dirPath = resolvePath(currentDirectory, dirPart)
+        }
+
+        const dirNode = getNode(ROOT, dirPath)
+        if (!dirNode || dirNode.type !== "directory") return
+
+        const children = listChildren(dirNode, showHidden)
+        const matches = children.filter((child) =>
+          child.name.startsWith(prefix),
+        )
+
+        if (matches.length === 0) return
+
+        if (matches.length === 1) {
+          const completedName = matches[0].name
+          const suffix = matches[0].type === "directory" ? "/" : " "
+          if (lastSlashIndex === -1) {
+            setInputValue(commandPart + completedName + suffix)
+          } else {
+            setInputValue(
+              commandPart +
+                pathPart.slice(0, lastSlashIndex + 1) +
+                completedName +
+                suffix,
+            )
+          }
+        } else {
+          const matchNames = matches.map((m) => m.name)
+          const common = longestCommonPrefix(matchNames)
+          if (lastSlashIndex === -1) {
+            setInputValue(commandPart + common)
+          } else {
+            setInputValue(
+              commandPart + pathPart.slice(0, lastSlashIndex + 1) + common,
+            )
+          }
+          appendLines([
+            {
+              text: matches
+                .map((m) =>
+                  m.type === "directory" ? m.name + "/" : m.name,
+                )
+                .join("  "),
+              color: "info",
+            },
+          ])
+        }
+      }
+    },
+    [currentDirectory, appendLines],
+  )
 
   const handleContainerClick = useCallback(() => {
     focusTerminalInput(containerRef.current)
