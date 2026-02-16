@@ -1,8 +1,15 @@
 import { useEffect } from "react"
 import { TerminalOverlay } from "@/components/terminal/terminal-overlay"
 import { useTerminalStore } from "@/stores/terminal-store"
+import { usePageMeta } from "@/hooks/use-page-meta"
 
 export default function TerminalPage() {
+  usePageMeta({
+    title: "PurbayanOS",
+    description:
+      "PurbayanOS — a developer portfolio disguised as a Linux terminal.",
+  })
+
   const openTerminal = useTerminalStore((s) => s.openTerminal)
   const unlockKonami = useTerminalStore((s) => s.unlockKonami)
   const discoverTerminal = useTerminalStore((s) => s.discoverTerminal)

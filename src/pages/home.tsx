@@ -4,6 +4,7 @@ import { motion } from "motion/react"
 import { projects } from "@/data/projects"
 import { ProjectCard } from "@/components/project-card"
 import { FadeUp } from "@/components/fade-up"
+import { usePageMeta } from "@/hooks/use-page-meta"
 
 const staggerEase = [0.25, 0.46, 0.45, 0.94] as const
 
@@ -13,6 +14,11 @@ const lineVariants = {
 }
 
 export default function HomePage() {
+  usePageMeta({
+    description:
+      "Purbayan Pramanik — full-stack developer. TypeScript by day, Rust by night.",
+  })
+
   return (
     <>
       {/* Hero */}

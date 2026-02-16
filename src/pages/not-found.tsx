@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { motion } from "motion/react"
+import { usePageMeta } from "@/hooks/use-page-meta"
 
 const COMMAND = "$ cat /page/that-doesnt-exist"
 const ERROR = "cat: /page/that-doesnt-exist: No such file or directory"
@@ -12,6 +13,8 @@ const PAUSE_AFTER_ERROR = 500
 const HINT_DELAY = 3000
 
 export default function NotFoundPage() {
+  usePageMeta({ title: "404", description: "Page not found." })
+
   const [commandText, setCommandText] = useState("")
   const [errorText, setErrorText] = useState("")
   const [hintText, setHintText] = useState("")

@@ -2,8 +2,15 @@ import { Link } from "react-router-dom"
 import { blogPosts } from "@/data/blog"
 import { FadeUp } from "@/components/fade-up"
 import { Badge } from "@/components/ui/badge"
+import { usePageMeta } from "@/hooks/use-page-meta"
 
 export default function BlogPage() {
+  usePageMeta({
+    title: "Blog",
+    description:
+      "Blog — writing about TypeScript, Rust, systems programming, and whatever else.",
+  })
+
   return (
     <div className="max-w-3xl mx-auto px-6 py-24 space-y-16">
       {/* Page Heading */}

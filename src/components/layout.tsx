@@ -6,6 +6,7 @@ import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { TerminalOverlay } from "@/components/terminal/terminal-overlay"
 import { CrtGlitch } from "@/components/terminal/crt-glitch"
+import { ErrorBoundary } from "@/components/error-boundary"
 import { useTerminalStore } from "@/stores/terminal-store"
 import { useKonamiCode } from "@/hooks/use-konami-code"
 
@@ -53,7 +54,9 @@ export function Layout() {
       <ScrollProgress />
       <Navbar />
       <main className="flex-1">
-        <Outlet />
+        <ErrorBoundary resetKey={location.pathname}>
+          <Outlet />
+        </ErrorBoundary>
       </main>
       {isKnownRoute && <Footer />}
       <TerminalOverlay />

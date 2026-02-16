@@ -3,8 +3,15 @@ import { Github } from "lucide-react"
 import { projects } from "@/data/projects"
 import { FadeUp } from "@/components/fade-up"
 import { Badge } from "@/components/ui/badge"
+import { usePageMeta } from "@/hooks/use-page-meta"
 
 export default function ProjectsPage() {
+  usePageMeta({
+    title: "Projects",
+    description:
+      "Projects by Purbayan Pramanik — five projects, five languages, five domains.",
+  })
+
   return (
     <div className="max-w-6xl mx-auto px-6 py-24">
       <FadeUp>

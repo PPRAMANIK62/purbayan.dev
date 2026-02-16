@@ -1,8 +1,15 @@
 import { Download } from "lucide-react"
 import { FadeUp } from "@/components/fade-up"
 import { Button } from "@/components/ui/button"
+import { usePageMeta } from "@/hooks/use-page-meta"
 
 export default function ResumePage() {
+  usePageMeta({
+    title: "Resume",
+    description:
+      "Resume — Purbayan Pramanik. Full-stack developer graduating 2026.",
+  })
+
   return (
     <div className="max-w-3xl mx-auto px-6 pt-20 pb-4 h-screen flex flex-col overflow-hidden">
       {/* Header — takes natural size */}

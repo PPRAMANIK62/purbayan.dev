@@ -1,8 +1,14 @@
 import { Link } from "react-router-dom"
 import { FadeUp } from "@/components/fade-up"
 import { UsesItem } from "@/components/uses-item"
+import { usePageMeta } from "@/hooks/use-page-meta"
 
 export default function UsesPage() {
+  usePageMeta({
+    title: "Uses",
+    description: "Tools, hardware, and software Purbayan uses daily.",
+  })
+
   return (
     <div className="max-w-3xl mx-auto px-6 py-24 space-y-16">
       {/* Page Heading */}

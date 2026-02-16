@@ -4,6 +4,7 @@ import { Copy, Check } from "lucide-react"
 import { blogPosts, type ContentBlock } from "@/data/blog"
 import { FadeUp } from "@/components/fade-up"
 import { Badge } from "@/components/ui/badge"
+import { usePageMeta } from "@/hooks/use-page-meta"
 
 function CodeBlock({ language, code }: { language: string; code: string }) {
   const [copied, setCopied] = useState(false)
@@ -119,6 +120,11 @@ function renderBlock(block: ContentBlock, index: number): ReactNode {
 export default function BlogPostPage() {
   const { slug } = useParams<{ slug: string }>()
   const post = blogPosts.find((p) => p.slug === slug)
+
+  usePageMeta({
+    title: post?.title ?? "Not Found",
+    description: post?.summary ?? "Post not found.",
+  })
 
   if (!post) {
     return (

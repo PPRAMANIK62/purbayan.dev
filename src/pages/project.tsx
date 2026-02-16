@@ -4,10 +4,16 @@ import { projects } from "@/data/projects"
 import { FadeUp } from "@/components/fade-up"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { usePageMeta } from "@/hooks/use-page-meta"
 
 export default function ProjectPage() {
   const { slug } = useParams<{ slug: string }>()
   const project = projects.find((p) => p.slug === slug)
+
+  usePageMeta({
+    title: project?.title ?? "Not Found",
+    description: project?.tagline ?? "Project not found.",
+  })
 
   if (!project) {
     return (

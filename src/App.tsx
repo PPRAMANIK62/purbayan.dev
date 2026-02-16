@@ -3,31 +3,30 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { Layout } from "@/components/layout"
 
-import HomePage from "@/pages/home"
-import AboutPage from "@/pages/about"
-import ProjectsPage from "@/pages/projects"
-import ProjectPage from "@/pages/project"
-import UsesPage from "@/pages/uses"
-import ResumePage from "@/pages/resume"
-import BlogPage from "@/pages/blog"
-import BlogPostPage from "@/pages/blog-post"
-import NotFoundPage from "@/pages/not-found"
-
+const HomePage = lazy(() => import("@/pages/home"))
+const AboutPage = lazy(() => import("@/pages/about"))
+const ProjectsPage = lazy(() => import("@/pages/projects"))
+const ProjectPage = lazy(() => import("@/pages/project"))
+const UsesPage = lazy(() => import("@/pages/uses"))
+const ResumePage = lazy(() => import("@/pages/resume"))
+const BlogPage = lazy(() => import("@/pages/blog"))
+const BlogPostPage = lazy(() => import("@/pages/blog-post"))
+const NotFoundPage = lazy(() => import("@/pages/not-found"))
 const TerminalPage = lazy(() => import("@/pages/terminal"))
 
 const router = createBrowserRouter([
   {
     element: <Layout />,
     children: [
-      { path: "/", element: <HomePage /> },
-      { path: "/about", element: <AboutPage /> },
-      { path: "/projects", element: <ProjectsPage /> },
-      { path: "/projects/:slug", element: <ProjectPage /> },
-      { path: "/uses", element: <UsesPage /> },
-      { path: "/resume", element: <ResumePage /> },
-      { path: "/blog", element: <BlogPage /> },
-      { path: "/blog/:slug", element: <BlogPostPage /> },
-      { path: "*", element: <NotFoundPage /> },
+      { path: "/", element: <Suspense fallback={null}><HomePage /></Suspense> },
+      { path: "/about", element: <Suspense fallback={null}><AboutPage /></Suspense> },
+      { path: "/projects", element: <Suspense fallback={null}><ProjectsPage /></Suspense> },
+      { path: "/projects/:slug", element: <Suspense fallback={null}><ProjectPage /></Suspense> },
+      { path: "/uses", element: <Suspense fallback={null}><UsesPage /></Suspense> },
+      { path: "/resume", element: <Suspense fallback={null}><ResumePage /></Suspense> },
+      { path: "/blog", element: <Suspense fallback={null}><BlogPage /></Suspense> },
+      { path: "/blog/:slug", element: <Suspense fallback={null}><BlogPostPage /></Suspense> },
+      { path: "*", element: <Suspense fallback={null}><NotFoundPage /></Suspense> },
     ],
   },
   {

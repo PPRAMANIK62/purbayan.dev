@@ -9,6 +9,7 @@ import {
 } from "lucide-react"
 import { FadeUp } from "@/components/fade-up"
 import { ContactLink } from "@/components/contact-link"
+import { usePageMeta } from "@/hooks/use-page-meta"
 
 const skillAreas = [
   {
@@ -79,6 +80,12 @@ const beyondCode = [
 ] as const
 
 export default function AboutPage() {
+  usePageMeta({
+    title: "About",
+    description:
+      "About Purbayan Pramanik — developer from Kolkata, India. Web development, systems programming, and Linux.",
+  })
+
   return (
     <div className="max-w-3xl mx-auto px-6 py-24 space-y-16">
       {/* Section 1 + 2: Opening Paragraph + Photo */}
