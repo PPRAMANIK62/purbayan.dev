@@ -105,11 +105,13 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <div className="flex justify-center md:justify-end md:shrink-0">
-            <div className="size-40 md:size-48 rounded-lg border-2 border-primary bg-card flex items-center justify-center shadow-[0_0_20px_rgba(122,162,247,0.15)]">
-              <span className="text-4xl md:text-5xl font-mono font-bold text-primary/70 select-none">
-                PP
-              </span>
+           <div className="flex justify-center md:justify-end md:shrink-0">
+            <div className="size-40 md:size-48 rounded-lg border-2 border-primary overflow-hidden shadow-[0_0_20px_rgba(122,162,247,0.15)]">
+              <img
+                src="/purbayan.png"
+                alt="Purbayan Pramanik"
+                className="size-full object-cover"
+              />
             </div>
           </div>
         </div>
