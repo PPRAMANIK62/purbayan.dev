@@ -263,6 +263,17 @@ function matrixCommand(_args: string[], _ctx: CommandContext): CommandResult {
 }
 
 // ---------------------------------------------------------------------------
+// snake
+// ---------------------------------------------------------------------------
+
+function snakeCommand(_args: string[], _ctx: CommandContext): CommandResult {
+  return {
+    lines: [{ text: "Starting snake game...", color: "success" }],
+    startGame: "snake",
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Registration
 // ---------------------------------------------------------------------------
 
@@ -274,3 +285,4 @@ registerCommand("lolcat", lolcatCommand, "Rainbow text (needs input)", "lolcat <
 registerCommand("rickroll", rickrollCommand, "Never gonna give you up", "rickroll")
 registerCommand("matrix", matrixCommand, "Matrix digital rain effect", "matrix")
 registerCommand("cmatrix", matrixCommand, "Matrix digital rain effect", "cmatrix")
+registerCommand("snake", snakeCommand, "Play the snake game", "snake")

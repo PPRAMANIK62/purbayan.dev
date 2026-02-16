@@ -14,11 +14,11 @@ export function TerminalPrompt({ cwd, flagCount }: TerminalPromptProps) {
       {flagCount > 0 && (
         <span className="text-tokyo-yellow">[{flagCount}/7] </span>
       )}
-      <span className="text-tokyo-green">purbayan</span>
+      <span className="terminal-prompt">purbayan</span>
       <span className="text-foreground">@</span>
-      <span className="text-tokyo-green">portfolio</span>
+      <span className="terminal-prompt">portfolio</span>
       <span className="text-foreground">:</span>
-      <span className="text-tokyo-cyan">{displayPath}</span>
+      <span className="terminal-accent">{displayPath}</span>
       <span className="text-foreground">$ </span>
     </span>
   )

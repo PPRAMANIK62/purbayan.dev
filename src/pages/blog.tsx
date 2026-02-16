@@ -1,4 +1,7 @@
+import { Link } from "react-router-dom"
+import { blogPosts } from "@/data/blog"
 import { FadeUp } from "@/components/fade-up"
+import { Badge } from "@/components/ui/badge"
 
 export default function BlogPage() {
   return (
@@ -16,16 +19,66 @@ export default function BlogPage() {
       </FadeUp>
 
       {/* Blog Posts */}
-      <FadeUp delay={0.1}>
-        <section>
-          {/* Future blog post list goes here */}
-          <div>
-            <p className="text-muted-foreground font-mono">
-              No posts yet. Check back soon.
-            </p>
-          </div>
-        </section>
-      </FadeUp>
+      {blogPosts.length > 0 ? (
+        <div className="space-y-6">
+          {blogPosts.map((post, index) => (
+            <FadeUp key={post.slug} delay={0.1 + index * 0.1}>
+              <div className="group relative border border-border/50 rounded-lg p-6 transition-all duration-200 hover:border-primary/50 hover:shadow-[0_0_20px_rgba(122,162,247,0.1)]">
+                <Link
+                  to={`/blog/${post.slug}`}
+                  className="absolute inset-0 z-10"
+                  aria-label={`Read ${post.title}`}
+                />
+
+                <div className="flex items-center justify-between">
+                  <h2 className="font-mono font-bold text-xl text-foreground">
+                    {post.title}
+                  </h2>
+                  <span className="text-muted-foreground font-mono text-xs shrink-0 ml-4">
+                    {post.readingTime}
+                  </span>
+                </div>
+
+                <p className="text-muted-foreground font-mono text-sm mt-1">
+                  {post.date}
+                </p>
+
+                <p className="text-secondary-foreground text-sm leading-relaxed mt-3">
+                  {post.summary}
+                </p>
+
+                <div className="flex flex-wrap gap-2 mt-4">
+                  {post.tags.map((tag) => (
+                    <Badge
+                      key={tag}
+                      variant="outline"
+                      className="font-mono text-xs"
+                    >
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+
+                <div className="flex items-center justify-end mt-4">
+                  <span className="text-sm text-primary font-mono transition-transform duration-200 group-hover:translate-x-1">
+                    → read post
+                  </span>
+                </div>
+              </div>
+            </FadeUp>
+          ))}
+        </div>
+      ) : (
+        <FadeUp delay={0.1}>
+          <section>
+            <div>
+              <p className="text-muted-foreground font-mono">
+                No posts yet. Check back soon.
+              </p>
+            </div>
+          </section>
+        </FadeUp>
+      )}
     </div>
   )
 }

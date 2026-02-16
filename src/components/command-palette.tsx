@@ -2,11 +2,13 @@ import { useEffect, useCallback } from "react"
 import { useNavigate } from "react-router-dom"
 import {
   Code,
+  FileText,
   FolderOpen,
   Github,
   Home,
   Linkedin,
   Mail,
+  SearchX,
   User,
   Wrench,
 } from "lucide-react"
@@ -19,6 +21,7 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command"
+import { blogPosts } from "@/data/blog"
 
 interface CommandPaletteProps {
   open: boolean
@@ -95,8 +98,14 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
         className="font-mono"
       />
       <CommandList>
-        <CommandEmpty className="font-mono text-muted-foreground">
-          No results found.
+        <CommandEmpty className="py-12 font-mono">
+          <div className="flex flex-col items-center gap-3">
+            <SearchX className="size-6 text-muted-foreground/50" />
+            <div className="flex flex-col items-center gap-1">
+              <span className="text-muted-foreground">No matches found</span>
+              <span className="text-xs text-muted-foreground/50">Try a different search term</span>
+            </div>
+          </div>
         </CommandEmpty>
 
         <CommandGroup heading="Pages">
@@ -131,6 +140,22 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
 
         <CommandSeparator />
 
+        <CommandGroup heading="Blog">
+          {blogPosts.map((post) => (
+            <CommandItem
+              key={post.slug}
+              value={post.title}
+              onSelect={() => runCommand(() => navigate(`/blog/${post.slug}`))}
+              className="font-mono"
+            >
+              <FileText className="size-4" />
+              <span>{post.title}</span>
+            </CommandItem>
+          ))}
+        </CommandGroup>
+
+        <CommandSeparator />
+
         <CommandGroup heading="Links">
           {links.map((link) => (
             <CommandItem
@@ -146,6 +171,8 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
             </CommandItem>
           ))}
         </CommandGroup>
+
+
       </CommandList>
     </CommandDialog>
   )

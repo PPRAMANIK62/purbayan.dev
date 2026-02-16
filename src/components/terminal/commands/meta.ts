@@ -223,33 +223,103 @@ function themeCommand(args: string[], ctx: CommandContext): CommandResult {
 // flags
 // ---------------------------------------------------------------------------
 
-const FLAG_HINTS: Record<number, string> = {
-  1: "Hidden in the dotfiles...",
-  2: "Check the temp directory...",
-  3: "Follow the white rabbit...",
-  4: "Shall we play a game?",
-  5: "Look closer at the system info...",
-  6: "Sssssnake your way to victory...",
-  7: "The source code knows all...",
+const FLAG_HINT_BANK: Record<number, string[]> = {
+  1: [
+    "Read the dotfiles...",
+    "Secrets hide in your home dir...",
+    "What does .bashrc contain?",
+    "Hidden configs hold secrets...",
+  ],
+  2: [
+    "Hidden directories hold secrets...",
+    "Some paths hide in plain sight...",
+    "Not everything visible is all...",
+    "Look deeper in the filesystem...",
+  ],
+  3: [
+    "Follow the white rabbit...",
+    "SSH knows more than you think...",
+    "Remote connections reveal truth...",
+    "Try connecting somewhere new...",
+  ],
+  4: [
+    "Shall we play a game?",
+    "Games aren't just for fun...",
+    "Some games reward patience...",
+    "Enter the matrix... or else?",
+  ],
+  5: [
+    "Look closer at system info...",
+    "neofetch shows more than specs...",
+    "System tools hide Easter eggs...",
+    "What does the system know?",
+  ],
+  6: [
+    "Score high in the game...",
+    "The snake rewards dedication...",
+    "10 points unlock something...",
+    "Keep eating, keep growing...",
+  ],
+  7: [
+    "Check /tmp...",
+    "Temp files aren't temporary...",
+    "Hackers leave odd traces...",
+    "The temp dir hides surprises...",
+  ],
 }
 
+export function getRandomHint(flagNum: number): string {
+  const hints = FLAG_HINT_BANK[flagNum]
+  if (!hints || hints.length === 0) return "???"
+  return hints[Math.floor(Math.random() * hints.length)]
+}
+
+const BOX_W = 58
+
 function flagsCommand(_args: string[], ctx: CommandContext): CommandResult {
-  const lines: OutputLine[] = [
-    { text: "Flag Status:", color: "info" },
-    { text: "" },
-  ]
+  const found = ctx.flags.length
+  const lines: OutputLine[] = []
+
+  const pad = (s: string, w: number) => s + " ".repeat(Math.max(0, w - s.length))
+  const border = "═".repeat(BOX_W)
+
+  lines.push({ text: `╔${border}╗`, color: "info" })
+  lines.push({ text: `║  ${pad(`PurbayanOS — Capture The Flag  [${found}/7]`, BOX_W - 2)}║`, color: "info" })
+  lines.push({ text: `╠${border}╣`, color: "info" })
+  lines.push({ text: `║${" ".repeat(BOX_W)}║`, color: "info" })
 
   for (let i = 1; i <= 7; i++) {
     if (ctx.flags.includes(i)) {
-      lines.push({ text: `  Flag ${i}: FOUND \u2713`, color: "success" })
+      const inner = `  [✓] Flag ${i} — Found`
+      lines.push({ text: `║${pad(inner, BOX_W)}║`, color: "success" })
     } else {
-      const hint = FLAG_HINTS[i] ?? ""
-      lines.push({ text: `  Flag ${i}: ???  ${hint}`, color: "muted" })
+      const hint = getRandomHint(i)
+      const inner = `  [ ] Flag ${i} — Hint: "${hint}"`
+      lines.push({ text: `║${pad(inner, BOX_W)}║`, color: "muted" })
     }
   }
 
-  lines.push({ text: "" })
-  lines.push({ text: `[${ctx.flags.length}/7 flags found]`, color: "muted" })
+  lines.push({ text: `║${" ".repeat(BOX_W)}║`, color: "info" })
+  lines.push({ text: `╚${border}╝`, color: "info" })
+
+  if (found === 7) {
+    lines.push({ text: "", color: "default" })
+    lines.push({ text: "╔══════════════════════════════════════════════════╗", color: "warning" })
+    lines.push({ text: "║                                                  ║", color: "warning" })
+    lines.push({ text: "║   ALL FLAGS CAPTURED                             ║", color: "success" })
+    lines.push({ text: "║                                                  ║", color: "warning" })
+    lines.push({ text: "║   You found all 7 hidden flags in PurbayanOS.    ║", color: "warning" })
+    lines.push({ text: "║                                                  ║", color: "warning" })
+    lines.push({ text: "║   You're exactly the kind of person I'd love     ║", color: "warning" })
+    lines.push({ text: "║   to work with. Let's talk:                      ║", color: "warning" })
+    lines.push({ text: "║                                                  ║", color: "warning" })
+    lines.push({ text: "║   > purbayan.dev@gmail.com                       ║", color: "warning" })
+    lines.push({ text: "║   > github.com/PPRAMANIK62                       ║", color: "warning" })
+    lines.push({ text: "║                                                  ║", color: "warning" })
+    lines.push({ text: "║   Thanks for exploring. This was fun to build.   ║", color: "warning" })
+    lines.push({ text: "║                                                  ║", color: "warning" })
+    lines.push({ text: "╚══════════════════════════════════════════════════╝", color: "warning" })
+  }
 
   return { lines }
 }

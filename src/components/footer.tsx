@@ -66,6 +66,9 @@ export function Footer() {
             </a>
             .
           </p>
+          <p className="mt-1 text-muted-foreground/30 hover:text-muted-foreground/60 transition-colors duration-300 text-xs select-none">
+            // there's more to this site than meets the eye
+          </p>
         </div>
       </div>
     </footer>

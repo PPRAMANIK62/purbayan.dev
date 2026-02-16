@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { Layout } from "@/components/layout"
@@ -10,6 +11,8 @@ import UsesPage from "@/pages/uses"
 import BlogPage from "@/pages/blog"
 import BlogPostPage from "@/pages/blog-post"
 import NotFoundPage from "@/pages/not-found"
+
+const TerminalPage = lazy(() => import("@/pages/terminal"))
 
 const router = createBrowserRouter([
   {
@@ -24,6 +27,14 @@ const router = createBrowserRouter([
       { path: "/blog/:slug", element: <BlogPostPage /> },
       { path: "*", element: <NotFoundPage /> },
     ],
+  },
+  {
+    path: "/terminal",
+    element: (
+      <Suspense fallback={null}>
+        <TerminalPage />
+      </Suspense>
+    ),
   },
 ])
 

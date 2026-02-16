@@ -4,15 +4,19 @@ import { motion } from "motion/react"
 
 const COMMAND = "$ cat /page/that-doesnt-exist"
 const ERROR = "cat: /page/that-doesnt-exist: No such file or directory"
+const HINT = "$ hint: there's more where this came from... try \u2191\u2191\u2193\u2193\u2190\u2192\u2190\u2192BA"
 const CHAR_DELAY = 30
+const HINT_CHAR_DELAY = 60
 const PAUSE_AFTER_COMMAND = 300
 const PAUSE_AFTER_ERROR = 500
+const HINT_DELAY = 3000
 
 export default function NotFoundPage() {
   const [commandText, setCommandText] = useState("")
   const [errorText, setErrorText] = useState("")
+  const [hintText, setHintText] = useState("")
   const [phase, setPhase] = useState<
-    "typing-command" | "pause-1" | "typing-error" | "pause-2" | "done"
+    "typing-command" | "pause-1" | "typing-error" | "pause-2" | "done" | "typing-hint"
   >("typing-command")
 
   useEffect(() => {
@@ -48,12 +52,29 @@ export default function NotFoundPage() {
       const timeout = setTimeout(() => setPhase("done"), PAUSE_AFTER_ERROR)
       return () => clearTimeout(timeout)
     }
-  }, [phase, commandText, errorText])
+
+    if (phase === "done") {
+      const timeout = setTimeout(() => setPhase("typing-hint"), HINT_DELAY)
+      return () => clearTimeout(timeout)
+    }
+
+    if (phase === "typing-hint") {
+      if (hintText.length < HINT.length) {
+        const timeout = setTimeout(() => {
+          setHintText(HINT.slice(0, hintText.length + 1))
+        }, HINT_CHAR_DELAY)
+        return () => clearTimeout(timeout)
+      }
+    }
+  }, [phase, commandText, errorText, hintText])
 
   const showCursorOnCommand =
     phase === "typing-command" || phase === "pause-1"
   const showCursorOnError = phase === "typing-error"
-  const isDone = phase === "done"
+  const isDone = phase === "done" || phase === "typing-hint"
+  const showDoneCursor = phase === "done"
+  const isTypingHint = phase === "typing-hint"
+  const showHintCursor = isTypingHint && hintText.length < HINT.length
 
   return (
     <div className="min-h-[calc(100vh-4rem)] flex flex-col items-start justify-center max-w-3xl mx-auto px-6">
@@ -65,7 +86,8 @@ export default function NotFoundPage() {
 
       {(phase === "typing-error" ||
         phase === "pause-2" ||
-        phase === "done") && (
+        phase === "done" ||
+        phase === "typing-hint") && (
         <div className="font-mono text-sm leading-relaxed mt-1">
           <span className="text-tokyo-red">{errorText}</span>
           {showCursorOnError && <span className="cursor" />}
@@ -75,7 +97,14 @@ export default function NotFoundPage() {
       {isDone && (
         <div className="font-mono text-sm leading-relaxed mt-1">
           <span className="text-tokyo-green">$ </span>
-          <span className="cursor" />
+          {showDoneCursor && <span className="cursor" />}
+        </div>
+      )}
+
+      {(isTypingHint || hintText.length > 0) && (
+        <div className="font-mono text-sm leading-relaxed mt-1">
+          <span className="text-muted-foreground/40">{hintText}</span>
+          {showHintCursor && <span className="cursor" />}
         </div>
       )}
 

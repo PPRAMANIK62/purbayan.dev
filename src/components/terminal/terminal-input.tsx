@@ -7,6 +7,7 @@ interface TerminalInputProps {
   onClear: () => void
   onHistoryNav: (direction: "up" | "down") => void
   onTab: (partial: string) => void
+  onKeystroke?: () => void
   disabled?: boolean
 }
 
@@ -17,6 +18,7 @@ export function TerminalInput({
   onClear,
   onHistoryNav,
   onTab,
+  onKeystroke,
   disabled = false,
 }: TerminalInputProps) {
   const inputRef = useRef<HTMLInputElement>(null)
@@ -60,6 +62,10 @@ export function TerminalInput({
       e.preventDefault()
       onTab(value)
       return
+    }
+
+    if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      onKeystroke?.()
     }
   }
 

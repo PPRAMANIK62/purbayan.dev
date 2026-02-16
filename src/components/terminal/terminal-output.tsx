@@ -14,10 +14,10 @@ export interface OutputLine {
 }
 
 const COLOR_MAP: Record<OutputLineColor, string> = {
-  default: "text-foreground",
+  default: "terminal-text",
   error: "text-tokyo-red",
   success: "text-tokyo-green",
-  info: "text-tokyo-cyan",
+  info: "terminal-accent",
   warning: "text-tokyo-yellow",
   muted: "text-muted-foreground",
   link: "text-tokyo-magenta underline cursor-pointer",
