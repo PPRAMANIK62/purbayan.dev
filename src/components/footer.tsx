@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import { Github, Linkedin, Mail, FileText } from "lucide-react"
 
 const socialLinks = [
@@ -5,25 +6,25 @@ const socialLinks = [
     label: "GitHub",
     href: "https://github.com/PPRAMANIK62",
     icon: Github,
-    external: true,
+    internal: false,
   },
   {
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/purbayan-pramanik-30586124b/",
     icon: Linkedin,
-    external: true,
+    internal: false,
   },
   {
     label: "Email",
     href: "mailto:purbayan.dev@gmail.com",
     icon: Mail,
-    external: false,
+    internal: false,
   },
   {
     label: "Resume",
-    href: "#",
+    href: "/resume",
     icon: FileText,
-    external: true,
+    internal: true,
   },
 ] as const
 
@@ -36,20 +37,31 @@ export function Footer() {
         </p>
 
         <nav className="mt-6 flex items-center gap-6">
-          {socialLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors duration-150"
-              {...(link.external && {
-                target: "_blank",
-                rel: "noopener noreferrer",
-              })}
-            >
-              <link.icon className="size-4" />
-              <span>{link.label}</span>
-            </a>
-          ))}
+          {socialLinks.map((link) =>
+            link.internal ? (
+              <Link
+                key={link.label}
+                to={link.href}
+                className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors duration-150"
+              >
+                <link.icon className="size-4" />
+                <span>{link.label}</span>
+              </Link>
+            ) : (
+              <a
+                key={link.label}
+                href={link.href}
+                className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors duration-150"
+                {...(link.href.startsWith("http") && {
+                  target: "_blank",
+                  rel: "noopener noreferrer",
+                })}
+              >
+                <link.icon className="size-4" />
+                <span>{link.label}</span>
+              </a>
+            ),
+          )}
         </nav>
 
         <div className="mt-10 text-sm text-muted-foreground leading-relaxed">

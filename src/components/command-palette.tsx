@@ -33,6 +33,7 @@ const pages = [
   { label: "Projects", icon: FolderOpen, path: "/projects" },
   { label: "Uses", icon: Wrench, path: "/uses" },
   { label: "About", icon: User, path: "/about" },
+  { label: "Resume", icon: FileText, path: "/resume" },
 ] as const
 
 const projects = [

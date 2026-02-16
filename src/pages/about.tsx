@@ -64,10 +64,10 @@ const contactLinks = [
   },
   {
     label: "Resume",
-    href: "#",
-    display: "download resume",
+    href: "/resume",
+    display: "view resume",
     icon: FileText,
-    external: true,
+    external: false,
   },
 ] as const
 

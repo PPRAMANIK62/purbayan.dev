@@ -13,6 +13,7 @@ import { CommandPalette } from "@/components/command-palette"
 
 const navLinks = [
   { label: "projects", path: "/projects" },
+  { label: "blog", path: "/blog" },
   { label: "uses", path: "/uses" },
   { label: "about", path: "/about" },
 ] as const
