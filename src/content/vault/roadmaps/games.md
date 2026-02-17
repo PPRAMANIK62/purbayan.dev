@@ -1,6 +1,6 @@
 # Multiplayer Game Development — Learning Path
 
-## Why This Section Exists
+## ✅ Why This Section Exists
 
 Your company is implementing game/multiplayer features. You want hands-on
 experience in this domain. You love low-level programming. This section
@@ -10,9 +10,24 @@ maps out the entire multiplayer game development landscape and provides
 **The goal: become the person in the room who understands what's happening
 under the hood when someone says "netcode."**
 
+### Progress
+
+- [x] Core Networking Concepts (UDP vs TCP)
+- [x] Networking Strategies (Lockstep, Snapshot, State Sync)
+- [ ] Project 1: rawnet — UDP Echo Server
+- [ ] Project 2: ticktock — Multiplayer Pong
+- [ ] Project 3: authserver — Authoritative Server
+- [ ] Project 4: predict — Client-Side Prediction
+- [ ] Project 5: tinecs — ECS from Scratch
+- [ ] Project 6: rollback-fighters — Rollback Netcode
+- [ ] Project 7: netproto — Custom Reliable UDP
+- [ ] Project 8: voxelworld — Multiplayer Voxel World
+- [ ] Project 9: arenanet — Scalable Game Server
+- [ ] Project 10: physworld — Deterministic Physics
+
 ---
 
-## The Landscape: Game Networking vs Web Networking
+## ✅ The Landscape: Game Networking vs Web Networking
 
 Game networking is fundamentally different from web networking:
 
@@ -31,7 +46,7 @@ an old position update than delay the current frame waiting for it.
 
 ---
 
-## The Three Fundamental Networking Strategies
+## ✅ The Three Fundamental Networking Strategies
 
 Glenn Fiedler (gafferongames.com — THE bible) defines three strategies:
 
@@ -52,7 +67,7 @@ bandwidth-efficient.
 
 ---
 
-## The Standard Tech Stack
+## ⏳ The Standard Tech Stack
 
 | Layer | AAA / Corporate | Indie / Low-Level Hacker |
 |-------|----------------|--------------------------|
@@ -69,7 +84,7 @@ bandwidth-efficient.
 
 ---
 
-## The Hard Problems (and why they're hard)
+## ⏳ The Hard Problems (and why they're hard)
 
 1. **Clock Synchronization** — Two machines never agree on "now." You need
    NTP-like sync to sub-millisecond precision, or interpolation breaks.
@@ -94,7 +109,7 @@ bandwidth-efficient.
 
 ---
 
-## The 10 Projects: Beginner to Nightmare
+## 🔮 The 10 Projects: Beginner to Nightmare
 
 Each project builds on concepts from the previous one. The stack
 recommendation is Rust throughout (low-level + modern systems lang +
@@ -556,7 +571,7 @@ engine source (Rust).
 
 ---
 
-## Essential Reading List
+## ✅ Essential Reading List
 
 Read these in order, before or alongside the projects:
 
@@ -571,7 +586,7 @@ Read these in order, before or alongside the projects:
 
 ---
 
-## Key Open-Source Projects to Study
+## ⏳ Key Open-Source Projects to Study
 
 | Project | Language | What to Learn |
 |---------|----------|---------------|
@@ -587,7 +602,7 @@ Read these in order, before or alongside the projects:
 
 ---
 
-## Summary: What Each Project Teaches
+## ✅ Summary: What Each Project Teaches
 
 | # | Project | Core Concept | Company Relevance |
 |---|---------|-------------|-------------------|

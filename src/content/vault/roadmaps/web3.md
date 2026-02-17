@@ -2,9 +2,21 @@
 
 This learning path is tailored for systems-level developers comfortable with low-level programming (Rust, C) who want to enter the blockchain and decentralized application space. The Web3 ecosystem is heavily Rust-native, making it a natural fit for developers who already think in terms of memory layouts, concurrency primitives, and protocol design.
 
+### Progress
+
+- [x] Core Blockchain Fundamentals
+- [x] Smart Contract Development (Solidity, Rust, Move, Cairo)
+- [ ] DeFi Protocols (Uniswap, Aave, Compound)
+- [ ] MEV and Flashbots
+- [ ] Infrastructure & Tooling (Foundry, Reth)
+- [ ] Zero-Knowledge Proofs
+- [ ] Security & Auditing
+- [ ] The Rust Angle — ecosystem mapping
+- [ ] Progressive Projects (0/10)
+
 ---
 
-## PART I: THE TECHNOLOGY LANDSCAPE
+## ⏳ PART I: THE TECHNOLOGY LANDSCAPE
 
 ### 1. Core Blockchain Fundamentals — How It Actually Works at the Byte Level
 
@@ -138,6 +150,8 @@ Move was designed by Meta (formerly Facebook) for the Diem blockchain. It introd
 
 **Why it matters**: Move eliminates several classes of bugs that plague Solidity (reentrancy is impossible by design, integer overflow is handled natively). This is the language to watch.
 
+> 💡 **Key Insight:** If you already know Rust's ownership model, Move will feel like home. The resource-oriented programming paradigm is essentially Rust's borrow checker applied to digital assets — resources can't be copied or dropped, only moved.
+
 #### Cairo (StarkNet) — Zero-Knowledge Native
 
 Cairo is purpose-built for creating **provable programs** using STARKs:
@@ -213,6 +227,8 @@ Smart contracts can't access external data (prices, weather, API responses). **O
 - **Searchers**: Developers who write bots to find and extract MEV opportunities. They submit transaction bundles to builders via Flashbots
 
 **Why MEV matters for systems developers**: MEV bots are performance-critical, latency-sensitive systems. The best ones are written in Rust. You're competing against other bots for microseconds — this is HFT-level systems programming applied to blockchain.
+
+> ⚠️ **Watch Out:** MEV is the most ethically gray area in blockchain. Pure arbitrage improves market efficiency, but sandwich attacks directly harm users. Understand the distinction before building — your reputation in the ecosystem matters.
 
 #### Flash Loans — The "Impossible" Financial Instrument
 
@@ -313,6 +329,8 @@ fn fibonacci(n: u64) -> u64 {
 
 This is genuinely revolutionary — you no longer need to think in circuits or constraints to use ZK.
 
+> 📝 **Note:** The ZK space is moving incredibly fast. RISC Zero and SP1 are making ZK accessible to any Rust developer. Start here before diving into raw circuit writing — you'll build intuition for what proofs can do before wrestling with the math.
+
 ---
 
 ### 6. Security — Where the Real Money Is
@@ -394,7 +412,7 @@ Rust is not just "used in blockchain" — it's becoming **THE language of blockc
 
 ---
 
-## PART II: 10 PROGRESSIVE PROJECTS — Beginner to Nightmare
+## 🔮 PART II: 10 PROGRESSIVE PROJECTS — Beginner to Nightmare
 
 ### Project 1: "Hash Chain" — Build a Toy Blockchain in Rust
 **Difficulty**: 1/5 (Beginner)
@@ -710,7 +728,7 @@ pub struct CreateToken<'info> {
 
 ---
 
-## PART III: THE GENUINELY HARD CS PROBLEMS
+## 🔮 PART III: THE GENUINELY HARD CS PROBLEMS
 
 These are the problems that make blockchain interesting regardless of market sentiment:
 
@@ -730,7 +748,7 @@ These are the problems that make blockchain interesting regardless of market sen
 
 ---
 
-## PART IV: OPEN-SOURCE PROJECTS TO STUDY (Ranked by Educational Value)
+## ⏳ PART IV: OPEN-SOURCE PROJECTS TO STUDY (Ranked by Educational Value)
 
 | Priority | Project | Stars | Why study it | Language |
 |----------|---------|-------|-------------|----------|
@@ -759,7 +777,7 @@ These are the problems that make blockchain interesting regardless of market sen
 
 ---
 
-## PART V: RECOMMENDED LEARNING PATH
+## 🔮 PART V: RECOMMENDED LEARNING PATH
 
 ```
 Month 1-2: Foundations
@@ -796,7 +814,7 @@ Month 10-12: The Frontier
 
 ---
 
-## PART VI: FINANCIAL REALITY CHECK
+## ✅ PART VI: FINANCIAL REALITY CHECK
 
 The Web3 ecosystem pays extremely well for deep technical skills, especially those involving Rust and security:
 

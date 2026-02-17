@@ -1,6 +1,6 @@
 # New Project Ideas — What to Build to Fill the Gaps
 
-## The Problem
+## ⏳ The Problem
 
 Your GitHub has strong projects, but there are narrative gaps. The portfolio
 tells the story of a full-stack + systems developer, but some categories
@@ -11,7 +11,7 @@ genuinely interesting to build.
 
 ---
 
-## Idea 1: `dotbrowser` — A Terminal-Rendered Dotfile Viewer ★★★★★
+## 🔮 Idea 1: `dotbrowser` — A Terminal-Rendered Dotfile Viewer ★★★★★
 
 **Category gap filled:** Developer tooling + Open source potential
 
@@ -32,7 +32,7 @@ with a visual "setup score" or "ricing grade."
 
 ---
 
-## Idea 2: `typecheck` — A TypeScript Playground with Constraint Puzzles ★★★★☆
+## 🔮 Idea 2: `typecheck` — A TypeScript Playground with Constraint Puzzles ★★★★☆
 
 **Category gap filled:** TypeScript expertise showcase + Educational content
 
@@ -54,7 +54,7 @@ system.
 
 ---
 
-## Idea 3: `patchwork` — A TUI Git Diff Viewer in Rust ★★★★☆
+## 🔮 Idea 3: `patchwork` — A TUI Git Diff Viewer in Rust ★★★★☆
 
 **Category gap filled:** Rust CLI tool that people might actually use
 
@@ -75,7 +75,7 @@ Like `delta` but more visual, maybe with inline comments.
 
 ---
 
-## Idea 4: `bento` — A Personal Dashboard / New Tab Page ★★★☆☆
+## 🔮 Idea 4: `bento` — A Personal Dashboard / New Tab Page ★★★☆☆
 
 **Category gap filled:** Design-forward web app + Daily utility
 
@@ -96,7 +96,7 @@ Tokyo Night themed. Exports/imports config as JSON.
 
 ---
 
-## Idea 5: `shellshare` — Share Terminal Sessions via Web ★★★★★
+## 🔮 Idea 5: `shellshare` — Share Terminal Sessions via Web ★★★★★
 
 **Category gap filled:** Full-stack + Real-time + Systems (the trifecta)
 
@@ -120,7 +120,7 @@ even live-stream terminal sessions.
 
 ---
 
-## Idea 6: `keybind` — Interactive Keyboard Shortcut Trainer ★★★☆☆
+## 🔮 Idea 6: `keybind` — Interactive Keyboard Shortcut Trainer ★★★☆☆
 
 **Category gap filled:** Fun/creative web project
 
@@ -141,7 +141,7 @@ correct keys, and get scored. Leaderboard optional.
 
 ---
 
-## My Recommendation
+## ✅ My Recommendation
 
 **Build ONE of these before launching the portfolio:**
 
@@ -161,7 +161,7 @@ Build it in a weekend. Ship it. Write a blog post. Move on.
 
 ---
 
-## What NOT to Build
+## ✅ What NOT to Build
 
 | Avoid | Why |
 |-------|-----|
@@ -174,7 +174,7 @@ Build it in a weekend. Ship it. Write a blog post. Move on.
 
 ---
 
-## Before Building Anything New
+## ⏳ Before Building Anything New
 
 **Fix your existing projects first.** The ROI on adding a README,
 deploying to Vercel, and recording a demo GIF is much higher than

@@ -65,6 +65,8 @@ console.log('D');           // sync — runs second
 
 Why `A, D, C, B`? Synchronous code (`A`, `D`) runs first because it's on the call stack. Then the microtask queue drains (`C` from the resolved Promise). Then the macrotask queue runs (`B` from setTimeout, even though the delay is 0).
 
+> 🎯 **Interview Tip:** Always trace through async code execution step by step. Interviewers want to see you reason about timing, not memorize output.
+
 **Interview Question: "What's the output of this code and why?"**
 
 ```javascript
@@ -131,6 +133,8 @@ function Timer() {
 ```
 
 Fix: use the functional updater `setCount(prev => prev + 1)` or add `count` to the dependency array (but then the interval resets every second).
+
+> ⚠️ **Watch Out:** Stale closures are the #1 React debugging nightmare. Always check dependency arrays in useEffect and useCallback.
 
 **Interview Question: "How do closures cause memory leaks?"**
 
@@ -522,6 +526,8 @@ function LikeButton() {
 - Server Component: data fetching, accessing backend resources, large dependencies (markdown renderers, syntax highlighters)
 - Client Component: interactivity (onClick, onChange), browser APIs, state, effects
 
+> 💡 **Key Insight:** Server Components are NOT SSR. SSR ships JS for hydration. Server Components ship zero JS. This distinction matters in interviews.
+
 **The 'use server' directive** marks functions as Server Actions, callable from client components:
 
 ```tsx
@@ -809,6 +815,8 @@ export async function POST(request: Request) {
 - **LCP (Largest Contentful Paint)** — how fast the main content loads. Target: < 2.5s
 - **INP (Interaction to Next Paint)** — replaces FID. How fast the page responds to interactions. Target: < 200ms
 - **CLS (Cumulative Layout Shift)** — visual stability. Target: < 0.1
+
+> ⚠️ **Watch Out:** Never lazy-load above-the-fold content. It hurts LCP. Only lazy-load what's below the viewport.
 
 **Optimization techniques:**
 1. **Code splitting** — `dynamic()` in Next.js, `React.lazy()` for client components
@@ -1265,6 +1273,8 @@ Token bucket algorithm:
 ## System Design (Interview Round Prep)
 
 ### The Framework
+
+> 🎯 **Interview Tip:** When asked about system design, start with requirements clarification before jumping to architecture. Spend 2-3 minutes here.
 
 Every system design answer should follow this structure:
 

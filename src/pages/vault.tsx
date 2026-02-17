@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef, useMemo, type ComponentPropsWithoutRef } from "react"
+import { useState, useEffect, useCallback, useRef, useMemo, Children, isValidElement, type ComponentPropsWithoutRef } from "react"
 import Markdown from "react-markdown"
 import remarkGfm from "remark-gfm"
 import { motion, AnimatePresence } from "motion/react"
@@ -101,6 +101,27 @@ function computeFileStats(content: string): FileStats {
   return { lineCount: lines, wordCount: words, readingTime: Math.ceil(words / 200) }
 }
 
+function findNearestHeadingAbove(contentEl: HTMLElement): { id: string; text: string } | null {
+  const headings = contentEl.querySelectorAll("h1[id], h2[id], h3[id], h4[id]")
+  const scrollTop = contentEl.scrollTop
+  let nearest: HTMLElement | null = null
+
+  for (const heading of headings) {
+    const el = heading as HTMLElement
+    if (el.offsetTop <= scrollTop + 50) {
+      nearest = el
+    } else {
+      break
+    }
+  }
+
+  if (!nearest) return null
+  return {
+    id: nearest.id,
+    text: nearest.textContent?.trim() ?? "",
+  }
+}
+
 const vaultFiles: VaultFile[] = Object.entries(vaultModules)
   .map(([path, content]) => {
     const parts = path.replace("/src/content/vault/", "").split("/")
@@ -140,7 +161,10 @@ async function hashPassword(password: string): Promise<string> {
 
 function mdComponents(
   currentBookmarks: Bookmark[],
-  toggleBookmark: (id: string, text: string) => void
+  toggleBookmark: (id: string, text: string) => void,
+  toggledCheckboxes: number[],
+  onToggleCheckbox: (index: number) => void,
+  checkboxIndexRef: { current: number }
 ): Record<string, React.ComponentType<ComponentPropsWithoutRef<any>>> {
   return {
     h1: ({ children, ...props }: ComponentPropsWithoutRef<"h1">) => {
@@ -241,14 +265,33 @@ function mdComponents(
         {children}
       </em>
     ),
-    blockquote: ({ children, ...props }: ComponentPropsWithoutRef<"blockquote">) => (
-      <blockquote
-        className="border-l-2 border-tokyo-teal bg-muted/30 pl-4 py-3 my-6 rounded-r-lg"
-        {...props}
-      >
-        {children}
-      </blockquote>
-    ),
+    blockquote: ({ children, ...props }: ComponentPropsWithoutRef<"blockquote">) => {
+      const text = extractTextFromChildren(children)
+
+      const calloutStyles: Record<string, { border: string; bg: string }> = {
+        "💡": { border: "border-l-tokyo-yellow", bg: "bg-tokyo-yellow/5" },
+        "⚠️": { border: "border-l-tokyo-red", bg: "bg-tokyo-red/5" },
+        "🎯": { border: "border-l-tokyo-green", bg: "bg-tokyo-green/5" },
+        "📝": { border: "border-l-tokyo-cyan", bg: "bg-tokyo-cyan/5" },
+      }
+
+      const emoji = Object.keys(calloutStyles).find((e) => text.trimStart().startsWith(e))
+      const style = emoji ? calloutStyles[emoji] : null
+
+      return (
+        <blockquote
+          className={cn(
+            "border-l-2 pl-4 py-3 my-6 rounded-r-lg",
+            style
+              ? `${style.border} ${style.bg}`
+              : "border-tokyo-teal bg-muted/30"
+          )}
+          {...props}
+        >
+          {children}
+        </blockquote>
+      )
+    },
     ul: ({ children, ...props }: ComponentPropsWithoutRef<"ul">) => (
       <ul className="space-y-2.5 mb-5" {...props}>
         {children}
@@ -259,15 +302,33 @@ function mdComponents(
         {children}
       </ol>
     ),
-    li: ({ children, ...props }: ComponentPropsWithoutRef<"li">) => (
-      <li
-        className="text-base text-secondary-foreground leading-relaxed flex items-start"
-        {...props}
-      >
-        <span className="text-tokyo-green mr-2 mt-0.5 shrink-0">-</span>
-        <span className="flex-1">{children}</span>
-      </li>
-    ),
+    li: ({ children, ...props }: ComponentPropsWithoutRef<"li">) => {
+      const childArray = Children.toArray(children)
+      const hasCheckbox = childArray.some(
+        (child) =>
+          isValidElement(child) &&
+          ((child.props as Record<string, unknown>)?.role === "checkbox" ||
+           ((child.props as Record<string, unknown>)?.type === "checkbox"))
+      )
+
+      if (hasCheckbox) {
+        return (
+          <li className="text-base text-secondary-foreground leading-relaxed flex items-start list-none" {...props}>
+            {children}
+          </li>
+        )
+      }
+
+      return (
+        <li
+          className="text-base text-secondary-foreground leading-relaxed flex items-start"
+          {...props}
+        >
+          <span className="text-tokyo-green mr-2 mt-0.5 shrink-0">-</span>
+          <span className="flex-1">{children}</span>
+        </li>
+      )
+    },
     code: ({ children, className, ...props }: ComponentPropsWithoutRef<"code">) => {
       const isBlock = /language-(\w+)/.test(className || "")
       if (isBlock) {
@@ -330,13 +391,41 @@ function mdComponents(
     hr: ({ ...props }: ComponentPropsWithoutRef<"hr">) => (
       <hr className="border-none h-px bg-gradient-to-r from-border via-primary/30 to-border my-10" {...props} />
     ),
-    input: ({ ...props }: ComponentPropsWithoutRef<"input">) => (
-      <input
-        className="mr-2 accent-primary"
-        disabled
-        {...props}
-      />
-    ),
+    input: ({ checked, ...props }: ComponentPropsWithoutRef<"input">) => {
+      if (props.type === "checkbox") {
+        const index = checkboxIndexRef.current++
+        const isToggled = toggledCheckboxes.includes(index)
+        const effectiveChecked = isToggled ? !checked : checked
+
+        return (
+          <button
+            onClick={() => onToggleCheckbox(index)}
+            className={cn(
+              "inline-flex items-center justify-center size-4 rounded border mr-2 shrink-0 mt-0.5 cursor-pointer transition-colors",
+              effectiveChecked
+                ? "bg-tokyo-green border-tokyo-green text-background"
+                : "border-border bg-transparent hover:border-tokyo-green/50"
+            )}
+            aria-checked={effectiveChecked}
+            role="checkbox"
+            type="button"
+          >
+            {effectiveChecked && (
+              <svg className="size-3" viewBox="0 0 12 12" fill="none">
+                <path
+                  d="M2.5 6L5 8.5L9.5 3.5"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            )}
+          </button>
+        )
+      }
+      return <input {...props} />
+    },
   }
 }
 
@@ -683,6 +772,8 @@ function VaultViewer() {
   const activeBarRef = useRef<HTMLDivElement>(null)
   const [currentBookmarks, setCurrentBookmarks] = useState<Bookmark[]>([])
   const [showContinuePill, setShowContinuePill] = useState(false)
+  const [toggledCheckboxes, setToggledCheckboxes] = useState<number[]>([])
+  const checkboxIndexRef = useRef(0)
   const activeFile = active ? vaultFiles.find((f) => `${f.category}/${f.slug}` === active) ?? null : null
 
   const vaultStats: VaultStats = useMemo(() => {
@@ -699,7 +790,13 @@ function VaultViewer() {
 
   const toc = useMemo(() => (activeFile ? extractToc(activeFile.content) : []), [activeFile])
   const [activeTocId, setActiveTocId] = useState<string | null>(null)
-  const [showToc, _setShowToc] = useState(true)
+  const [showToc, setShowToc] = useState(true)
+  const [showShortcutHelp, setShowShortcutHelp] = useState(false)
+
+  const fileKeys = useMemo(
+    () => vaultFiles.map((f) => `${f.category}/${f.slug}`),
+    []
+  )
 
   const fileStats = useMemo(() => (activeFile ? computeFileStats(activeFile.content) : null), [activeFile])
   const lastBookmark = currentBookmarks.length > 0 ? currentBookmarks[currentBookmarks.length - 1] : null
@@ -728,7 +825,20 @@ function VaultViewer() {
     setActive(fileKey)
   }, [])
 
-  const components = mdComponents(currentBookmarks, toggleBookmark)
+  const onToggleCheckbox = useCallback((index: number) => {
+    setToggledCheckboxes((prev) => {
+      const next = prev.includes(index)
+        ? prev.filter((i) => i !== index)
+        : [...prev, index]
+      if (active) {
+        localStorage.setItem(`vault-checkboxes-${active}`, JSON.stringify(next))
+      }
+      return next
+    })
+  }, [active])
+
+  checkboxIndexRef.current = 0
+  const components = mdComponents(currentBookmarks, toggleBookmark, toggledCheckboxes, onToggleCheckbox, checkboxIndexRef)
 
   useEffect(() => {
     const el = contentRef.current
@@ -811,6 +921,15 @@ function VaultViewer() {
   }, [active])
 
   useEffect(() => {
+    if (!active) {
+      setToggledCheckboxes([])
+      return
+    }
+    const saved = localStorage.getItem(`vault-checkboxes-${active}`)
+    setToggledCheckboxes(saved ? JSON.parse(saved) : [])
+  }, [active])
+
+  useEffect(() => {
     if (currentBookmarks.length > 0) {
       setShowContinuePill(true)
       const timer = setTimeout(() => setShowContinuePill(false), 5000)
@@ -843,6 +962,61 @@ function VaultViewer() {
     headingEls.forEach((el) => observer.observe(el))
     return () => observer.disconnect()
   }, [activeFile, toc])
+
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      const tag = (e.target as HTMLElement).tagName
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return
+
+      const el = contentRef.current
+
+      switch (e.key) {
+        case "j":
+          el?.scrollBy({ top: 100, behavior: "smooth" })
+          break
+
+        case "k":
+          el?.scrollBy({ top: -100, behavior: "smooth" })
+          break
+
+        case "n": {
+          if (!active) break
+          const idx = fileKeys.indexOf(active)
+          if (idx < fileKeys.length - 1) setActive(fileKeys[idx + 1])
+          break
+        }
+
+        case "p": {
+          if (!active) break
+          const idx = fileKeys.indexOf(active)
+          if (idx > 0) setActive(fileKeys[idx - 1])
+          break
+        }
+
+        case "b": {
+          if (!active || !el) break
+          const heading = findNearestHeadingAbove(el)
+          if (heading) toggleBookmark(heading.id, heading.text)
+          break
+        }
+
+        case "t":
+          setShowToc((prev) => !prev)
+          break
+
+        case "Escape":
+          setActive(null)
+          break
+
+        case "/":
+          e.preventDefault()
+          break
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [active, fileKeys, toggleBookmark])
 
   function scrollToHeading(id: string) {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })
@@ -899,6 +1073,14 @@ function VaultViewer() {
             </SidebarGroup>
           ))}
         </SidebarContent>
+        <div className="p-3 border-t border-border">
+          <button
+            onClick={() => setShowShortcutHelp((prev) => !prev)}
+            className="text-xs font-mono text-muted-foreground/50 hover:text-muted-foreground transition-colors"
+          >
+            ? shortcuts
+          </button>
+        </div>
       </Sidebar>
       <SidebarInset className="min-h-0 overflow-hidden">
         {active !== null && (
@@ -994,6 +1176,40 @@ function VaultViewer() {
           />
         )}
       </SidebarInset>
+      <AnimatePresence>
+        {showShortcutHelp && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm"
+            onClick={() => setShowShortcutHelp(false)}
+          >
+            <div
+              className="bg-muted border border-border rounded-lg p-6 max-w-sm font-mono text-sm"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h3 className="text-primary font-semibold mb-4">Keyboard Shortcuts</h3>
+              <div className="space-y-2">
+                {[
+                  ["j / k", "Scroll down / up"],
+                  ["n / p", "Next / previous file"],
+                  ["b", "Bookmark nearest heading"],
+                  ["t", "Toggle table of contents"],
+                  ["Esc", "Back to dashboard"],
+                ].map(([key, desc]) => (
+                  <div key={key} className="flex justify-between gap-4">
+                    <kbd className="px-1.5 py-0.5 bg-background border border-border rounded text-xs">
+                      {key}
+                    </kbd>
+                    <span className="text-muted-foreground">{desc}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </SidebarProvider>
   )
 }

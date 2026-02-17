@@ -54,6 +54,8 @@ Can they use AI tools effectively and critically, not blindly? This is 2026. I e
 7. **Only know the happy path.** Can't discuss edge cases, errors, scaling issues, or what happens when things break.
 8. **Over-reliance on AI without understanding what it generates.** If you can't explain the code you submitted, you didn't write it.
 
+> 🎯 **Interview Tip:** Practice your project stories with a timer. If you can't explain a project in under 2 minutes, you'll lose the interviewer's attention.
+
 ### Green Flags That Make Me Want to Hire
 
 1. **Built things from scratch** (not just tutorial projects). A TCP server from raw sockets, a search engine without Elasticsearch, an FFT library in C. These show real understanding.
@@ -157,6 +159,8 @@ Example: "Explain the event loop."
 - **Result:** Measurable outcome plus what you learned. "Fixed the bug for all new users. Learned to always consider the cold-cache path, not just the warm one."
 
 **Common mistake:** Spending too long on Situation. Saying "we" when you mean "I." Being vague about what you actually did versus what the team did.
+
+> 💡 **Key Insight:** The STAR method works because it forces specificity. Vague stories get filtered out — concrete details build trust.
 
 ### 5. System Design Questions
 
