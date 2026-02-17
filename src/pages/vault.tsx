@@ -679,8 +679,9 @@ function VaultViewer() {
   const [active, setActive] = useState<string | null>(null)
   const contentRef = useRef<HTMLDivElement>(null)
   const pendingScrollTarget = useRef<string | null>(null)
-  const [progress, setProgress] = useState(0)
-  const [progressVersion, setProgressVersion] = useState(0)
+  const progressRef = useRef(0)
+  const topBarRef = useRef<HTMLDivElement>(null)
+  const activeBarRef = useRef<HTMLDivElement>(null)
   const [currentBookmark, setCurrentBookmark] = useState<Bookmark | null>(null)
   const [showContinuePill, setShowContinuePill] = useState(false)
   const activeFile = active ? vaultFiles.find((f) => `${f.category}/${f.slug}` === active) ?? null : null
@@ -735,9 +736,17 @@ function VaultViewer() {
       const maxScroll = scrollHeight - clientHeight
       if (maxScroll <= 0) return
       const pct = Math.round((scrollTop / maxScroll) * 100)
-      setProgress(pct)
-      setProgressVersion((v) => v + 1)
-      // debounce only the localStorage write
+      progressRef.current = pct
+
+      // Direct DOM updates — no React re-render
+      if (topBarRef.current) {
+        topBarRef.current.style.width = `${pct}%`
+      }
+      if (activeBarRef.current) {
+        activeBarRef.current.style.width = `${pct}%`
+      }
+
+      // Debounce localStorage write
       clearTimeout(timer)
       timer = setTimeout(() => {
         localStorage.setItem(`vault-progress-${active}`, String(pct))
@@ -753,15 +762,18 @@ function VaultViewer() {
 
   useEffect(() => {
     if (!active) {
-      setProgress(0)
+      progressRef.current = 0
+      if (topBarRef.current) topBarRef.current.style.width = "0%"
       return
     }
     const saved = localStorage.getItem(`vault-progress-${active}`)
     const pct = saved ? parseInt(saved, 10) : 0
-    setProgress(pct)
+    progressRef.current = pct
+
+    if (topBarRef.current) topBarRef.current.style.width = `${pct}%`
+    if (activeBarRef.current) activeBarRef.current.style.width = `${pct}%`
 
     const timer = setTimeout(() => {
-      // If there's a pending bookmark scroll target, scroll to that heading instead
       if (pendingScrollTarget.current) {
         const headingId = pendingScrollTarget.current
         pendingScrollTarget.current = null
@@ -849,7 +861,7 @@ function VaultViewer() {
                 {kebabToTitle(category)}
               </SidebarGroupLabel>
               <SidebarGroupContent>
-                <SidebarMenu data-pv={progressVersion}>
+                <SidebarMenu>
                   {files.map((f) => (
                     <SidebarMenuItem key={`${f.category}/${f.slug}`}>
                       <SidebarMenuButton
@@ -862,9 +874,10 @@ function VaultViewer() {
                       </SidebarMenuButton>
                       <div className="mx-2 mb-1 h-0.5 bg-muted rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-tokyo-green transition-all duration-300"
+                          ref={active === `${f.category}/${f.slug}` ? activeBarRef : undefined}
+                          className="h-full bg-tokyo-green transition-[width] duration-300"
                           style={{
-                            width: `${active === `${f.category}/${f.slug}` ? progress : getSavedProgress(f.category, f.slug)}%`,
+                            width: `${getSavedProgress(f.category, f.slug)}%`,
                           }}
                         />
                       </div>
@@ -876,11 +889,12 @@ function VaultViewer() {
           ))}
         </SidebarContent>
       </Sidebar>
-      <SidebarInset className="min-h-0">
+      <SidebarInset className="min-h-0 overflow-hidden">
         {active !== null && (
           <div
-            className="h-0.5 bg-primary transition-all duration-150 ease-out"
-            style={{ width: `${progress}%` }}
+            ref={topBarRef}
+            className="h-0.5 bg-primary transition-[width] duration-150 ease-out"
+            style={{ width: "0%" }}
           />
         )}
         <header className="md:hidden flex items-center gap-2 p-4 border-b border-border">
