@@ -1,8 +1,8 @@
-import { useState, useEffect, useCallback, type ComponentPropsWithoutRef } from "react"
+import { useState, useEffect, useCallback, useRef, type ComponentPropsWithoutRef } from "react"
 import Markdown from "react-markdown"
 import remarkGfm from "remark-gfm"
 import { motion, AnimatePresence } from "motion/react"
-import { Lock, FileText } from "lucide-react"
+import { Lock, FileText, Bookmark as BookmarkIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
   SidebarProvider,
@@ -18,7 +18,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 
-const vaultModules = import.meta.glob("/src/content/vault/*.md", {
+const vaultModules = import.meta.glob("/src/content/vault/**/*.md", {
   eager: true,
   query: "?raw",
   import: "default",
@@ -26,8 +26,33 @@ const vaultModules = import.meta.glob("/src/content/vault/*.md", {
 
 interface VaultFile {
   slug: string
+  category: string
   label: string
   content: string
+}
+
+interface Bookmark {
+  headingId: string
+  headingText: string
+  scrollY: number
+}
+
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .trim()
+}
+
+function extractTextFromChildren(children: React.ReactNode): string {
+  if (typeof children === "string") return children
+  if (typeof children === "number") return String(children)
+  if (Array.isArray(children)) return children.map(extractTextFromChildren).join("")
+  if (children && typeof children === "object" && "props" in children) {
+    return extractTextFromChildren((children as React.ReactElement<{children?: React.ReactNode}>).props.children)
+  }
+  return ""
 }
 
 function kebabToTitle(s: string): string {
@@ -37,12 +62,34 @@ function kebabToTitle(s: string): string {
     .join(" ")
 }
 
+function getSavedProgress(category: string, slug: string): number {
+  const val = localStorage.getItem(`vault-progress-${category}/${slug}`)
+  return val ? parseInt(val, 10) : 0
+}
+
 const vaultFiles: VaultFile[] = Object.entries(vaultModules)
   .map(([path, content]) => {
-    const slug = path.split("/").pop()!.replace(/\.md$/, "")
-    return { slug, label: kebabToTitle(slug), content: content as string }
+    const parts = path.replace("/src/content/vault/", "").split("/")
+    const category = parts.length > 1 ? parts[0] : "uncategorized"
+    const slug = parts[parts.length - 1].replace(/\.md$/, "")
+    return {
+      slug,
+      category,
+      label: kebabToTitle(slug),
+      content: content as string,
+    }
   })
   .sort((a, b) => a.label.localeCompare(b.label))
+
+const groupedFiles = vaultFiles.reduce<Record<string, VaultFile[]>>(
+  (acc, file) => {
+    const group = file.category
+    if (!acc[group]) acc[group] = []
+    acc[group].push(file)
+    return acc
+  },
+  {}
+)
 
 const EXPECTED_HASH =
   "d714f4049edd6ea4291f2adf7ca5527ec025aaa588b34d4d87533e81f0295bd3"
@@ -57,42 +104,81 @@ async function hashPassword(password: string): Promise<string> {
     .join("")
 }
 
-function mdComponents(): Record<string, React.ComponentType<ComponentPropsWithoutRef<any>>> {
+function mdComponents(
+  currentBookmark: Bookmark | null,
+  toggleBookmark: (id: string, text: string) => void
+): Record<string, React.ComponentType<ComponentPropsWithoutRef<any>>> {
   return {
-    h1: ({ children, ...props }: ComponentPropsWithoutRef<"h1">) => (
-      <h1
-        className="text-4xl font-mono font-bold mt-10 mb-6 flex items-baseline"
-        {...props}
-      >
-        <span className="text-primary mr-2">&gt;</span>
-        {children}
-      </h1>
-    ),
-    h2: ({ children, ...props }: ComponentPropsWithoutRef<"h2">) => (
-      <h2
-        className="text-2xl font-mono font-semibold mt-10 mb-4 flex items-baseline text-tokyo-magenta"
-        {...props}
-      >
-        <span className="text-tokyo-magenta mr-2">&gt;</span>
-        {children}
-      </h2>
-    ),
-    h3: ({ children, ...props }: ComponentPropsWithoutRef<"h3">) => (
-      <h3
-        className="text-xl font-mono font-semibold mt-8 mb-3 text-tokyo-cyan"
-        {...props}
-      >
-        {children}
-      </h3>
-    ),
-    h4: ({ children, ...props }: ComponentPropsWithoutRef<"h4">) => (
-      <h4
-        className="text-lg font-mono font-medium mt-6 mb-2 text-tokyo-yellow"
-        {...props}
-      >
-        {children}
-      </h4>
-    ),
+    h1: ({ children, ...props }: ComponentPropsWithoutRef<"h1">) => {
+      const text = extractTextFromChildren(children)
+      const id = slugify(text)
+      return (
+        <h1
+          id={id}
+          className={cn(
+            "group text-4xl font-mono font-bold mt-10 mb-6 flex items-baseline",
+            currentBookmark?.headingId === id && "border-l-2 border-tokyo-yellow pl-2"
+          )}
+          {...props}
+        >
+          <span className="text-primary mr-2">&gt;</span>
+          {children}
+          <BookmarkButton headingId={id} headingText={text} currentBookmark={currentBookmark} toggleBookmark={toggleBookmark} />
+        </h1>
+      )
+    },
+    h2: ({ children, ...props }: ComponentPropsWithoutRef<"h2">) => {
+      const text = extractTextFromChildren(children)
+      const id = slugify(text)
+      return (
+        <h2
+          id={id}
+          className={cn(
+            "group text-2xl font-mono font-semibold mt-10 mb-4 flex items-baseline text-tokyo-magenta",
+            currentBookmark?.headingId === id && "border-l-2 border-tokyo-yellow pl-2"
+          )}
+          {...props}
+        >
+          <span className="text-tokyo-magenta mr-2">&gt;</span>
+          {children}
+          <BookmarkButton headingId={id} headingText={text} currentBookmark={currentBookmark} toggleBookmark={toggleBookmark} />
+        </h2>
+      )
+    },
+    h3: ({ children, ...props }: ComponentPropsWithoutRef<"h3">) => {
+      const text = extractTextFromChildren(children)
+      const id = slugify(text)
+      return (
+        <h3
+          id={id}
+          className={cn(
+            "group text-xl font-mono font-semibold mt-8 mb-3 text-tokyo-cyan flex items-baseline",
+            currentBookmark?.headingId === id && "border-l-2 border-tokyo-yellow pl-2"
+          )}
+          {...props}
+        >
+          {children}
+          <BookmarkButton headingId={id} headingText={text} currentBookmark={currentBookmark} toggleBookmark={toggleBookmark} />
+        </h3>
+      )
+    },
+    h4: ({ children, ...props }: ComponentPropsWithoutRef<"h4">) => {
+      const text = extractTextFromChildren(children)
+      const id = slugify(text)
+      return (
+        <h4
+          id={id}
+          className={cn(
+            "group text-lg font-mono font-medium mt-6 mb-2 text-tokyo-yellow flex items-baseline",
+            currentBookmark?.headingId === id && "border-l-2 border-tokyo-yellow pl-2"
+          )}
+          {...props}
+        >
+          {children}
+          <BookmarkButton headingId={id} headingText={text} currentBookmark={currentBookmark} toggleBookmark={toggleBookmark} />
+        </h4>
+      )
+    },
     p: ({ children, ...props }: ComponentPropsWithoutRef<"p">) => (
       <p
         className="text-base text-secondary-foreground leading-relaxed mb-4"
@@ -307,54 +393,196 @@ function PasswordGate({ onUnlock }: { onUnlock: () => void }) {
   )
 }
 
-
-
-function VaultViewer() {
-  const [active, setActive] = useState(() => vaultFiles[0]?.slug ?? "")
-  const activeFile = vaultFiles.find((f) => f.slug === active)
-  const components = mdComponents()
+function BookmarkButton({
+  headingId,
+  headingText,
+  currentBookmark,
+  toggleBookmark,
+}: {
+  headingId: string
+  headingText: string
+  currentBookmark: Bookmark | null
+  toggleBookmark: (id: string, text: string) => void
+}) {
+  const isBookmarked = currentBookmark?.headingId === headingId
 
   return (
-    <SidebarProvider>
+    <button
+      onClick={() => toggleBookmark(headingId, headingText)}
+      className={cn(
+        "ml-2 opacity-0 group-hover:opacity-100 transition-opacity",
+        isBookmarked && "opacity-100 text-tokyo-yellow"
+      )}
+      aria-label={isBookmarked ? "Remove bookmark" : "Bookmark this section"}
+    >
+      <BookmarkIcon className="size-4" />
+    </button>
+  )
+}
+
+function VaultViewer() {
+  const [active, setActive] = useState(() => vaultFiles[0] ? `${vaultFiles[0].category}/${vaultFiles[0].slug}` : "")
+  const contentRef = useRef<HTMLDivElement>(null)
+  const [progress, setProgress] = useState(0)
+  const [progressVersion, setProgressVersion] = useState(0)
+  const [currentBookmark, setCurrentBookmark] = useState<Bookmark | null>(null)
+  const [showContinuePill, setShowContinuePill] = useState(false)
+  const activeFile = vaultFiles.find((f) => `${f.category}/${f.slug}` === active)
+
+  const toggleBookmark = useCallback((headingId: string, headingText: string) => {
+    const key = `vault-bookmark-${active}`
+    if (currentBookmark?.headingId === headingId) {
+      localStorage.removeItem(key)
+      setCurrentBookmark(null)
+    } else {
+      const scrollY = contentRef.current?.scrollTop ?? 0
+      const bm: Bookmark = { headingId, headingText, scrollY }
+      localStorage.setItem(key, JSON.stringify(bm))
+      setCurrentBookmark(bm)
+    }
+  }, [active, currentBookmark])
+
+  const components = mdComponents(currentBookmark, toggleBookmark)
+
+  useEffect(() => {
+    const el = contentRef.current
+    if (!el || !active) return
+
+    let timer: ReturnType<typeof setTimeout>
+
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight, clientHeight } = el
+      const maxScroll = scrollHeight - clientHeight
+      if (maxScroll <= 0) return
+      const pct = Math.round((scrollTop / maxScroll) * 100)
+      setProgress(pct)
+      setProgressVersion((v) => v + 1)
+      // debounce only the localStorage write
+      clearTimeout(timer)
+      timer = setTimeout(() => {
+        localStorage.setItem(`vault-progress-${active}`, String(pct))
+      }, 200)
+    }
+
+    el.addEventListener("scroll", handleScroll, { passive: true })
+    return () => {
+      clearTimeout(timer)
+      el.removeEventListener("scroll", handleScroll)
+    }
+  }, [active])
+
+  useEffect(() => {
+    const saved = localStorage.getItem(`vault-progress-${active}`)
+    const pct = saved ? parseInt(saved, 10) : 0
+    setProgress(pct)
+
+    const timer = setTimeout(() => {
+      const el = contentRef.current
+      if (!el || pct === 0) return
+      const maxScroll = el.scrollHeight - el.clientHeight
+      el.scrollTop = (pct / 100) * maxScroll
+    }, 350)
+
+    return () => clearTimeout(timer)
+  }, [active])
+
+  useEffect(() => {
+    const saved = localStorage.getItem(`vault-bookmark-${active}`)
+    setCurrentBookmark(saved ? JSON.parse(saved) : null)
+  }, [active])
+
+  useEffect(() => {
+    if (currentBookmark) {
+      setShowContinuePill(true)
+      const timer = setTimeout(() => setShowContinuePill(false), 5000)
+      return () => clearTimeout(timer)
+    }
+    setShowContinuePill(false)
+  }, [active, currentBookmark])
+
+  return (
+    <SidebarProvider className="h-dvh">
       <Sidebar>
         <SidebarContent>
-          <SidebarGroup>
-            <SidebarGroupLabel className="font-mono uppercase tracking-wider">
-              Roadmaps
-            </SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {vaultFiles.map((f) => (
-                  <SidebarMenuItem key={f.slug}>
-                    <SidebarMenuButton
-                      isActive={active === f.slug}
-                      onClick={() => setActive(f.slug)}
-                      className="font-mono"
-                    >
-                      <FileText className="size-4" />
-                      <span>{f.label}</span>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
+          {Object.entries(groupedFiles).map(([category, files]) => (
+            <SidebarGroup key={category}>
+              <SidebarGroupLabel className="font-mono uppercase tracking-wider">
+                {kebabToTitle(category)}
+              </SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu data-pv={progressVersion}>
+                  {files.map((f) => (
+                    <SidebarMenuItem key={`${f.category}/${f.slug}`}>
+                      <SidebarMenuButton
+                        isActive={active === `${f.category}/${f.slug}`}
+                        onClick={() => setActive(`${f.category}/${f.slug}`)}
+                        className="font-mono"
+                      >
+                        <FileText className="size-4" />
+                        <span>{f.label}</span>
+                      </SidebarMenuButton>
+                      <div className="mx-2 mb-1 h-0.5 bg-muted rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-tokyo-green transition-all duration-300"
+                          style={{
+                            width: `${active === `${f.category}/${f.slug}` ? progress : getSavedProgress(f.category, f.slug)}%`,
+                          }}
+                        />
+                      </div>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          ))}
         </SidebarContent>
       </Sidebar>
-      <SidebarInset>
+      <SidebarInset className="min-h-0">
+        <div
+          className="h-0.5 bg-primary transition-all duration-150 ease-out"
+          style={{ width: `${progress}%` }}
+        />
         <header className="md:hidden flex items-center gap-2 p-4 border-b border-border">
           <SidebarTrigger />
           <span className="font-mono text-sm text-muted-foreground">
             {activeFile?.label}
           </span>
         </header>
-        <div className="flex-1 overflow-y-auto">
+        <div ref={contentRef} className="flex-1 overflow-y-auto min-h-0">
+          <AnimatePresence>
+            {showContinuePill && currentBookmark && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="sticky top-0 z-10 flex items-center gap-2 bg-muted/90 backdrop-blur border border-border rounded-lg px-4 py-2 mb-4 mx-6 md:mx-10 mt-4 font-mono text-sm"
+              >
+                <span className="text-muted-foreground">Continue from</span>
+                <span className="text-tokyo-yellow">{currentBookmark.headingText}</span>
+                <button
+                  onClick={() => {
+                    document.getElementById(currentBookmark.headingId)?.scrollIntoView({ behavior: "smooth" })
+                    setShowContinuePill(false)
+                  }}
+                  className="ml-auto text-primary hover:underline"
+                >
+                  Go
+                </button>
+                <button
+                  onClick={() => setShowContinuePill(false)}
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  Dismiss
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
           <AnimatePresence mode="wait">
             <motion.div
               key={active}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="max-w-6xl mx-auto px-6 md:px-10 py-10 md:py-14"
             >
