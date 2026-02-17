@@ -139,7 +139,7 @@ async function hashPassword(password: string): Promise<string> {
 }
 
 function mdComponents(
-  currentBookmark: Bookmark | null,
+  currentBookmarks: Bookmark[],
   toggleBookmark: (id: string, text: string) => void
 ): Record<string, React.ComponentType<ComponentPropsWithoutRef<any>>> {
   return {
@@ -151,13 +151,13 @@ function mdComponents(
           id={id}
           className={cn(
             "group text-4xl font-mono font-bold mt-10 mb-6 flex items-baseline scroll-mt-60",
-            currentBookmark?.headingId === id && "border-l-2 border-tokyo-yellow pl-2"
+            currentBookmarks.some((b) => b.headingId === id) && "border-l-2 border-tokyo-yellow pl-2"
           )}
           {...props}
         >
           <span className="text-primary mr-2">&gt;</span>
           {children}
-          <BookmarkButton headingId={id} headingText={text} currentBookmark={currentBookmark} toggleBookmark={toggleBookmark} />
+          <BookmarkButton headingId={id} headingText={text} currentBookmarks={currentBookmarks} toggleBookmark={toggleBookmark} />
         </h1>
       )
     },
@@ -169,13 +169,13 @@ function mdComponents(
           id={id}
           className={cn(
             "group text-2xl font-mono font-semibold mt-10 mb-4 flex items-baseline text-tokyo-magenta scroll-mt-60",
-            currentBookmark?.headingId === id && "border-l-2 border-tokyo-yellow pl-2"
+            currentBookmarks.some((b) => b.headingId === id) && "border-l-2 border-tokyo-yellow pl-2"
           )}
           {...props}
         >
           <span className="text-tokyo-magenta mr-2">&gt;</span>
           {children}
-          <BookmarkButton headingId={id} headingText={text} currentBookmark={currentBookmark} toggleBookmark={toggleBookmark} />
+          <BookmarkButton headingId={id} headingText={text} currentBookmarks={currentBookmarks} toggleBookmark={toggleBookmark} />
         </h2>
       )
     },
@@ -187,12 +187,12 @@ function mdComponents(
           id={id}
           className={cn(
             "group text-xl font-mono font-semibold mt-8 mb-3 text-tokyo-cyan flex items-baseline scroll-mt-60",
-            currentBookmark?.headingId === id && "border-l-2 border-tokyo-yellow pl-2"
+            currentBookmarks.some((b) => b.headingId === id) && "border-l-2 border-tokyo-yellow pl-2"
           )}
           {...props}
         >
           {children}
-          <BookmarkButton headingId={id} headingText={text} currentBookmark={currentBookmark} toggleBookmark={toggleBookmark} />
+          <BookmarkButton headingId={id} headingText={text} currentBookmarks={currentBookmarks} toggleBookmark={toggleBookmark} />
         </h3>
       )
     },
@@ -204,12 +204,12 @@ function mdComponents(
           id={id}
           className={cn(
             "group text-lg font-mono font-medium mt-6 mb-2 text-tokyo-yellow flex items-baseline scroll-mt-60",
-            currentBookmark?.headingId === id && "border-l-2 border-tokyo-yellow pl-2"
+            currentBookmarks.some((b) => b.headingId === id) && "border-l-2 border-tokyo-yellow pl-2"
           )}
           {...props}
         >
           {children}
-          <BookmarkButton headingId={id} headingText={text} currentBookmark={currentBookmark} toggleBookmark={toggleBookmark} />
+          <BookmarkButton headingId={id} headingText={text} currentBookmarks={currentBookmarks} toggleBookmark={toggleBookmark} />
         </h4>
       )
     },
@@ -430,15 +430,15 @@ function PasswordGate({ onUnlock }: { onUnlock: () => void }) {
 function BookmarkButton({
   headingId,
   headingText,
-  currentBookmark,
+  currentBookmarks,
   toggleBookmark,
 }: {
   headingId: string
   headingText: string
-  currentBookmark: Bookmark | null
+  currentBookmarks: Bookmark[]
   toggleBookmark: (id: string, text: string) => void
 }) {
-  const isBookmarked = currentBookmark?.headingId === headingId
+  const isBookmarked = currentBookmarks.some((b) => b.headingId === headingId)
 
   return (
     <button
@@ -505,15 +505,14 @@ function BookmarksSection({
   vaultFiles: VaultFile[]
   onSelectBookmark: (fileKey: string, headingId: string) => void
 }) {
-  const bookmarks = files
-    .map((f) => {
-      const key = `${f.category}/${f.slug}`
-      const raw = localStorage.getItem(`vault-bookmark-${key}`)
-      if (!raw) return null
-      const bm: Bookmark = JSON.parse(raw)
-      return { file: f, key, bookmark: bm }
-    })
-    .filter(Boolean) as Array<{ file: VaultFile; key: string; bookmark: Bookmark }>
+  const bookmarks = files.flatMap((f) => {
+    const key = `${f.category}/${f.slug}`
+    const raw = localStorage.getItem(`vault-bookmark-${key}`)
+    if (!raw) return []
+    const parsed = JSON.parse(raw)
+    const bms: Bookmark[] = Array.isArray(parsed) ? parsed : [parsed]
+    return bms.map((bm) => ({ file: f, key, bookmark: bm }))
+  })
 
   if (bookmarks.length === 0) return null
 
@@ -525,7 +524,7 @@ function BookmarksSection({
       <div className="space-y-2">
         {bookmarks.map(({ file, key, bookmark }) => (
           <button
-            key={key}
+            key={`${key}/${bookmark.headingId}`}
             onClick={() => onSelectBookmark(key, bookmark.headingId)}
             className="flex items-center gap-2 text-left group"
           >
@@ -644,11 +643,11 @@ function TableOfContents({
 function MetadataBar({
   file,
   stats,
-  bookmark,
+  bookmarks,
 }: {
   file: VaultFile
   stats: FileStats
-  bookmark: Bookmark | null
+  bookmarks: Bookmark[]
 }) {
   return (
     <div className="flex flex-wrap items-center gap-x-2 text-sm font-mono text-muted-foreground mb-6 pb-4 border-b border-border/50">
@@ -662,12 +661,12 @@ function MetadataBar({
       <span>~{stats.wordCount.toLocaleString()} words</span>
       <span>·</span>
       <span>{stats.readingTime} min read</span>
-      {bookmark && (
+      {bookmarks.length > 0 && (
         <>
           <span>·</span>
           <span className="text-tokyo-yellow flex items-center gap-1">
             <BookmarkIcon className="size-3" />
-            {bookmark.headingText}
+            {bookmarks.length} {bookmarks.length === 1 ? "bookmark" : "bookmarks"}
           </span>
         </>
       )}
@@ -682,7 +681,7 @@ function VaultViewer() {
   const progressRef = useRef(0)
   const topBarRef = useRef<HTMLDivElement>(null)
   const activeBarRef = useRef<HTMLDivElement>(null)
-  const [currentBookmark, setCurrentBookmark] = useState<Bookmark | null>(null)
+  const [currentBookmarks, setCurrentBookmarks] = useState<Bookmark[]>([])
   const [showContinuePill, setShowContinuePill] = useState(false)
   const activeFile = active ? vaultFiles.find((f) => `${f.category}/${f.slug}` === active) ?? null : null
 
@@ -703,27 +702,33 @@ function VaultViewer() {
   const [showToc, _setShowToc] = useState(true)
 
   const fileStats = useMemo(() => (activeFile ? computeFileStats(activeFile.content) : null), [activeFile])
+  const lastBookmark = currentBookmarks.length > 0 ? currentBookmarks[currentBookmarks.length - 1] : null
 
   const toggleBookmark = useCallback((headingId: string, headingText: string) => {
     if (!active) return
     const key = `vault-bookmark-${active}`
-    if (currentBookmark?.headingId === headingId) {
-      localStorage.removeItem(key)
-      setCurrentBookmark(null)
+    const exists = currentBookmarks.some((b) => b.headingId === headingId)
+    let updated: Bookmark[]
+    if (exists) {
+      updated = currentBookmarks.filter((b) => b.headingId !== headingId)
     } else {
       const scrollY = contentRef.current?.scrollTop ?? 0
-      const bm: Bookmark = { headingId, headingText, scrollY }
-      localStorage.setItem(key, JSON.stringify(bm))
-      setCurrentBookmark(bm)
+      updated = [...currentBookmarks, { headingId, headingText, scrollY }]
     }
-  }, [active, currentBookmark])
+    if (updated.length === 0) {
+      localStorage.removeItem(key)
+    } else {
+      localStorage.setItem(key, JSON.stringify(updated))
+    }
+    setCurrentBookmarks(updated)
+  }, [active, currentBookmarks])
 
   const handleBookmarkNavigation = useCallback((fileKey: string, headingId: string) => {
     pendingScrollTarget.current = headingId
     setActive(fileKey)
   }, [])
 
-  const components = mdComponents(currentBookmark, toggleBookmark)
+  const components = mdComponents(currentBookmarks, toggleBookmark)
 
   useEffect(() => {
     const el = contentRef.current
@@ -792,21 +797,27 @@ function VaultViewer() {
 
   useEffect(() => {
     if (!active) {
-      setCurrentBookmark(null)
+      setCurrentBookmarks([])
       return
     }
     const saved = localStorage.getItem(`vault-bookmark-${active}`)
-    setCurrentBookmark(saved ? JSON.parse(saved) : null)
+    if (!saved) {
+      setCurrentBookmarks([])
+      return
+    }
+    const parsed = JSON.parse(saved)
+    // Backwards compat: old format was a single Bookmark object, new is Bookmark[]
+    setCurrentBookmarks(Array.isArray(parsed) ? parsed : [parsed])
   }, [active])
 
   useEffect(() => {
-    if (currentBookmark) {
+    if (currentBookmarks.length > 0) {
       setShowContinuePill(true)
       const timer = setTimeout(() => setShowContinuePill(false), 5000)
       return () => clearTimeout(timer)
     }
     setShowContinuePill(false)
-  }, [active, currentBookmark])
+  }, [active, currentBookmarks])
 
   useEffect(() => {
     if (!activeFile || toc.length < 4) return
@@ -905,7 +916,7 @@ function VaultViewer() {
         </header>
         <div ref={contentRef} className="flex-1 overflow-y-auto min-h-0">
           <AnimatePresence>
-            {showContinuePill && currentBookmark && active !== null && (
+            {showContinuePill && lastBookmark && active !== null && (
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -913,10 +924,10 @@ function VaultViewer() {
                 className="sticky top-0 z-10 flex items-center gap-2 bg-muted/90 backdrop-blur border border-border rounded-lg px-4 py-2 mb-4 mx-6 md:mx-10 mt-4 font-mono text-sm"
               >
                 <span className="text-muted-foreground">Continue from</span>
-                <span className="text-tokyo-yellow">{currentBookmark.headingText}</span>
+                <span className="text-tokyo-yellow">{lastBookmark.headingText}</span>
                 <button
                   onClick={() => {
-                    document.getElementById(currentBookmark.headingId)?.scrollIntoView({ behavior: "smooth" })
+                    document.getElementById(lastBookmark.headingId)?.scrollIntoView({ behavior: "smooth" })
                     setShowContinuePill(false)
                   }}
                   className="ml-auto text-primary hover:underline"
@@ -961,7 +972,7 @@ function VaultViewer() {
                   <MetadataBar
                     file={activeFile}
                     stats={fileStats}
-                    bookmark={currentBookmark}
+                    bookmarks={currentBookmarks}
                   />
                 )}
                 {activeFile ? (
