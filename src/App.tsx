@@ -14,6 +14,7 @@ import BlogPostPage from "@/pages/blog-post"
 import NotFoundPage from "@/pages/not-found"
 
 const TerminalPage = lazy(() => import("@/pages/terminal"))
+const VaultPage = lazy(() => import("@/pages/vault"))
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,14 @@ const router = createBrowserRouter([
     element: (
       <Suspense fallback={null}>
         <TerminalPage />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/vault",
+    element: (
+      <Suspense fallback={null}>
+        <VaultPage />
       </Suspense>
     ),
   },
