@@ -37,12 +37,7 @@ export function TerminalOutput({ lines }: TerminalOutputProps) {
         if (color === "link" && line.href) {
           return (
             <div key={i}>
-              <a
-                href={line.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={className}
-              >
+              <a href={line.href} target="_blank" rel="noopener noreferrer" className={className}>
                 {line.text}
               </a>
             </div>

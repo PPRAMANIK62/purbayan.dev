@@ -5,7 +5,8 @@ import { usePageMeta } from "@/hooks/use-page-meta"
 
 const COMMAND = "$ cat /page/that-doesnt-exist"
 const ERROR = "cat: /page/that-doesnt-exist: No such file or directory"
-const HINT = "$ hint: there's more where this came from... try \u2191\u2191\u2193\u2193\u2190\u2192\u2190\u2192BA"
+const HINT =
+  "$ hint: there's more where this came from... try \u2191\u2191\u2193\u2193\u2190\u2192\u2190\u2192BA"
 const CHAR_DELAY = 30
 const HINT_CHAR_DELAY = 60
 const PAUSE_AFTER_COMMAND = 300
@@ -34,10 +35,7 @@ export default function NotFoundPage() {
     }
 
     if (phase === "pause-1") {
-      const timeout = setTimeout(
-        () => setPhase("typing-error"),
-        PAUSE_AFTER_COMMAND,
-      )
+      const timeout = setTimeout(() => setPhase("typing-error"), PAUSE_AFTER_COMMAND)
       return () => clearTimeout(timeout)
     }
 
@@ -71,8 +69,7 @@ export default function NotFoundPage() {
     }
   }, [phase, commandText, errorText, hintText])
 
-  const showCursorOnCommand =
-    phase === "typing-command" || phase === "pause-1"
+  const showCursorOnCommand = phase === "typing-command" || phase === "pause-1"
   const showCursorOnError = phase === "typing-error"
   const isDone = phase === "done" || phase === "typing-hint"
   const showDoneCursor = phase === "done"
@@ -137,10 +134,7 @@ export default function NotFoundPage() {
             </button>{" "}
             or head back home.
           </p>
-          <Link
-            to="/"
-            className="text-primary font-mono text-sm hover:underline"
-          >
+          <Link to="/" className="text-primary font-mono text-sm hover:underline">
             → go home
           </Link>
         </motion.div>

@@ -7,8 +7,7 @@ import { usePageMeta } from "@/hooks/use-page-meta"
 export default function ResumePage() {
   usePageMeta({
     title: "Resume",
-    description:
-      "Resume — Purbayan Pramanik. Full-stack developer graduating 2026.",
+    description: "Resume — Purbayan Pramanik. Full-stack developer graduating 2026.",
   })
 
   return (
@@ -43,11 +42,7 @@ export default function ResumePage() {
           >
             <p className="font-mono text-muted-foreground p-8">
               Your browser doesn't support embedded PDFs.{" "}
-              <a
-                href="/resume/resume.pdf"
-                download
-                className="text-primary hover:underline"
-              >
+              <a href="/resume/resume.pdf" download className="text-primary hover:underline">
                 Download the PDF
               </a>{" "}
               to view it.

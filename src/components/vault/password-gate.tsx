@@ -4,8 +4,7 @@ import { Lock } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { hashPassword } from "@/lib/vault-utils"
 
-const EXPECTED_HASH =
-  "d714f4049edd6ea4291f2adf7ca5527ec025aaa588b34d4d87533e81f0295bd3"
+const EXPECTED_HASH = "d714f4049edd6ea4291f2adf7ca5527ec025aaa588b34d4d87533e81f0295bd3"
 export const SESSION_KEY = "vault-unlocked"
 
 export function PasswordGate({ onUnlock }: { onUnlock: () => void }) {
@@ -31,7 +30,7 @@ export function PasswordGate({ onUnlock }: { onUnlock: () => void }) {
       }
       setChecking(false)
     },
-    [password, checking, onUnlock]
+    [password, checking, onUnlock],
   )
 
   return (
@@ -50,7 +49,7 @@ export function PasswordGate({ onUnlock }: { onUnlock: () => void }) {
             <Lock
               className={cn(
                 "size-8 transition-colors duration-300",
-                error ? "text-destructive" : "text-muted-foreground"
+                error ? "text-destructive" : "text-muted-foreground",
               )}
             />
           </motion.div>
@@ -67,9 +66,7 @@ export function PasswordGate({ onUnlock }: { onUnlock: () => void }) {
                 "font-mono text-sm text-foreground placeholder:text-muted-foreground",
                 "outline-none transition-all duration-300",
                 "focus:border-primary focus:ring-1 focus:ring-primary/30",
-                error
-                  ? "border-destructive ring-1 ring-destructive/30"
-                  : "border-border"
+                error ? "border-destructive ring-1 ring-destructive/30" : "border-border",
               )}
             />
             <AnimatePresence>

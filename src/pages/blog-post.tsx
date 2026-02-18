@@ -35,21 +35,13 @@ export default function BlogPostPage() {
             <h1 className="text-4xl font-mono font-bold">{post.title}</h1>
 
             <div className="flex items-center gap-4 mt-3">
-              <span className="text-muted-foreground font-mono text-sm">
-                {post.date}
-              </span>
-              <span className="text-muted-foreground font-mono text-sm">
-                {post.readingTime}
-              </span>
+              <span className="text-muted-foreground font-mono text-sm">{post.date}</span>
+              <span className="text-muted-foreground font-mono text-sm">{post.readingTime}</span>
             </div>
 
             <div className="flex flex-wrap gap-2 mt-4">
               {post.tags.map((tag) => (
-                <Badge
-                  key={tag}
-                  variant="outline"
-                  className="font-mono text-xs"
-                >
+                <Badge key={tag} variant="outline" className="font-mono text-xs">
                   {tag}
                 </Badge>
               ))}
@@ -66,10 +58,7 @@ export default function BlogPostPage() {
 
         {/* Back Link */}
         <FadeUp delay={0.2}>
-          <Link
-            to="/blog"
-            className="text-primary font-mono hover:underline"
-          >
+          <Link to="/blog" className="text-primary font-mono hover:underline">
             ← back to blog
           </Link>
         </FadeUp>

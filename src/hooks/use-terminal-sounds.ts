@@ -201,4 +201,3 @@ export function useTerminalSounds(): TerminalSounds {
 
   return soundsRef.current
 }
-

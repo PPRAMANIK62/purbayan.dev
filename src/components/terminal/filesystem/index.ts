@@ -26,9 +26,7 @@ export function resolvePath(cwd: string, target: string): string {
     path = HOME + "/" + path.slice(2)
   }
 
-  const parts = path.startsWith("/")
-    ? path.split("/")
-    : [...cwd.split("/"), ...path.split("/")]
+  const parts = path.startsWith("/") ? path.split("/") : [...cwd.split("/"), ...path.split("/")]
 
   const resolved: string[] = []
   for (const part of parts) {

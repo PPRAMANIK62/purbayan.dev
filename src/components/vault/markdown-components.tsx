@@ -21,7 +21,7 @@ function BookmarkButton({
       onClick={() => toggleBookmark(headingId, headingText)}
       className={cn(
         "ml-2 opacity-0 group-hover:opacity-100 transition-opacity",
-        isBookmarked && "opacity-100 text-tokyo-yellow"
+        isBookmarked && "opacity-100 text-tokyo-yellow",
       )}
       aria-label={isBookmarked ? "Remove bookmark" : "Bookmark this section"}
     >
@@ -35,7 +35,7 @@ export function mdComponents(
   toggleBookmark: (id: string, text: string) => void,
   toggledCheckboxes: number[],
   onToggleCheckbox: (index: number) => void,
-  checkboxIndexRef: { current: number }
+  checkboxIndexRef: { current: number },
 ): Record<string, React.ComponentType<ComponentPropsWithoutRef<any>>> {
   return {
     h1: ({ children, ...props }: ComponentPropsWithoutRef<"h1">) => {
@@ -46,13 +46,19 @@ export function mdComponents(
           id={id}
           className={cn(
             "group text-4xl font-mono font-bold mt-10 mb-6 flex items-baseline scroll-mt-60",
-            currentBookmarks.some((b) => b.headingId === id) && "border-l-2 border-tokyo-yellow pl-2"
+            currentBookmarks.some((b) => b.headingId === id) &&
+              "border-l-2 border-tokyo-yellow pl-2",
           )}
           {...props}
         >
           <span className="text-primary mr-2">&gt;</span>
           {children}
-          <BookmarkButton headingId={id} headingText={text} currentBookmarks={currentBookmarks} toggleBookmark={toggleBookmark} />
+          <BookmarkButton
+            headingId={id}
+            headingText={text}
+            currentBookmarks={currentBookmarks}
+            toggleBookmark={toggleBookmark}
+          />
         </h1>
       )
     },
@@ -64,13 +70,19 @@ export function mdComponents(
           id={id}
           className={cn(
             "group text-2xl font-mono font-semibold mt-10 mb-4 flex items-baseline text-tokyo-magenta scroll-mt-60",
-            currentBookmarks.some((b) => b.headingId === id) && "border-l-2 border-tokyo-yellow pl-2"
+            currentBookmarks.some((b) => b.headingId === id) &&
+              "border-l-2 border-tokyo-yellow pl-2",
           )}
           {...props}
         >
           <span className="text-tokyo-magenta mr-2">&gt;</span>
           {children}
-          <BookmarkButton headingId={id} headingText={text} currentBookmarks={currentBookmarks} toggleBookmark={toggleBookmark} />
+          <BookmarkButton
+            headingId={id}
+            headingText={text}
+            currentBookmarks={currentBookmarks}
+            toggleBookmark={toggleBookmark}
+          />
         </h2>
       )
     },
@@ -82,12 +94,18 @@ export function mdComponents(
           id={id}
           className={cn(
             "group text-xl font-mono font-semibold mt-8 mb-3 text-tokyo-cyan flex items-baseline scroll-mt-60",
-            currentBookmarks.some((b) => b.headingId === id) && "border-l-2 border-tokyo-yellow pl-2"
+            currentBookmarks.some((b) => b.headingId === id) &&
+              "border-l-2 border-tokyo-yellow pl-2",
           )}
           {...props}
         >
           {children}
-          <BookmarkButton headingId={id} headingText={text} currentBookmarks={currentBookmarks} toggleBookmark={toggleBookmark} />
+          <BookmarkButton
+            headingId={id}
+            headingText={text}
+            currentBookmarks={currentBookmarks}
+            toggleBookmark={toggleBookmark}
+          />
         </h3>
       )
     },
@@ -99,20 +117,23 @@ export function mdComponents(
           id={id}
           className={cn(
             "group text-lg font-mono font-medium mt-6 mb-2 text-tokyo-yellow flex items-baseline scroll-mt-60",
-            currentBookmarks.some((b) => b.headingId === id) && "border-l-2 border-tokyo-yellow pl-2"
+            currentBookmarks.some((b) => b.headingId === id) &&
+              "border-l-2 border-tokyo-yellow pl-2",
           )}
           {...props}
         >
           {children}
-          <BookmarkButton headingId={id} headingText={text} currentBookmarks={currentBookmarks} toggleBookmark={toggleBookmark} />
+          <BookmarkButton
+            headingId={id}
+            headingText={text}
+            currentBookmarks={currentBookmarks}
+            toggleBookmark={toggleBookmark}
+          />
         </h4>
       )
     },
     p: ({ children, ...props }: ComponentPropsWithoutRef<"p">) => (
-      <p
-        className="text-base text-secondary-foreground leading-relaxed mb-4"
-        {...props}
-      >
+      <p className="text-base text-secondary-foreground leading-relaxed mb-4" {...props}>
         {children}
       </p>
     ),
@@ -153,9 +174,7 @@ export function mdComponents(
         <blockquote
           className={cn(
             "border-l-2 pl-4 py-3 my-6 rounded-r-lg",
-            style
-              ? `${style.border} ${style.bg}`
-              : "border-tokyo-teal bg-muted/30"
+            style ? `${style.border} ${style.bg}` : "border-tokyo-teal bg-muted/30",
           )}
           {...props}
         >
@@ -179,12 +198,15 @@ export function mdComponents(
         (child) =>
           isValidElement(child) &&
           ((child.props as Record<string, unknown>)?.role === "checkbox" ||
-           ((child.props as Record<string, unknown>)?.type === "checkbox"))
+            (child.props as Record<string, unknown>)?.type === "checkbox"),
       )
 
       if (hasCheckbox) {
         return (
-          <li className="text-base text-secondary-foreground leading-relaxed flex items-start list-none" {...props}>
+          <li
+            className="text-base text-secondary-foreground leading-relaxed flex items-start list-none"
+            {...props}
+          >
             {children}
           </li>
         )
@@ -239,18 +261,12 @@ export function mdComponents(
       </thead>
     ),
     th: ({ children, ...props }: ComponentPropsWithoutRef<"th">) => (
-      <th
-        className="px-4 py-3 text-left text-primary font-semibold"
-        {...props}
-      >
+      <th className="px-4 py-3 text-left text-primary font-semibold" {...props}>
         {children}
       </th>
     ),
     td: ({ children, ...props }: ComponentPropsWithoutRef<"td">) => (
-      <td
-        className="px-4 py-2.5 text-secondary-foreground border-t border-border/50"
-        {...props}
-      >
+      <td className="px-4 py-2.5 text-secondary-foreground border-t border-border/50" {...props}>
         {children}
       </td>
     ),
@@ -260,7 +276,10 @@ export function mdComponents(
       </tr>
     ),
     hr: ({ ...props }: ComponentPropsWithoutRef<"hr">) => (
-      <hr className="border-none h-px bg-gradient-to-r from-border via-primary/30 to-border my-10" {...props} />
+      <hr
+        className="border-none h-px bg-gradient-to-r from-border via-primary/30 to-border my-10"
+        {...props}
+      />
     ),
     input: ({ checked, ...props }: ComponentPropsWithoutRef<"input">) => {
       if (props.type === "checkbox") {
@@ -275,7 +294,7 @@ export function mdComponents(
               "inline-flex items-center justify-center size-4 rounded border mr-2 shrink-0 mt-0.5 cursor-pointer transition-colors",
               effectiveChecked
                 ? "bg-tokyo-green border-tokyo-green text-background"
-                : "border-border bg-transparent hover:border-tokyo-green/50"
+                : "border-border bg-transparent hover:border-tokyo-green/50",
             )}
             aria-checked={effectiveChecked}
             role="checkbox"

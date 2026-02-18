@@ -12,10 +12,7 @@ interface ErrorBoundaryState {
   error: Error | null
 }
 
-export class ErrorBoundary extends Component<
-  ErrorBoundaryProps,
-  ErrorBoundaryState
-> {
+export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
     super(props)
     this.state = { hasError: false, error: null }
@@ -30,10 +27,7 @@ export class ErrorBoundary extends Component<
   }
 
   componentDidUpdate(prevProps: ErrorBoundaryProps): void {
-    if (
-      this.state.hasError &&
-      prevProps.resetKey !== this.props.resetKey
-    ) {
+    if (this.state.hasError && prevProps.resetKey !== this.props.resetKey) {
       this.setState({ hasError: false, error: null })
     }
   }
@@ -48,9 +42,7 @@ export class ErrorBoundary extends Component<
           </div>
 
           <div className="font-mono text-sm leading-relaxed mt-1">
-            <span className="text-tokyo-red">
-              Segmentation fault (core dumped)
-            </span>
+            <span className="text-tokyo-red">Segmentation fault (core dumped)</span>
           </div>
 
           {this.state.error?.message && (
@@ -76,10 +68,7 @@ export class ErrorBoundary extends Component<
             >
               ↻ retry
             </button>
-            <Link
-              to="/"
-              className="font-mono text-sm text-primary hover:underline"
-            >
+            <Link to="/" className="font-mono text-sm text-primary hover:underline">
               → go home
             </Link>
           </div>

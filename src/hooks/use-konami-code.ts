@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback } from "react"
 
 const KONAMI_SEQUENCE = [
   "ArrowUp",
@@ -11,71 +11,68 @@ const KONAMI_SEQUENCE = [
   "ArrowRight",
   "b",
   "a",
-] as const;
+] as const
 
-const DEFAULT_TIMEOUT = 5000;
-const DESKTOP_MIN_WIDTH = 768;
+const DEFAULT_TIMEOUT = 5000
+const DESKTOP_MIN_WIDTH = 768
 
 interface UseKonamiCodeOptions {
-  timeout?: number;
+  timeout?: number
 }
 
-function useKonamiCode(
-  callback: () => void,
-  options?: UseKonamiCodeOptions,
-): void {
-  const positionRef = useRef(0);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const callbackRef = useRef(callback);
-  const timeoutMs = options?.timeout ?? DEFAULT_TIMEOUT;
+function useKonamiCode(callback: () => void, options?: UseKonamiCodeOptions): void {
+  const positionRef = useRef(0)
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const callbackRef = useRef(callback)
+  const timeoutMs = options?.timeout ?? DEFAULT_TIMEOUT
 
   useEffect(() => {
-    callbackRef.current = callback;
-  }, [callback]);
+    callbackRef.current = callback
+  }, [callback])
 
   const resetSequence = useCallback(() => {
-    positionRef.current = 0;
+    positionRef.current = 0
     if (timerRef.current !== null) {
-      clearTimeout(timerRef.current);
-      timerRef.current = null;
+      clearTimeout(timerRef.current)
+      timerRef.current = null
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (window.innerWidth < DESKTOP_MIN_WIDTH) return;
+      if (window.innerWidth < DESKTOP_MIN_WIDTH) return
 
-      const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
-      const expected = KONAMI_SEQUENCE[positionRef.current];
+      const key = event.key.length === 1 ? event.key.toLowerCase() : event.key
+      const expected = KONAMI_SEQUENCE[positionRef.current]
 
       if (key === expected) {
-        positionRef.current += 1;
+        positionRef.current += 1
 
         if (timerRef.current !== null) {
-          clearTimeout(timerRef.current);
+          clearTimeout(timerRef.current)
         }
 
         if (positionRef.current === KONAMI_SEQUENCE.length) {
-          resetSequence();
-          callbackRef.current();
-          return;
+          resetSequence()
+          callbackRef.current()
+          return
         }
 
-        timerRef.current = setTimeout(resetSequence, timeoutMs);
+        timerRef.current = setTimeout(resetSequence, timeoutMs)
       } else {
-        resetSequence();
+        resetSequence()
       }
-    };
+    }
 
-    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("keydown", handleKeyDown)
 
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keydown", handleKeyDown)
       if (timerRef.current !== null) {
-        clearTimeout(timerRef.current);
+        clearTimeout(timerRef.current)
       }
-    };
-  }, [timeoutMs, resetSequence]);
+    }
+  }, [timeoutMs, resetSequence])
 }
 
-export { useKonamiCode };
+export { useKonamiCode }

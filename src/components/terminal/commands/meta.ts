@@ -1,9 +1,4 @@
-import {
-  registerCommand,
-  registry,
-  type CommandContext,
-  type CommandResult,
-} from "./index"
+import { registerCommand, registry, type CommandContext, type CommandResult } from "./index"
 import type { OutputLine } from "../terminal-output"
 import { resolvePath, getNode, isFile } from "../filesystem/index"
 import { ROOT } from "../filesystem/contents"
@@ -15,10 +10,38 @@ import { useTerminalStore, type TerminalState } from "@/stores/terminal-store"
 
 const COMMAND_CATEGORIES: Record<string, string[]> = {
   Filesystem: ["ls", "cd", "cat", "pwd", "tree", "grep", "find", "head", "tail", "wc", "file"],
-  System: ["whoami", "hostname", "uname", "date", "uptime", "clear", "echo", "env", "which", "type", "export", "neofetch"],
+  System: [
+    "whoami",
+    "hostname",
+    "uname",
+    "date",
+    "uptime",
+    "clear",
+    "echo",
+    "env",
+    "which",
+    "type",
+    "export",
+    "neofetch",
+  ],
   Network: ["ssh", "ping", "curl", "wget", "telnet"],
   Fun: ["cowsay", "fortune", "figlet", "sl", "lolcat", "rickroll", "matrix", "cmatrix"],
-  Meta: ["help", "history", "man", "exit", "open", "xdg-open", "sudo", "rm", "vim", "nano", "theme", "flags", "sound", "credits"],
+  Meta: [
+    "help",
+    "history",
+    "man",
+    "exit",
+    "open",
+    "xdg-open",
+    "sudo",
+    "rm",
+    "vim",
+    "nano",
+    "theme",
+    "flags",
+    "sound",
+    "credits",
+  ],
 }
 
 // ---------------------------------------------------------------------------
@@ -79,9 +102,7 @@ function manCommand(args: string[], _ctx: CommandContext): CommandResult {
     const node = getNode(ROOT, manPath)
 
     if (node && isFile(node) && node.content) {
-      const lines: OutputLine[] = node.content
-        .split("\n")
-        .map((line) => ({ text: line }))
+      const lines: OutputLine[] = node.content.split("\n").map((line) => ({ text: line }))
       return { lines }
     }
   }
@@ -142,7 +163,12 @@ function sudoCommand(args: string[], _ctx: CommandContext): CommandResult {
   }
 
   return {
-    lines: [{ text: "purbayan is not in the sudoers file. This incident will be reported.", color: "error" }],
+    lines: [
+      {
+        text: "purbayan is not in the sudoers file. This incident will be reported.",
+        color: "error",
+      },
+    ],
   }
 }
 
@@ -186,7 +212,12 @@ function nanoCommand(_args: string[], _ctx: CommandContext): CommandResult {
 // theme
 // ---------------------------------------------------------------------------
 
-const VALID_THEMES: readonly TerminalState["terminalTheme"][] = ["default", "amber", "green", "cyan"]
+const VALID_THEMES: readonly TerminalState["terminalTheme"][] = [
+  "default",
+  "amber",
+  "green",
+  "cyan",
+]
 
 function themeCommand(args: string[], ctx: CommandContext): CommandResult {
   if (args.length === 0) {
@@ -284,7 +315,10 @@ function flagsCommand(_args: string[], ctx: CommandContext): CommandResult {
   const border = "═".repeat(BOX_W)
 
   lines.push({ text: `╔${border}╗`, color: "info" })
-  lines.push({ text: `║  ${pad(`PurbayanOS — Capture The Flag  [${found}/7]`, BOX_W - 2)}║`, color: "info" })
+  lines.push({
+    text: `║  ${pad(`PurbayanOS — Capture The Flag  [${found}/7]`, BOX_W - 2)}║`,
+    color: "info",
+  })
   lines.push({ text: `╠${border}╣`, color: "info" })
   lines.push({ text: `║${" ".repeat(BOX_W)}║`, color: "info" })
 

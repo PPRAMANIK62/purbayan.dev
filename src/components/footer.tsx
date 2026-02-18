@@ -33,9 +33,7 @@ export function Footer() {
   return (
     <footer className="border-t border-border/50 font-mono">
       <div className="max-w-3xl mx-auto py-16 px-6">
-        <p className="font-bold text-lg text-foreground">
-          Purbayan Pramanik
-        </p>
+        <p className="font-bold text-lg text-foreground">Purbayan Pramanik</p>
 
         <nav className="mt-6 flex items-center gap-6">
           {socialLinks.map((link) =>

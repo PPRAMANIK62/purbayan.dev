@@ -93,8 +93,6 @@ export function TerminalInput({
 
 export function focusTerminalInput(container: HTMLElement | null) {
   if (!container) return
-  const input = container.querySelector<HTMLInputElement>(
-    'input[aria-label="Terminal input"]',
-  )
+  const input = container.querySelector<HTMLInputElement>('input[aria-label="Terminal input"]')
   input?.focus()
 }

@@ -66,12 +66,22 @@ function lsCommand(args: string[], ctx: CommandContext): CommandResult {
   const dirNode = getNode(ROOT, resolvedPath)
 
   if (!dirNode) {
-    return { lines: [{ text: `ls: cannot access '${targetPath ?? ctx.cwd}': No such file or directory`, color: "error" }] }
+    return {
+      lines: [
+        {
+          text: `ls: cannot access '${targetPath ?? ctx.cwd}': No such file or directory`,
+          color: "error",
+        },
+      ],
+    }
   }
 
   if (!isDirectory(dirNode)) {
     if (longFormat) {
-      lines.push({ text: `${dirNode.permissions}  ${String(dirNode.size).padStart(6)}  ${dirNode.modified}  ${dirNode.name}`, color: nodeColor(dirNode) })
+      lines.push({
+        text: `${dirNode.permissions}  ${String(dirNode.size).padStart(6)}  ${dirNode.modified}  ${dirNode.name}`,
+        color: nodeColor(dirNode),
+      })
     } else {
       lines.push({ text: dirNode.name, color: nodeColor(dirNode) })
     }
@@ -81,15 +91,45 @@ function lsCommand(args: string[], ctx: CommandContext): CommandResult {
   const children = sortNodes(listChildren(dirNode, showHidden))
 
   if (showHidden) {
-    const dotEntries: { name: string; color: OutputLine["color"]; permissions: string; size: number; modified: string }[] = [
-      { name: ".", color: "info", permissions: "drwxr-xr-x", size: 4096, modified: dirNode.modified },
-      { name: "..", color: "info", permissions: "drwxr-xr-x", size: 4096, modified: dirNode.modified },
+    const dotEntries: {
+      name: string
+      color: OutputLine["color"]
+      permissions: string
+      size: number
+      modified: string
+    }[] = [
+      {
+        name: ".",
+        color: "info",
+        permissions: "drwxr-xr-x",
+        size: 4096,
+        modified: dirNode.modified,
+      },
+      {
+        name: "..",
+        color: "info",
+        permissions: "drwxr-xr-x",
+        size: 4096,
+        modified: dirNode.modified,
+      },
     ]
 
     if (longFormat) {
       const allEntries = [
-        ...dotEntries.map((d) => ({ permissions: d.permissions, size: d.size, modified: d.modified, name: d.name, color: d.color })),
-        ...children.map((c) => ({ permissions: c.permissions, size: c.size, modified: c.modified, name: c.name, color: nodeColor(c) })),
+        ...dotEntries.map((d) => ({
+          permissions: d.permissions,
+          size: d.size,
+          modified: d.modified,
+          name: d.name,
+          color: d.color,
+        })),
+        ...children.map((c) => ({
+          permissions: c.permissions,
+          size: c.size,
+          modified: c.modified,
+          name: c.name,
+          color: nodeColor(c),
+        })),
       ]
 
       const maxSizeLen = Math.max(...allEntries.map((e) => String(e.size).length))
@@ -110,7 +150,8 @@ function lsCommand(args: string[], ctx: CommandContext): CommandResult {
     }
   } else {
     if (longFormat) {
-      const maxSizeLen = children.length > 0 ? Math.max(...children.map((c) => String(c.size).length)) : 1
+      const maxSizeLen =
+        children.length > 0 ? Math.max(...children.map((c) => String(c.size).length)) : 1
 
       for (const child of children) {
         lines.push({
@@ -219,7 +260,9 @@ function treeCommand(args: string[], ctx: CommandContext): CommandResult {
   const rootNode = getNode(ROOT, targetPath)
 
   if (!rootNode) {
-    return { lines: [{ text: `tree: '${args[0] ?? ctx.cwd}': No such file or directory`, color: "error" }] }
+    return {
+      lines: [{ text: `tree: '${args[0] ?? ctx.cwd}': No such file or directory`, color: "error" }],
+    }
   }
 
   if (!isDirectory(rootNode)) {

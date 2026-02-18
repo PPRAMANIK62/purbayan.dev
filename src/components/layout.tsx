@@ -11,23 +11,17 @@ import { useTerminalStore } from "@/stores/terminal-store"
 import { useShallow } from "zustand/react/shallow"
 import { useKonamiCode } from "@/hooks/use-konami-code"
 
-const knownRoutes = [
-  "/",
-  "/about",
-  "/projects",
-  "/projects/:slug",
-  "/uses",
-  "/blog",
-  "/blog/:slug",
-]
+const knownRoutes = ["/", "/about", "/projects", "/projects/:slug", "/uses", "/blog", "/blog/:slug"]
 
 export function Layout() {
   const location = useLocation()
-  const isKnownRoute = knownRoutes.some((pattern) =>
-    matchPath(pattern, location.pathname),
-  )
+  const isKnownRoute = knownRoutes.some((pattern) => matchPath(pattern, location.pathname))
   const { openTerminal, unlockKonami, konamiUnlocked } = useTerminalStore(
-    useShallow((s) => ({ openTerminal: s.openTerminal, unlockKonami: s.unlockKonami, konamiUnlocked: s.konamiUnlocked }))
+    useShallow((s) => ({
+      openTerminal: s.openTerminal,
+      unlockKonami: s.unlockKonami,
+      konamiUnlocked: s.konamiUnlocked,
+    })),
   )
   const [glitchTrigger, setGlitchTrigger] = useState(false)
 

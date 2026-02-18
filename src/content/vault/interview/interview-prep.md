@@ -1,6 +1,6 @@
 # Full-Stack Interview Preparation Guide (2025-2026)
 
-*Tailored for Purbayan Pramanik. TypeScript, React 19, Next.js 15, Rust, Go, C, systems programming, Zustand, Tailwind, Supabase/PostgreSQL.*
+_Tailored for Purbayan Pramanik. TypeScript, React 19, Next.js 15, Rust, Go, C, systems programming, Zustand, Tailwind, Supabase/PostgreSQL._
 
 ---
 
@@ -32,7 +32,7 @@ They're not scoring you on a rubric of correct answers. They're evaluating:
 - Can you explain a complex concept to a non-expert?
 - When you hit a wall, do you freeze or do you reason through it?
 - Do you ask clarifying questions before diving in?
-- Can you articulate *why* you chose approach A over approach B?
+- Can you articulate _why_ you chose approach A over approach B?
 - Do you test your assumptions?
 
 > **Purbayan's Angle:** Your mechanical engineering background is a feature, not a bug. Engineers think in systems, constraints, and tradeoffs. That's exactly what interviewers want. Lead with "I approach software the way I approach engineering problems: define constraints, prototype, measure, iterate."
@@ -43,7 +43,7 @@ They're not scoring you on a rubric of correct answers. They're evaluating:
 
 ### Event Loop
 
-The event loop is JavaScript's concurrency model. Single-threaded, but non-blocking. Understanding it separates people who write JS from people who *understand* JS.
+The event loop is JavaScript's concurrency model. Single-threaded, but non-blocking. Understanding it separates people who write JS from people who _understand_ JS.
 
 **How it works:**
 
@@ -55,10 +55,10 @@ The call stack executes synchronous code. When an async operation completes, its
 The order: current call stack empties → all microtasks drain → one macrotask runs → repeat.
 
 ```javascript
-console.log('A');           // sync — runs first
-setTimeout(() => console.log('B'), 0);  // macrotask queue
-Promise.resolve().then(() => console.log('C'));  // microtask queue
-console.log('D');           // sync — runs second
+console.log("A") // sync — runs first
+setTimeout(() => console.log("B"), 0) // macrotask queue
+Promise.resolve().then(() => console.log("C")) // microtask queue
+console.log("D") // sync — runs second
 
 // Output: A, D, C, B
 ```
@@ -71,14 +71,14 @@ Why `A, D, C, B`? Synchronous code (`A`, `D`) runs first because it's on the cal
 
 ```javascript
 async function foo() {
-  console.log('1');
-  await Promise.resolve();
-  console.log('2');
+  console.log("1")
+  await Promise.resolve()
+  console.log("2")
 }
 
-console.log('3');
-foo();
-console.log('4');
+console.log("3")
+foo()
+console.log("4")
 
 // Output: 3, 1, 4, 2
 ```
@@ -95,17 +95,17 @@ A closure is a function that remembers the variables from its lexical scope, eve
 
 ```javascript
 function createCounter() {
-  let count = 0;
+  let count = 0
   return {
     increment: () => ++count,
-    getCount: () => count
-  };
+    getCount: () => count,
+  }
 }
 
-const counter = createCounter();
-counter.increment();
-counter.increment();
-console.log(counter.getCount()); // 2
+const counter = createCounter()
+counter.increment()
+counter.increment()
+console.log(counter.getCount()) // 2
 // `count` is not accessible directly — it's enclosed
 ```
 
@@ -119,16 +119,16 @@ console.log(counter.getCount()); // 2
 
 ```javascript
 function Timer() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(0)
 
   useEffect(() => {
     const id = setInterval(() => {
       // BUG: `count` is captured at 0, never updates
-      console.log(count);
-      setCount(count + 1); // always sets to 1
-    }, 1000);
-    return () => clearInterval(id);
-  }, []); // empty deps = closure captures initial count
+      console.log(count)
+      setCount(count + 1) // always sets to 1
+    }, 1000)
+    return () => clearInterval(id)
+  }, []) // empty deps = closure captures initial count
 }
 ```
 
@@ -150,15 +150,19 @@ JavaScript doesn't have classical inheritance. It has prototypal inheritance: ob
 
 ```javascript
 const animal = {
-  speak() { return `${this.name} makes a sound`; }
-};
+  speak() {
+    return `${this.name} makes a sound`
+  },
+}
 
-const dog = Object.create(animal);
-dog.name = 'Rex';
-dog.bark = function() { return `${this.name} barks`; };
+const dog = Object.create(animal)
+dog.name = "Rex"
+dog.bark = function () {
+  return `${this.name} barks`
+}
 
-dog.speak(); // "Rex makes a sound" — delegated to animal
-dog.bark();  // "Rex barks" — own method
+dog.speak() // "Rex makes a sound" — delegated to animal
+dog.bark() // "Rex barks" — own method
 ```
 
 **The prototype chain:** When you access a property on an object, JS looks at the object itself first. If not found, it follows `__proto__` to the prototype, then the prototype's prototype, all the way up to `Object.prototype`, then `null`.
@@ -167,8 +171,12 @@ dog.bark();  // "Rex barks" — own method
 
 ```javascript
 class Animal {
-  constructor(name) { this.name = name; }
-  speak() { return `${this.name} makes a sound`; }
+  constructor(name) {
+    this.name = name
+  }
+  speak() {
+    return `${this.name} makes a sound`
+  }
 }
 
 // Under the hood, this creates:
@@ -188,11 +196,11 @@ class Animal {
 `let` and `const` are hoisted, but they're not initialized until the declaration is reached. The gap between the start of the scope and the declaration is the Temporal Dead Zone.
 
 ```javascript
-console.log(x); // ReferenceError: Cannot access 'x' before initialization
-let x = 5;
+console.log(x) // ReferenceError: Cannot access 'x' before initialization
+let x = 5
 
-console.log(y); // undefined (var is hoisted AND initialized to undefined)
-var y = 5;
+console.log(y) // undefined (var is hoisted AND initialized to undefined)
+var y = 5
 ```
 
 **Why TDZ exists:** Bug prevention. With `var`, you could accidentally use a variable before it was assigned and get `undefined` silently. TDZ makes this a loud error.
@@ -204,14 +212,14 @@ When an AI tool refactors `var` to `let`/`const` (a common "modernization" sugge
 ```javascript
 // Original — works because var hoists
 function init() {
-  setup(config);
-  var config = getConfig();
+  setup(config)
+  var config = getConfig()
 }
 
 // AI "fix" — breaks because of TDZ
 function init() {
-  setup(config); // ReferenceError!
-  const config = getConfig();
+  setup(config) // ReferenceError!
+  const config = getConfig()
 }
 ```
 
@@ -221,7 +229,7 @@ Always review AI refactoring suggestions. Mechanical transformations miss semant
 
 ### The `this` Keyword
 
-`this` in JavaScript is determined by *how a function is called*, not where it's defined. Four binding rules, in order of precedence:
+`this` in JavaScript is determined by _how a function is called_, not where it's defined. Four binding rules, in order of precedence:
 
 1. **`new` binding** — `new Foo()` creates a new object, `this` = that object
 2. **Explicit binding** — `call()`, `apply()`, `bind()` set `this` explicitly
@@ -232,31 +240,35 @@ Always review AI refactoring suggestions. Mechanical transformations miss semant
 
 ```javascript
 const obj = {
-  name: 'Purbayan',
-  greet: function() { return this.name; },       // implicit binding: this = obj
-  greetArrow: () => this.name,                     // lexical: this = outer scope (module/global)
-  greetDelayed: function() {
+  name: "Purbayan",
+  greet: function () {
+    return this.name
+  }, // implicit binding: this = obj
+  greetArrow: () => this.name, // lexical: this = outer scope (module/global)
+  greetDelayed: function () {
     setTimeout(() => {
-      console.log(this.name); // arrow inherits this from greetDelayed
-    }, 100);
-  }
-};
+      console.log(this.name) // arrow inherits this from greetDelayed
+    }, 100)
+  },
+}
 
-obj.greet();        // "Purbayan"
-obj.greetArrow();   // undefined (or global name)
-obj.greetDelayed(); // "Purbayan" — arrow captures the right `this`
+obj.greet() // "Purbayan"
+obj.greetArrow() // undefined (or global name)
+obj.greetDelayed() // "Purbayan" — arrow captures the right `this`
 ```
 
 **Interview Question: "Why do class methods lose `this` when passed as callbacks?"**
 
 ```javascript
 class Button {
-  label = 'Click me';
-  handleClick() { console.log(this.label); }
+  label = "Click me"
+  handleClick() {
+    console.log(this.label)
+  }
 }
 
-const btn = new Button();
-document.addEventListener('click', btn.handleClick); // `this` is the DOM element, not btn
+const btn = new Button()
+document.addEventListener("click", btn.handleClick) // `this` is the DOM element, not btn
 ```
 
 Fixes: arrow function in class field (`handleClick = () => { ... }`), or `bind` in the constructor, or wrap in an arrow function at the call site.
@@ -272,43 +284,41 @@ A Promise represents a value that may not exist yet. Three states: **pending**, 
 ```javascript
 // Promise chain — .catch() handles any error in the chain
 fetchUser(id)
-  .then(user => fetchPosts(user.id))
-  .then(posts => render(posts))
-  .catch(err => showError(err)); // catches errors from any step
+  .then((user) => fetchPosts(user.id))
+  .then((posts) => render(posts))
+  .catch((err) => showError(err)) // catches errors from any step
 
 // async/await — try/catch
 async function loadUserPosts(id) {
   try {
-    const user = await fetchUser(id);
-    const posts = await fetchPosts(user.id);
-    return posts;
+    const user = await fetchUser(id)
+    const posts = await fetchPosts(user.id)
+    return posts
   } catch (err) {
-    showError(err);
+    showError(err)
   }
 }
 ```
 
 **Promise combinators:**
 
-| Method | Behavior | Use Case |
-|--------|----------|----------|
-| `Promise.all` | Rejects if ANY rejects | Fetch multiple resources, all required |
+| Method               | Behavior                              | Use Case                                |
+| -------------------- | ------------------------------------- | --------------------------------------- |
+| `Promise.all`        | Rejects if ANY rejects                | Fetch multiple resources, all required  |
 | `Promise.allSettled` | Never rejects, returns status of each | Fetch multiple, handle partial failures |
-| `Promise.race` | Settles with first to settle | Timeout pattern |
-| `Promise.any` | Resolves with first to resolve | Fastest mirror/CDN |
+| `Promise.race`       | Settles with first to settle          | Timeout pattern                         |
+| `Promise.any`        | Resolves with first to resolve        | Fastest mirror/CDN                      |
 
 **Interview Question: "Implement a timeout wrapper for any promise."**
 
 ```javascript
 function withTimeout(promise, ms) {
-  const timeout = new Promise((_, reject) =>
-    setTimeout(() => reject(new Error('Timeout')), ms)
-  );
-  return Promise.race([promise, timeout]);
+  const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), ms))
+  return Promise.race([promise, timeout])
 }
 
 // Usage
-const data = await withTimeout(fetch('/api/data'), 5000);
+const data = await withTimeout(fetch("/api/data"), 5000)
 ```
 
 > **Purbayan's Angle:** "In my fiddle work, I dealt with race conditions between React Query cache invalidation and tldraw's async initialization. Understanding Promise semantics was essential for sequencing the canvas load correctly."
@@ -321,28 +331,30 @@ const data = await withTimeout(fetch('/api/data'), 5000);
 
 ```typescript
 // Without generics — loses type info
-function first(arr: any[]): any { return arr[0]; }
+function first(arr: any[]): any {
+  return arr[0]
+}
 
 // With generics — preserves type
-function first<T>(arr: T[]): T { return arr[0]; }
-const n = first([1, 2, 3]); // type: number
-const s = first(['a', 'b']); // type: string
+function first<T>(arr: T[]): T {
+  return arr[0]
+}
+const n = first([1, 2, 3]) // type: number
+const s = first(["a", "b"]) // type: string
 ```
 
 **Discriminated Unions** are the TypeScript pattern for handling variants:
 
 ```typescript
-type Result<T> =
-  | { status: 'success'; data: T }
-  | { status: 'error'; error: Error };
+type Result<T> = { status: "success"; data: T } | { status: "error"; error: Error }
 
 function handle<T>(result: Result<T>) {
-  if (result.status === 'success') {
+  if (result.status === "success") {
     // TypeScript knows result.data exists here
-    console.log(result.data);
+    console.log(result.data)
   } else {
     // TypeScript knows result.error exists here
-    console.error(result.error.message);
+    console.error(result.error.message)
   }
 }
 ```
@@ -350,52 +362,54 @@ function handle<T>(result: Result<T>) {
 **Conditional Types:**
 
 ```typescript
-type IsString<T> = T extends string ? true : false;
-type A = IsString<'hello'>; // true
-type B = IsString<42>;      // false
+type IsString<T> = T extends string ? true : false
+type A = IsString<"hello"> // true
+type B = IsString<42> // false
 
 // Practical: extract return type of async functions
-type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
-type Data = UnwrapPromise<Promise<string>>; // string
+type UnwrapPromise<T> = T extends Promise<infer U> ? U : T
+type Data = UnwrapPromise<Promise<string>> // string
 ```
 
 **Mapped Types and Utility Types:**
 
 ```typescript
 // Make all properties optional
-type Partial<T> = { [K in keyof T]?: T[K] };
+type Partial<T> = { [K in keyof T]?: T[K] }
 
 // Pick specific properties
-type Pick<T, K extends keyof T> = { [P in K]: T[P] };
+type Pick<T, K extends keyof T> = { [P in K]: T[P] }
 
 // Real-world: API response where some fields are optional on update
-type UserUpdate = Partial<Pick<User, 'name' | 'email' | 'avatar'>>;
+type UserUpdate = Partial<Pick<User, "name" | "email" | "avatar">>
 ```
 
 **Interview Question: "Write a type-safe event emitter."**
 
 ```typescript
 type EventMap = {
-  click: { x: number; y: number };
-  keypress: { key: string };
-};
+  click: { x: number; y: number }
+  keypress: { key: string }
+}
 
 class TypedEmitter<T extends Record<string, unknown>> {
-  private listeners = new Map<keyof T, Set<(data: any) => void>>();
+  private listeners = new Map<keyof T, Set<(data: any) => void>>()
 
   on<K extends keyof T>(event: K, handler: (data: T[K]) => void) {
-    if (!this.listeners.has(event)) this.listeners.set(event, new Set());
-    this.listeners.get(event)!.add(handler);
+    if (!this.listeners.has(event)) this.listeners.set(event, new Set())
+    this.listeners.get(event)!.add(handler)
   }
 
   emit<K extends keyof T>(event: K, data: T[K]) {
-    this.listeners.get(event)?.forEach(fn => fn(data));
+    this.listeners.get(event)?.forEach((fn) => fn(data))
   }
 }
 
-const emitter = new TypedEmitter<EventMap>();
-emitter.on('click', ({ x, y }) => { /* x and y are typed as number */ });
-emitter.emit('keypress', { key: 'Enter' }); // type-checked
+const emitter = new TypedEmitter<EventMap>()
+emitter.on("click", ({ x, y }) => {
+  /* x and y are typed as number */
+})
+emitter.emit("keypress", { key: "Enter" }) // type-checked
 ```
 
 > **Purbayan's Angle:** "I use TypeScript extensively with Zustand stores and Next.js server actions. Discriminated unions are my go-to for modeling API response states, and I use generics heavily in reusable form components."
@@ -413,25 +427,32 @@ Key difference: ESM imports are **live bindings** (they reflect the current valu
 ```javascript
 // ESM — live binding
 // counter.mjs
-export let count = 0;
-export function increment() { count++; }
+export let count = 0
+export function increment() {
+  count++
+}
 
 // main.mjs
-import { count, increment } from './counter.mjs';
-console.log(count); // 0
-increment();
-console.log(count); // 1 — live binding reflects the change
+import { count, increment } from "./counter.mjs"
+console.log(count) // 0
+increment()
+console.log(count) // 1 — live binding reflects the change
 
 // CommonJS — copied value
 // counter.cjs
-let count = 0;
-module.exports = { count, increment: () => { count++; } };
+let count = 0
+module.exports = {
+  count,
+  increment: () => {
+    count++
+  },
+}
 
 // main.cjs
-const { count, increment } = require('./counter.cjs');
-console.log(count); // 0
-increment();
-console.log(count); // 0 — still 0, it's a copy
+const { count, increment } = require("./counter.cjs")
+console.log(count) // 0
+increment()
+console.log(count) // 0 — still 0, it's a copy
 ```
 
 **Tree shaking** works with ESM because imports are statically analyzable. Bundlers can determine at build time which exports are unused and remove them. CommonJS `require()` can be dynamic (`require(someVariable)`), making static analysis impossible.
@@ -442,24 +463,24 @@ console.log(count); // 0 — still 0, it's a copy
 
 ### WeakMap / WeakSet
 
-Keys in a `WeakMap` must be objects, and they're held *weakly*. If nothing else references the key object, it gets garbage collected along with its associated value.
+Keys in a `WeakMap` must be objects, and they're held _weakly_. If nothing else references the key object, it gets garbage collected along with its associated value.
 
 ```javascript
 // Private data pattern
-const privateData = new WeakMap();
+const privateData = new WeakMap()
 
 class User {
   constructor(name, ssn) {
-    this.name = name;
-    privateData.set(this, { ssn }); // truly private
+    this.name = name
+    privateData.set(this, { ssn }) // truly private
   }
   getSSN() {
-    return privateData.get(this).ssn;
+    return privateData.get(this).ssn
   }
 }
 
-const user = new User('Purbayan', '123-45-6789');
-user.getSSN(); // works
+const user = new User("Purbayan", "123-45-6789")
+user.getSSN() // works
 // When `user` is garbage collected, the WeakMap entry is too
 ```
 
@@ -474,18 +495,18 @@ user.getSSN(); // works
 ```javascript
 const handler = {
   get(target, prop, receiver) {
-    console.log(`Accessing ${String(prop)}`);
-    return Reflect.get(target, prop, receiver);
+    console.log(`Accessing ${String(prop)}`)
+    return Reflect.get(target, prop, receiver)
   },
   set(target, prop, value, receiver) {
-    if (typeof value !== 'string') throw new TypeError('Only strings allowed');
-    return Reflect.set(target, prop, value, receiver);
-  }
-};
+    if (typeof value !== "string") throw new TypeError("Only strings allowed")
+    return Reflect.set(target, prop, value, receiver)
+  },
+}
 
-const obj = new Proxy({}, handler);
-obj.name = 'Purbayan'; // logs: Accessing name (on next get)
-obj.age = 25;          // throws TypeError
+const obj = new Proxy({}, handler)
+obj.name = "Purbayan" // logs: Accessing name (on next get)
+obj.age = 25 // throws TypeError
 ```
 
 **Interview Question: "How do reactive frameworks like Vue use Proxy?"**
@@ -501,28 +522,30 @@ Vue 3's reactivity system wraps data objects in Proxies. The `get` trap tracks w
 Server Components run on the server and send rendered HTML + a serialized component tree to the client. They never ship JavaScript to the browser.
 
 **RSC vs SSR:**
+
 - **SSR** renders components to HTML on the server, then ships the full JS bundle to the client for hydration. The component code runs on both server and client.
-- **RSC** components *only* run on the server. Their JS never reaches the client. They can directly access databases, file systems, and secrets.
+- **RSC** components _only_ run on the server. Their JS never reaches the client. They can directly access databases, file systems, and secrets.
 
 ```tsx
 // Server Component (default in Next.js App Router)
 // This code NEVER ships to the browser
 async function UserProfile({ userId }: { userId: string }) {
-  const user = await db.query('SELECT * FROM users WHERE id = $1', [userId]);
-  return <div>{user.name}</div>;
+  const user = await db.query("SELECT * FROM users WHERE id = $1", [userId])
+  return <div>{user.name}</div>
 }
 
 // Client Component — needs 'use client' directive
-'use client';
-import { useState } from 'react';
+;("use client")
+import { useState } from "react"
 
 function LikeButton() {
-  const [liked, setLiked] = useState(false);
-  return <button onClick={() => setLiked(!liked)}>{liked ? 'Liked' : 'Like'}</button>;
+  const [liked, setLiked] = useState(false)
+  return <button onClick={() => setLiked(!liked)}>{liked ? "Liked" : "Like"}</button>
 }
 ```
 
 **When to use which:**
+
 - Server Component: data fetching, accessing backend resources, large dependencies (markdown renderers, syntax highlighters)
 - Client Component: interactivity (onClick, onChange), browser APIs, state, effects
 
@@ -532,12 +555,12 @@ function LikeButton() {
 
 ```tsx
 // actions.ts
-'use server';
+"use server"
 
 export async function createPost(formData: FormData) {
-  const title = formData.get('title') as string;
-  await db.insert('posts', { title });
-  revalidatePath('/posts');
+  const title = formData.get("title") as string
+  await db.insert("posts", { title })
+  revalidatePath("/posts")
 }
 ```
 
@@ -550,57 +573,57 @@ export async function createPost(formData: FormData) {
 **`useActionState`** (replaces `useFormState`):
 
 ```tsx
-'use client';
-import { useActionState } from 'react';
-import { submitForm } from './actions';
+"use client"
+import { useActionState } from "react"
+import { submitForm } from "./actions"
 
 function ContactForm() {
-  const [state, formAction, isPending] = useActionState(submitForm, null);
+  const [state, formAction, isPending] = useActionState(submitForm, null)
 
   return (
     <form action={formAction}>
       <input name="email" type="email" />
-      <button disabled={isPending}>
-        {isPending ? 'Sending...' : 'Submit'}
-      </button>
+      <button disabled={isPending}>{isPending ? "Sending..." : "Submit"}</button>
       {state?.error && <p className="text-red-500">{state.error}</p>}
     </form>
-  );
+  )
 }
 ```
 
 **`useOptimistic`** for instant UI feedback:
 
 ```tsx
-'use client';
-import { useOptimistic } from 'react';
+"use client"
+import { useOptimistic } from "react"
 
 function Messages({ messages }: { messages: Message[] }) {
   const [optimisticMessages, addOptimistic] = useOptimistic(
     messages,
     (state, newMessage: string) => [
       ...state,
-      { id: crypto.randomUUID(), text: newMessage, sending: true }
-    ]
-  );
+      { id: crypto.randomUUID(), text: newMessage, sending: true },
+    ],
+  )
 
   async function sendMessage(formData: FormData) {
-    const text = formData.get('text') as string;
-    addOptimistic(text); // instant UI update
-    await submitMessage(text); // actual server call
+    const text = formData.get("text") as string
+    addOptimistic(text) // instant UI update
+    await submitMessage(text) // actual server call
   }
 
   return (
     <div>
-      {optimisticMessages.map(msg => (
-        <p key={msg.id} style={{ opacity: msg.sending ? 0.5 : 1 }}>{msg.text}</p>
+      {optimisticMessages.map((msg) => (
+        <p key={msg.id} style={{ opacity: msg.sending ? 0.5 : 1 }}>
+          {msg.text}
+        </p>
       ))}
       <form action={sendMessage}>
         <input name="text" />
         <button>Send</button>
       </form>
     </div>
-  );
+  )
 }
 ```
 
@@ -609,12 +632,12 @@ function Messages({ messages }: { messages: Message[] }) {
 **`useFormStatus`** reads the status of a parent form:
 
 ```tsx
-'use client';
-import { useFormStatus } from 'react-dom';
+"use client"
+import { useFormStatus } from "react-dom"
 
 function SubmitButton() {
-  const { pending } = useFormStatus();
-  return <button disabled={pending}>{pending ? 'Saving...' : 'Save'}</button>;
+  const { pending } = useFormStatus()
+  return <button disabled={pending}>{pending ? "Saving..." : "Save"}</button>
 }
 ```
 
@@ -629,6 +652,7 @@ React maintains a virtual representation of the UI in memory. When state changes
 **Concurrent Rendering** (React 18+): Fiber enables concurrent features. React can prepare multiple versions of the UI simultaneously, interrupt low-priority renders for high-priority updates (like user input), and show intermediate states with Suspense.
 
 **Key diffing rules:**
+
 1. Elements of different types produce different trees (full remount)
 2. Elements of the same type are updated in place (attributes diffed)
 3. `key` prop helps React identify which items in a list changed, moved, or were removed
@@ -643,17 +667,17 @@ If items are reordered, inserted, or deleted, index-based keys cause React to up
 
 **When to use what:**
 
-| Tool | Use Case |
-|------|----------|
-| `useState` | Local component state, simple values |
-| `useReducer` | Complex state logic, multiple related values, state machines |
-| Context API | Infrequently changing global state (theme, locale, auth) |
-| Zustand | Frequently changing shared state, when Context causes too many re-renders |
-| Server state (React Query / SWR) | Remote data, caching, synchronization |
+| Tool                             | Use Case                                                                  |
+| -------------------------------- | ------------------------------------------------------------------------- |
+| `useState`                       | Local component state, simple values                                      |
+| `useReducer`                     | Complex state logic, multiple related values, state machines              |
+| Context API                      | Infrequently changing global state (theme, locale, auth)                  |
+| Zustand                          | Frequently changing shared state, when Context causes too many re-renders |
+| Server state (React Query / SWR) | Remote data, caching, synchronization                                     |
 
 **Why Zustand over Context for frequent updates:**
 
-Context triggers re-renders for *every* consumer when the value changes, even if a consumer only uses a slice of the state. Zustand uses external stores with selectors, so components only re-render when their selected slice changes.
+Context triggers re-renders for _every_ consumer when the value changes, even if a consumer only uses a slice of the state. Zustand uses external stores with selectors, so components only re-render when their selected slice changes.
 
 ```typescript
 // Zustand store
@@ -689,18 +713,15 @@ function ZoomIndicator() {
 **`useMemo`** caches a computed value between renders:
 
 ```tsx
-const sortedItems = useMemo(
-  () => items.sort((a, b) => a.name.localeCompare(b.name)),
-  [items]
-);
+const sortedItems = useMemo(() => items.sort((a, b) => a.name.localeCompare(b.name)), [items])
 ```
 
 **`useCallback`** caches a function reference:
 
 ```tsx
 const handleClick = useCallback((id: string) => {
-  setSelected(id);
-}, []);
+  setSelected(id)
+}, [])
 ```
 
 **`React.memo`** prevents re-renders if props haven't changed (shallow comparison).
@@ -717,12 +738,12 @@ Edge cases: expensive computations that the compiler can't statically analyze (d
 
 ### Rendering Strategies
 
-| Strategy | When HTML is Generated | JS Shipped | Use Case |
-|----------|----------------------|------------|----------|
-| **CSR** | In browser | Full bundle | SPAs, dashboards behind auth |
-| **SSR** | Per request on server | Full bundle for hydration | Dynamic, personalized pages |
-| **SSG** | At build time | Minimal | Blog posts, docs, marketing |
-| **ISR** | At build time + revalidated | Minimal | E-commerce products, frequently updated content |
+| Strategy | When HTML is Generated      | JS Shipped                | Use Case                                        |
+| -------- | --------------------------- | ------------------------- | ----------------------------------------------- |
+| **CSR**  | In browser                  | Full bundle               | SPAs, dashboards behind auth                    |
+| **SSR**  | Per request on server       | Full bundle for hydration | Dynamic, personalized pages                     |
+| **SSG**  | At build time               | Minimal                   | Blog posts, docs, marketing                     |
+| **ISR**  | At build time + revalidated | Minimal                   | E-commerce products, frequently updated content |
 
 **Next.js 15 App Router** defaults to Server Components (SSR/SSG depending on data). Pages are static by default unless they use dynamic functions (`cookies()`, `headers()`, `searchParams`).
 
@@ -745,7 +766,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
         <Recommendations productId={params.id} />
       </Suspense>
     </div>
-  );
+  )
 }
 ```
 
@@ -756,6 +777,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
 Hydration is the process where React attaches event listeners and state to server-rendered HTML. The server sends static HTML (fast initial paint), then React "hydrates" it by making it interactive.
 
 **Hydration mismatch errors** happen when the server-rendered HTML doesn't match what React expects on the client. Common causes:
+
 - Using `Date.now()` or `Math.random()` during render
 - Browser-only APIs (`window.innerWidth`)
 - Extensions modifying the DOM
@@ -796,14 +818,14 @@ app/
 ```typescript
 // app/api/users/route.ts
 export async function GET(request: Request) {
-  const users = await db.query('SELECT * FROM users');
-  return Response.json(users);
+  const users = await db.query("SELECT * FROM users")
+  return Response.json(users)
 }
 
 export async function POST(request: Request) {
-  const body = await request.json();
-  const user = await db.insert('users', body);
-  return Response.json(user, { status: 201 });
+  const body = await request.json()
+  const user = await db.insert("users", body)
+  return Response.json(user, { status: 201 })
 }
 ```
 
@@ -812,6 +834,7 @@ export async function POST(request: Request) {
 ### Performance
 
 **Core Web Vitals:**
+
 - **LCP (Largest Contentful Paint)** — how fast the main content loads. Target: < 2.5s
 - **INP (Interaction to Next Paint)** — replaces FID. How fast the page responds to interactions. Target: < 200ms
 - **CLS (Cumulative Layout Shift)** — visual stability. Target: < 0.1
@@ -819,6 +842,7 @@ export async function POST(request: Request) {
 > ⚠️ **Watch Out:** Never lazy-load above-the-fold content. It hurts LCP. Only lazy-load what's below the viewport.
 
 **Optimization techniques:**
+
 1. **Code splitting** — `dynamic()` in Next.js, `React.lazy()` for client components
 2. **Image optimization** — `next/image` with automatic sizing, format conversion, lazy loading
 3. **Font optimization** — `next/font` for zero-layout-shift font loading
@@ -841,54 +865,54 @@ Server Actions are async functions that run on the server, callable directly fro
 
 ```tsx
 // app/actions.ts
-'use server';
+"use server"
 
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
+import { revalidatePath } from "next/cache"
+import { redirect } from "next/navigation"
 
 export async function createProject(formData: FormData) {
-  const name = formData.get('name') as string;
+  const name = formData.get("name") as string
 
   // Validate
   if (!name || name.length < 3) {
-    return { error: 'Name must be at least 3 characters' };
+    return { error: "Name must be at least 3 characters" }
   }
 
   // Mutate
-  await db.insert('projects', { name, createdAt: new Date() });
+  await db.insert("projects", { name, createdAt: new Date() })
 
   // Revalidate cached data
-  revalidatePath('/projects');
+  revalidatePath("/projects")
 
   // Redirect
-  redirect('/projects');
+  redirect("/projects")
 }
 ```
 
 **Optimistic updates pattern:**
 
 ```tsx
-'use client';
+"use client"
 
-import { useOptimistic, useTransition } from 'react';
-import { toggleLike } from './actions';
+import { useOptimistic, useTransition } from "react"
+import { toggleLike } from "./actions"
 
 function LikeButton({ postId, initialLiked }: { postId: string; initialLiked: boolean }) {
-  const [optimisticLiked, setOptimisticLiked] = useOptimistic(initialLiked);
-  const [isPending, startTransition] = useTransition();
+  const [optimisticLiked, setOptimisticLiked] = useOptimistic(initialLiked)
+  const [isPending, startTransition] = useTransition()
 
   return (
     <button
       onClick={() => {
         startTransition(async () => {
-          setOptimisticLiked(!optimisticLiked);
-          await toggleLike(postId);
-        });
+          setOptimisticLiked(!optimisticLiked)
+          await toggleLike(postId)
+        })
       }}
     >
-      {optimisticLiked ? 'Unlike' : 'Like'}
+      {optimisticLiked ? "Unlike" : "Like"}
     </button>
-  );
+  )
 }
 ```
 
@@ -920,11 +944,13 @@ This section is your differentiator. Most frontend candidates can't talk about T
 ### Concurrency Models
 
 **OS Threads:**
+
 - Managed by the kernel, preemptively scheduled
 - Heavy (1-8 MB stack per thread), expensive context switches
 - Good for CPU-bound work, limited scalability for I/O
 
 **Green Threads / Async Tasks (Rust's Tokio, Go's goroutines):**
+
 - Managed by the runtime, cooperatively scheduled
 - Lightweight (few KB per task), cheap to spawn thousands
 - Perfect for I/O-bound work (servers, network clients)
@@ -972,7 +998,7 @@ Rust when you need: zero-cost abstractions, no GC pauses, compile-time safety gu
 
 **Interview Question: "Tell me about your musializer project."**
 
-"Musializer is a music visualizer I built from scratch. I implemented the FFT algorithm in C, not using a library. The program reads audio samples, applies a windowing function (Hann window to reduce spectral leakage), runs FFT to get frequency magnitudes, and renders them as a real-time visualization. The key insight was understanding that FFT output bins map to frequency ranges: bin k corresponds to frequency k * sampleRate / N. I used logarithmic scaling for the display because human hearing is logarithmic."
+"Musializer is a music visualizer I built from scratch. I implemented the FFT algorithm in C, not using a library. The program reads audio samples, applies a windowing function (Hann window to reduce spectral leakage), runs FFT to get frequency magnitudes, and renders them as a real-time visualization. The key insight was understanding that FFT output bins map to frequency ranges: bin k corresponds to frequency k \* sampleRate / N. I used logarithmic scaling for the display because human hearing is logarithmic."
 
 > **Purbayan's Angle:** This project demonstrates you can go from mathematical theory to working implementation. Very few candidates can say "I implemented FFT from the math." Use it to show depth.
 
@@ -984,7 +1010,7 @@ Rust when you need: zero-cost abstractions, no GC pauses, compile-time safety gu
 
 - **TF:** How often a term appears in a document. More occurrences = more relevant.
 - **IDF:** How rare a term is across all documents. Rare terms are more discriminating than common ones.
-- **TF-IDF = TF * IDF.** A term that appears frequently in one document but rarely across the corpus gets a high score.
+- **TF-IDF = TF \* IDF.** A term that appears frequently in one document but rarely across the corpus gets a high score.
 
 **Inverted Index:** Maps each term to the list of documents containing it. Instead of scanning every document for a query term, you look up the term and instantly get all matching documents.
 
@@ -1008,13 +1034,13 @@ Query "rust async" → intersection of [doc3, doc7, doc15] and [doc3, doc7, doc2
 
 **Stack vs Heap:**
 
-| | Stack | Heap |
-|---|-------|------|
-| Allocation | Automatic, LIFO | Manual or GC-managed |
-| Speed | Very fast (pointer bump) | Slower (fragmentation, allocation strategy) |
-| Size | Fixed per thread (1-8 MB) | Limited by system memory |
-| Lifetime | Tied to function scope | Arbitrary |
-| Data | Local variables, function args | Dynamic data, objects, strings |
+|            | Stack                          | Heap                                        |
+| ---------- | ------------------------------ | ------------------------------------------- |
+| Allocation | Automatic, LIFO                | Manual or GC-managed                        |
+| Speed      | Very fast (pointer bump)       | Slower (fragmentation, allocation strategy) |
+| Size       | Fixed per thread (1-8 MB)      | Limited by system memory                    |
+| Lifetime   | Tied to function scope         | Arbitrary                                   |
+| Data       | Local variables, function args | Dynamic data, objects, strings              |
 
 **Rust's ownership model:**
 
@@ -1093,6 +1119,7 @@ Rust's type system ensures you can't accidentally share mutable data across thre
 ### SQL vs NoSQL
 
 **SQL (PostgreSQL, MySQL):**
+
 - Structured data with relationships
 - ACID transactions
 - Complex queries with JOINs
@@ -1100,6 +1127,7 @@ Rust's type system ensures you can't accidentally share mutable data across thre
 - Best for: financial data, user accounts, anything with relationships
 
 **NoSQL (MongoDB, Redis, DynamoDB):**
+
 - Flexible schema, document/key-value/graph models
 - Horizontal scaling is more natural
 - Eventually consistent (by default, though many offer strong consistency options)
@@ -1122,12 +1150,12 @@ When your data is naturally document-shaped (CMS content, user profiles with var
 
 **Transaction Isolation Levels:**
 
-| Level | Dirty Read | Non-repeatable Read | Phantom Read |
-|-------|-----------|-------------------|-------------|
-| Read Uncommitted | Possible | Possible | Possible |
-| Read Committed | No | Possible | Possible |
-| Repeatable Read | No | No | Possible |
-| Serializable | No | No | No |
+| Level            | Dirty Read | Non-repeatable Read | Phantom Read |
+| ---------------- | ---------- | ------------------- | ------------ |
+| Read Uncommitted | Possible   | Possible            | Possible     |
+| Read Committed   | No         | Possible            | Possible     |
+| Repeatable Read  | No         | No                  | Possible     |
+| Serializable     | No         | No                  | No           |
 
 PostgreSQL defaults to Read Committed. Serializable is safest but slowest.
 
@@ -1142,6 +1170,7 @@ PostgreSQL defaults to Read Committed. Serializable is safest but slowest.
 **Composite index:** Index on multiple columns. Column order matters. An index on `(last_name, first_name)` helps queries filtering by `last_name` alone or `last_name + first_name`, but NOT `first_name` alone.
 
 **When indexes hurt:**
+
 - Write-heavy tables (every INSERT/UPDATE/DELETE must update the index)
 - Low-cardinality columns (boolean, status with 3 values)
 - Small tables (sequential scan is faster than index lookup)
@@ -1181,15 +1210,19 @@ CREATE POLICY "Users insert own posts" ON posts
 
 ```typescript
 const channel = supabase
-  .channel('posts')
-  .on('postgres_changes', {
-    event: 'INSERT',
-    schema: 'public',
-    table: 'posts'
-  }, (payload) => {
-    console.log('New post:', payload.new);
-  })
-  .subscribe();
+  .channel("posts")
+  .on(
+    "postgres_changes",
+    {
+      event: "INSERT",
+      schema: "public",
+      table: "posts",
+    },
+    (payload) => {
+      console.log("New post:", payload.new)
+    },
+  )
+  .subscribe()
 ```
 
 **Edge Functions:** Deno-based serverless functions deployed to Supabase's edge network. Good for webhooks, custom auth logic, and third-party API integration.
@@ -1199,12 +1232,14 @@ const channel = supabase
 ### REST vs GraphQL
 
 **REST:**
+
 - Resource-based URLs (`/users/123/posts`)
 - Multiple endpoints, each returns a fixed shape
 - Over-fetching (get all user fields when you only need name) and under-fetching (need user + posts = 2 requests)
 - Simple, cacheable (HTTP caching works naturally)
 
 **GraphQL:**
+
 - Single endpoint, client specifies exactly what data it needs
 - No over-fetching or under-fetching
 - More complex server implementation, harder to cache
@@ -1219,12 +1254,14 @@ REST when: simple CRUD, public APIs (easier for consumers), strong caching needs
 ### Authentication
 
 **JWT (JSON Web Tokens):**
+
 - Stateless: server doesn't store session data
 - Token contains claims (user ID, roles, expiry)
 - Signed (HMAC or RSA), optionally encrypted
 - Risk: can't revoke individual tokens without a blocklist
 
 **Session-based:**
+
 - Server stores session data, client gets a session ID cookie
 - Easy to revoke (delete server-side session)
 - Requires server-side storage (Redis, database)
@@ -1303,21 +1340,24 @@ Every system design answer should follow this structure:
 
 ### Design a Real-Time Collaborative Drawing Tool
 
-*Connect to: Canvas Kit + fiddle experience with tldraw*
+_Connect to: Canvas Kit + fiddle experience with tldraw_
 
 **Requirements:**
+
 - Multiple users draw on the same canvas simultaneously
 - Changes appear in real-time (< 100ms latency)
 - Support undo/redo per user
 - Handle offline mode and reconnection
 
 **High-level architecture:**
+
 - **Client:** Canvas rendering (tldraw/fabric.js), local state, operation queue
 - **WebSocket server:** Broadcasts operations to all connected clients
 - **CRDT or OT engine:** Conflict resolution for concurrent edits
 - **Persistence layer:** Store document state, operation log
 
 **Key decisions:**
+
 - **CRDTs vs Operational Transform:** CRDTs (Conflict-free Replicated Data Types) are simpler for distributed systems. Each operation is commutative and idempotent. No central server needed for conflict resolution. OT requires a central server to transform operations but is more established (Google Docs uses it).
 - **Operation granularity:** Send individual strokes? Or batch operations? Batching reduces network traffic but increases latency.
 - **State persistence:** Store the full canvas state periodically (snapshots) + operation log for replay. Compact the log periodically.
@@ -1328,15 +1368,17 @@ Every system design answer should follow this structure:
 
 ### Design a Chat System
 
-*Connect to: 4at TCP server*
+_Connect to: 4at TCP server_
 
 **Requirements:**
+
 - 1:1 and group messaging
 - Message delivery guarantees (at-least-once)
 - Online/offline status
 - Message history and search
 
 **Architecture:**
+
 - **Connection layer:** WebSocket servers behind a load balancer. Each server maintains connections for a subset of users.
 - **Message routing:** When User A sends a message to User B, the system must find which WebSocket server User B is connected to. Use a presence service (Redis) mapping user IDs to server IDs.
 - **Message queue:** Kafka or similar for durability. Messages are persisted before delivery confirmation.
@@ -1344,6 +1386,7 @@ Every system design answer should follow this structure:
 - **Push notifications:** For offline users, queue messages and send push notifications.
 
 **Scaling considerations:**
+
 - At 4at scale (dozens of users): single server, in-memory state, broadcast channel
 - At WhatsApp scale (billions of messages/day): sharded message storage, multiple WebSocket server clusters, regional deployment
 
@@ -1353,21 +1396,24 @@ Every system design answer should follow this structure:
 
 ### Design a Local Search Engine
 
-*Connect to: seroost*
+_Connect to: seroost_
 
 **Requirements:**
+
 - Index local files (code, documents, notes)
 - Sub-second search results
 - Ranked by relevance
 - Incremental indexing (don't re-index everything on file change)
 
 **Architecture:**
+
 - **Crawler:** File system watcher (inotify on Linux, FSEvents on macOS) detects changes. New/modified files are queued for indexing.
 - **Tokenizer:** Language-aware tokenization. Code files need different tokenization than prose (preserve camelCase splitting, handle imports).
 - **Inverted index:** Term -> list of (document ID, positions, TF-IDF score). Stored on disk with memory-mapped I/O for fast access.
 - **Query engine:** Parse query, look up terms in inverted index, compute relevance scores, rank results.
 
 **Making it distributed (interview extension):**
+
 - Shard the index by document ID range
 - Each shard handles a subset of documents
 - Query coordinator fans out to all shards, merges results
@@ -1379,15 +1425,17 @@ Every system design answer should follow this structure:
 
 ### Design a Component Preview System
 
-*Connect to: fiddle*
+_Connect to: fiddle_
 
 **Requirements:**
+
 - Render React components in isolated sandboxes
 - Generate screenshots for component catalogs
 - Support different viewport sizes and themes
 - Handle component dependencies and imports
 
 **Architecture:**
+
 - **Sandbox runtime:** Each component renders in an iframe or a headless browser instance. Isolation prevents components from affecting each other.
 - **Build pipeline:** On component upload/change, bundle the component with its dependencies (esbuild for speed). Cache bundles aggressively.
 - **Screenshot service:** Headless Chromium (Puppeteer/Playwright) renders the component and captures screenshots at specified viewports.
@@ -1399,18 +1447,21 @@ Every system design answer should follow this structure:
 ### Design a URL Shortener
 
 **Requirements:**
+
 - Generate short URLs from long URLs
 - Redirect short URL to original
 - Analytics (click count, referrer, geography)
 - High availability, low latency redirects
 
 **Architecture:**
+
 - **ID generation:** Base62 encoding of an auto-incrementing ID or a hash. 7 characters of base62 = 62^7 = 3.5 trillion unique URLs.
 - **Storage:** Key-value store (Redis for hot data, PostgreSQL for persistence). Short code -> long URL mapping.
 - **Redirect flow:** DNS -> Load Balancer -> App Server -> Cache lookup (Redis) -> 301/302 redirect. Cache hit rate should be > 99%.
 - **Analytics:** Log clicks to Kafka, process asynchronously. Don't slow down the redirect path.
 
 **Key decision: 301 vs 302 redirect?**
+
 - 301 (permanent): Browser caches the redirect. Faster for users, but you lose analytics on repeat visits.
 - 302 (temporary): Browser always hits your server. Slower, but you capture every click.
 
@@ -1419,12 +1470,14 @@ Every system design answer should follow this structure:
 ### Design a Real-Time Notification System
 
 **Requirements:**
+
 - Push notifications to web and mobile clients
 - Support different notification types (mention, like, system alert)
 - User preferences (mute, digest mode)
 - Delivery guarantees
 
 **Architecture:**
+
 - **Event producers:** Services emit events (user mentioned, post liked) to a message queue (Kafka).
 - **Notification service:** Consumes events, applies user preferences (is this notification type enabled? is the user in "do not disturb"?), and routes to delivery channels.
 - **Delivery channels:** WebSocket for real-time web, FCM/APNs for mobile push, email for digest.
@@ -1446,6 +1499,7 @@ AI is a coding partner, not a replacement. The best developers in 2026 use AI to
 - **Refactor** — "Simplify this function while preserving behavior."
 
 What AI is NOT good at:
+
 - Architectural decisions (it doesn't know your constraints)
 - Performance optimization (it can't profile your app)
 - Security review (it misses context-dependent vulnerabilities)
@@ -1467,26 +1521,27 @@ What AI is NOT good at:
 
 ```typescript
 // Streaming response from Claude API
-import Anthropic from '@anthropic-ai/sdk';
+import Anthropic from "@anthropic-ai/sdk"
 
-const client = new Anthropic();
+const client = new Anthropic()
 
 async function streamResponse(prompt: string) {
   const stream = await client.messages.stream({
-    model: 'claude-sonnet-4-20250514',
+    model: "claude-sonnet-4-20250514",
     max_tokens: 1024,
-    messages: [{ role: 'user', content: prompt }],
-  });
+    messages: [{ role: "user", content: prompt }],
+  })
 
   for await (const event of stream) {
-    if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
-      process.stdout.write(event.delta.text);
+    if (event.type === "content_block_delta" && event.delta.type === "text_delta") {
+      process.stdout.write(event.delta.text)
     }
   }
 }
 ```
 
 **Key considerations:**
+
 - **Streaming** for better UX (show tokens as they arrive)
 - **Prompt engineering:** Be specific, provide examples, set constraints
 - **Error handling:** Rate limits, timeouts, malformed responses
@@ -1501,6 +1556,7 @@ async function streamResponse(prompt: string) {
 **Hallucinations:** AI confidently generates code using APIs that don't exist, or cites documentation that was never written. Always verify against official docs.
 
 **Security blind spots:** AI-generated code might:
+
 - Use `eval()` or `dangerouslySetInnerHTML` without sanitization
 - Store secrets in client-side code
 - Skip input validation
@@ -1630,13 +1686,13 @@ Purbayan has a Go DSA repository with fundamental implementations. The goal isn'
 
 ### Time Management (45-minute round)
 
-| Phase | Time | What to Do |
-|-------|------|------------|
-| Understand | 5 min | Read the problem. Ask clarifying questions. Confirm input/output with examples. |
-| Approach | 5 min | Think out loud. Describe your approach before coding. Mention time/space complexity. |
-| Code | 20 min | Write clean code. Use meaningful variable names. Handle edge cases. |
-| Test | 5 min | Trace through your code with the examples. Test edge cases (empty input, single element, duplicates). |
-| Optimize | 5-10 min | If time permits, discuss optimizations. Can you reduce space? Time? |
+| Phase      | Time     | What to Do                                                                                            |
+| ---------- | -------- | ----------------------------------------------------------------------------------------------------- |
+| Understand | 5 min    | Read the problem. Ask clarifying questions. Confirm input/output with examples.                       |
+| Approach   | 5 min    | Think out loud. Describe your approach before coding. Mention time/space complexity.                  |
+| Code       | 20 min   | Write clean code. Use meaningful variable names. Handle edge cases.                                   |
+| Test       | 5 min    | Trace through your code with the examples. Test edge cases (empty input, single element, duplicates). |
+| Optimize   | 5-10 min | If time permits, discuss optimizations. Can you reduce space? Time?                                   |
 
 ### Communication During Coding
 
@@ -1650,69 +1706,74 @@ This is as important as the code itself:
 ### Common Patterns to Internalize
 
 **Two Pointers:**
+
 ```typescript
 function twoSum(nums: number[], target: number): [number, number] {
   // Assumes sorted array
-  let left = 0, right = nums.length - 1;
+  let left = 0,
+    right = nums.length - 1
   while (left < right) {
-    const sum = nums[left] + nums[right];
-    if (sum === target) return [left, right];
-    if (sum < target) left++;
-    else right--;
+    const sum = nums[left] + nums[right]
+    if (sum === target) return [left, right]
+    if (sum < target) left++
+    else right--
   }
-  return [-1, -1];
+  return [-1, -1]
 }
 ```
 
 **Sliding Window:**
+
 ```typescript
 function maxSubarraySum(nums: number[], k: number): number {
-  let windowSum = 0;
-  for (let i = 0; i < k; i++) windowSum += nums[i];
+  let windowSum = 0
+  for (let i = 0; i < k; i++) windowSum += nums[i]
 
-  let maxSum = windowSum;
+  let maxSum = windowSum
   for (let i = k; i < nums.length; i++) {
-    windowSum += nums[i] - nums[i - k]; // slide the window
-    maxSum = Math.max(maxSum, windowSum);
+    windowSum += nums[i] - nums[i - k] // slide the window
+    maxSum = Math.max(maxSum, windowSum)
   }
-  return maxSum;
+  return maxSum
 }
 ```
 
 **BFS (Graph/Tree):**
+
 ```typescript
 function bfs(graph: Map<string, string[]>, start: string): string[] {
-  const visited = new Set<string>();
-  const queue: string[] = [start];
-  const result: string[] = [];
+  const visited = new Set<string>()
+  const queue: string[] = [start]
+  const result: string[] = []
 
-  visited.add(start);
+  visited.add(start)
   while (queue.length > 0) {
-    const node = queue.shift()!;
-    result.push(node);
+    const node = queue.shift()!
+    result.push(node)
     for (const neighbor of graph.get(node) || []) {
       if (!visited.has(neighbor)) {
-        visited.add(neighbor);
-        queue.push(neighbor);
+        visited.add(neighbor)
+        queue.push(neighbor)
       }
     }
   }
-  return result;
+  return result
 }
 ```
 
 **Dynamic Programming (Memoization):**
+
 ```typescript
 function climbStairs(n: number, memo: Map<number, number> = new Map()): number {
-  if (n <= 2) return n;
-  if (memo.has(n)) return memo.get(n)!;
+  if (n <= 2) return n
+  if (memo.has(n)) return memo.get(n)!
 
-  const result = climbStairs(n - 1, memo) + climbStairs(n - 2, memo);
-  memo.set(n, result);
-  return result;
+  const result = climbStairs(n - 1, memo) + climbStairs(n - 2, memo)
+  memo.set(n, result)
+  return result
 }
 ```
 
 ---
 
-*Last updated: February 2026. Review and update quarterly as the landscape evolves.*
+_Last updated: February 2026. Review and update quarterly as the landscape evolves._

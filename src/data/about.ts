@@ -1,12 +1,4 @@
-import {
-  Globe,
-  Cpu,
-  Terminal,
-  Github,
-  Linkedin,
-  Mail,
-  FileText,
-} from "lucide-react"
+import { Globe, Cpu, Terminal, Github, Linkedin, Mail, FileText } from "lucide-react"
 import { SOCIAL } from "@/data/social-links"
 
 export const skillAreas = [

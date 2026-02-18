@@ -114,7 +114,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "paragraph",
-        text: "Since the visible canvas is already a flattened composite, export is almost trivial: `canvas.toDataURL('image/png')` gives you a data URI, and you create an anchor element with `download` attribute. The one subtlety: you need to composite one final time with all layers visible (regardless of toggle state) if you want a \"visible layers only\" export vs. \"all layers\" export. Canvas Kit exports what you see.",
+        text: 'Since the visible canvas is already a flattened composite, export is almost trivial: `canvas.toDataURL(\'image/png\')` gives you a data URI, and you create an anchor element with `download` attribute. The one subtlety: you need to composite one final time with all layers visible (regardless of toggle state) if you want a "visible layers only" export vs. "all layers" export. Canvas Kit exports what you see.',
       },
       {
         type: "heading",

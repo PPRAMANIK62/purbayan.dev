@@ -12,15 +12,15 @@ fiddle-factory is a component design tool built on a tldraw canvas where users d
 
 ### Rapid-Fire Details
 
-| Detail | Value |
-|--------|-------|
-| Language | TypeScript (Remix/React) |
-| Repos | fiddle, shadcn-ui, eleven-labs-ui, design-engineer, dashboard, repo-build-server |
-| Canvas | tldraw |
-| AI | Claude (Anthropic) |
-| Sandbox | e2b (previously StackBlitz WebContainers) |
-| Auth | PKCE flow |
-| Role | Intern (May-Aug 2025), Contractor (Dec 2025-Present) |
+| Detail   | Value                                                                            |
+| -------- | -------------------------------------------------------------------------------- |
+| Language | TypeScript (Remix/React)                                                         |
+| Repos    | fiddle, shadcn-ui, eleven-labs-ui, design-engineer, dashboard, repo-build-server |
+| Canvas   | tldraw                                                                           |
+| AI       | Claude (Anthropic)                                                               |
+| Sandbox  | e2b (previously StackBlitz WebContainers)                                        |
+| Auth     | PKCE flow                                                                        |
+| Role     | Intern (May-Aug 2025), Contractor (Dec 2025-Present)                             |
 
 ### Architecture
 
@@ -100,14 +100,14 @@ A TUI-based installer for setting up a complete Fedora Hyprland development envi
 
 ### Rapid-Fire Details
 
-| Detail | Value |
-|--------|-------|
-| Language | Shell (95.6%), CSS (4.4%) |
-| TUI Framework | charmbracelet/gum |
-| Phases | 14 installation phases |
-| Config Files | 22 managed configs |
-| Modes | Full, Minimal, Custom |
-| Design | Idempotent with error recovery |
+| Detail        | Value                          |
+| ------------- | ------------------------------ |
+| Language      | Shell (95.6%), CSS (4.4%)      |
+| TUI Framework | charmbracelet/gum              |
+| Phases        | 14 installation phases         |
+| Config Files  | 22 managed configs             |
+| Modes         | Full, Minimal, Custom          |
+| Design        | Idempotent with error recovery |
 
 ### Architecture
 
@@ -182,13 +182,13 @@ A browser-based drawing application with a proper layer system, multiple tools, 
 
 ### Rapid-Fire Details
 
-| Detail | Value |
-|--------|-------|
-| Stack | Next.js 15.2.3, React 19, TypeScript, Tailwind CSS 4, Framer Motion 12 |
-| Live | canvas-kit.vercel.app |
-| Canvas Model | Immediate-mode with offscreen buffers |
-| Tools | Brush (B), Eraser (E), Rectangle (R), Circle (C) |
-| Blog | "Layers on an Immediate-Mode Canvas" |
+| Detail       | Value                                                                  |
+| ------------ | ---------------------------------------------------------------------- |
+| Stack        | Next.js 15.2.3, React 19, TypeScript, Tailwind CSS 4, Framer Motion 12 |
+| Live         | canvas-kit.vercel.app                                                  |
+| Canvas Model | Immediate-mode with offscreen buffers                                  |
+| Tools        | Brush (B), Eraser (E), Rectangle (R), Circle (C)                       |
+| Blog         | "Layers on an Immediate-Mode Canvas"                                   |
 
 ### Architecture
 
@@ -250,13 +250,13 @@ A multi-user TCP chat server with dual implementations in Rust and Go. Connect w
 
 ### Rapid-Fire Details
 
-| Detail | Value |
-|--------|-------|
-| Languages | Rust, Go |
-| Protocol | TCP on port 6979, telnet-compatible |
-| Rust deps | std::net, std::thread, getrandom (near zero-dependency) |
-| Go deps | net package, goroutines |
-| Features | Token auth, rate limiting, ban system, broadcast, text filter |
+| Detail    | Value                                                         |
+| --------- | ------------------------------------------------------------- |
+| Languages | Rust, Go                                                      |
+| Protocol  | TCP on port 6979, telnet-compatible                           |
+| Rust deps | std::net, std::thread, getrandom (near zero-dependency)       |
+| Go deps   | net package, goroutines                                       |
+| Features  | Token auth, rate limiting, ban system, broadcast, text filter |
 
 ### Architecture
 
@@ -313,13 +313,13 @@ A local search engine that indexes documents using TF-IDF (Term Frequency-Invers
 
 ### Rapid-Fire Details
 
-| Detail | Value |
-|--------|-------|
-| Language | Rust |
-| External crates | 3 (serde_json, tiny_http, xml-rs) |
-| Architecture | main.rs (entry), model.rs (TF-IDF), server.rs (HTTP) |
-| Frontend | index.html + index.js |
-| Scoring | TF-IDF with custom tokenizer and inverted index |
+| Detail          | Value                                                |
+| --------------- | ---------------------------------------------------- |
+| Language        | Rust                                                 |
+| External crates | 3 (serde_json, tiny_http, xml-rs)                    |
+| Architecture    | main.rs (entry), model.rs (TF-IDF), server.rs (HTTP) |
+| Frontend        | index.html + index.js                                |
+| Scoring         | TF-IDF with custom tokenizer and inverted index      |
 
 ### Architecture
 
@@ -356,7 +356,7 @@ BM25 scoring instead of raw TF-IDF would handle document length normalization be
 ### Anticipated Q&A
 
 **Q: Explain TF-IDF scoring.**
-**A:** TF (Term Frequency) measures how often a term appears in a document. A document mentioning "rust" 10 times is more relevant to a "rust" query than one mentioning it once. IDF (Inverse Document Frequency) measures how rare a term is across all documents. "The" appears in every document, so its IDF is near zero. "Borrow checker" appears in few documents, so its IDF is high. The final score is TF * IDF. This means a term that's frequent in a specific document but rare overall gets the highest score. It's the foundation of most search engines, though modern ones layer BM25, PageRank, and ML on top.
+**A:** TF (Term Frequency) measures how often a term appears in a document. A document mentioning "rust" 10 times is more relevant to a "rust" query than one mentioning it once. IDF (Inverse Document Frequency) measures how rare a term is across all documents. "The" appears in every document, so its IDF is near zero. "Borrow checker" appears in few documents, so its IDF is high. The final score is TF \* IDF. This means a term that's frequent in a specific document but rare overall gets the highest score. It's the foundation of most search engines, though modern ones layer BM25, PageRank, and ML on top.
 
 **Q: Why build a search engine from scratch instead of using Elasticsearch?**
 **A:** To understand the fundamentals. Elasticsearch is a distributed system with inverted indices, analyzers, sharding, replication. If you don't understand how an inverted index works, you can't debug why your Elasticsearch queries return unexpected results. Building from scratch taught me tokenization, index construction, scoring, and the tradeoffs between precision and recall. Now when I use Elasticsearch, I understand what's happening under the hood.
@@ -374,14 +374,14 @@ A real-time audio visualizer that performs FFT (Fast Fourier Transform) on audio
 
 ### Rapid-Fire Details
 
-| Detail | Value |
-|--------|-------|
-| Language | C (~670 lines) |
-| Files | src/musializer.c (app), src/fft.h (header-only FFT) |
-| FFT | 256 bins, O(N log N), butterfly operations, bit-reversal permutation |
-| Audio | 44,100 Hz, 32-bit float, stereo |
-| Dependency | raylib (graphics + audio) |
-| Build | build.sh |
+| Detail     | Value                                                                |
+| ---------- | -------------------------------------------------------------------- |
+| Language   | C (~670 lines)                                                       |
+| Files      | src/musializer.c (app), src/fft.h (header-only FFT)                  |
+| FFT        | 256 bins, O(N log N), butterfly operations, bit-reversal permutation |
+| Audio      | 44,100 Hz, 32-bit float, stereo                                      |
+| Dependency | raylib (graphics + audio)                                            |
+| Build      | build.sh                                                             |
 
 ### Architecture
 
@@ -413,7 +413,7 @@ raylib handles both the graphics (window, drawing primitives) and audio (loading
 
 ### What I'd Do Differently
 
-I'd add a smoothing filter on the FFT output. Raw FFT magnitudes jump frame-to-frame, making the bars flicker. Exponential moving average (current = alpha * new + (1-alpha) * previous) would smooth the animation.
+I'd add a smoothing filter on the FFT output. Raw FFT magnitudes jump frame-to-frame, making the bars flicker. Exponential moving average (current = alpha _ new + (1-alpha) _ previous) would smooth the animation.
 
 I'd also add multiple visualization modes: waveform, spectrogram (time-frequency heatmap), circular spectrum. The FFT data supports all of these; it's just different rendering.
 
@@ -440,10 +440,10 @@ Apache ECharts is a JavaScript charting library with 65,000+ GitHub stars. I con
 
 ### Rapid-Fire Details
 
-| Detail | Value |
-|--------|-------|
-| Project | Apache ECharts (65k+ stars) |
-| PR #21325 | MERGED: fix candlestick render error with series.encode |
+| Detail    | Value                                                     |
+| --------- | --------------------------------------------------------- |
+| Project   | Apache ECharts (65k+ stars)                               |
+| PR #21325 | MERGED: fix candlestick render error with series.encode   |
 | PR #21314 | OPEN: fix tooltip formatter callback for connected charts |
 
 ### Technical Details
@@ -474,10 +474,10 @@ A real-time music room sharing application where users can listen to music toget
 
 ### Rapid-Fire Details
 
-| Detail | Value |
-|--------|-------|
-| Language | TypeScript |
-| Concept | Shared music rooms with real-time sync |
+| Detail   | Value                                  |
+| -------- | -------------------------------------- |
+| Language | TypeScript                             |
+| Concept  | Shared music rooms with real-time sync |
 
 ### Anticipated Q&A
 
@@ -494,10 +494,10 @@ A Next.js application with Prisma ORM and Better Auth for authentication. A refe
 
 ### Rapid-Fire Details
 
-| Detail | Value |
-|--------|-------|
-| Stack | Next.js, Prisma, Better Auth |
-| Language | TypeScript |
+| Detail   | Value                        |
+| -------- | ---------------------------- |
+| Stack    | Next.js, Prisma, Better Auth |
+| Language | TypeScript                   |
 
 ### Anticipated Q&A
 
@@ -517,10 +517,10 @@ A secure snippet sharing web application built in Go, following Alex Edwards' "L
 
 ### Rapid-Fire Details
 
-| Detail | Value |
-|--------|-------|
-| Language | Go |
-| Source | "Let's Go" by Alex Edwards |
+| Detail   | Value                                                        |
+| -------- | ------------------------------------------------------------ |
+| Language | Go                                                           |
+| Source   | "Let's Go" by Alex Edwards                                   |
 | Features | Snippet CRUD, user auth, session management, CSRF protection |
 
 ### Anticipated Q&A
@@ -541,10 +541,10 @@ A distributed log system built in Go, following Travis Jeffery's "Distributed Se
 
 ### Rapid-Fire Details
 
-| Detail | Value |
-|--------|-------|
-| Language | Go |
-| Source | "Distributed Services with Go" by Travis Jeffery |
+| Detail   | Value                                                    |
+| -------- | -------------------------------------------------------- |
+| Language | Go                                                       |
+| Source   | "Distributed Services with Go" by Travis Jeffery         |
 | Concepts | Raft consensus, gRPC, service discovery, log replication |
 
 ### Anticipated Q&A
@@ -565,10 +565,10 @@ A distributed log processing system built in Python. Handles ingestion, processi
 
 ### Rapid-Fire Details
 
-| Detail | Value |
-|--------|-------|
-| Language | Python |
-| Concept | Log ingestion, processing pipelines, distributed querying |
+| Detail   | Value                                                     |
+| -------- | --------------------------------------------------------- |
+| Language | Python                                                    |
+| Concept  | Log ingestion, processing pipelines, distributed querying |
 
 ### Anticipated Q&A
 
@@ -585,10 +585,10 @@ A marketing analytics dashboard that visualizes brand performance metrics and ca
 
 ### Rapid-Fire Details
 
-| Detail | Value |
-|--------|-------|
-| Language | TypeScript |
-| Concept | Marketing analytics, data visualization, dashboard |
+| Detail   | Value                                              |
+| -------- | -------------------------------------------------- |
+| Language | TypeScript                                         |
+| Concept  | Marketing analytics, data visualization, dashboard |
 
 ### Anticipated Q&A
 
@@ -605,13 +605,13 @@ My personal developer portfolio site. Tokyo Night themed, monospace everything, 
 
 ### Rapid-Fire Details
 
-| Detail | Value |
-|--------|-------|
-| Stack | React 19, Vite, TypeScript, Tailwind CSS 4, Zustand, Framer Motion |
-| Theme | Tokyo Night |
-| Font | Iosevka Mono |
-| Easter Egg | Terminal with tab completion |
-| Live | purbayan.dev |
+| Detail     | Value                                                              |
+| ---------- | ------------------------------------------------------------------ |
+| Stack      | React 19, Vite, TypeScript, Tailwind CSS 4, Zustand, Framer Motion |
+| Theme      | Tokyo Night                                                        |
+| Font       | Iosevka Mono                                                       |
+| Easter Egg | Terminal with tab completion                                       |
+| Live       | purbayan.dev                                                       |
 
 ### Architecture
 

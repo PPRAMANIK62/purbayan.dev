@@ -1,4 +1,11 @@
-import { useEffect, useRef, type RefObject, type MutableRefObject, type Dispatch, type SetStateAction } from "react"
+import {
+  useEffect,
+  useRef,
+  type RefObject,
+  type MutableRefObject,
+  type Dispatch,
+  type SetStateAction,
+} from "react"
 
 export interface UseVaultProgressReturn {
   progressRef: MutableRefObject<number>
@@ -10,7 +17,7 @@ export function useVaultProgress(
   active: string | null,
   contentRef: RefObject<HTMLDivElement | null>,
   pendingScrollTarget: MutableRefObject<string | null>,
-  setShowContinuePill: Dispatch<SetStateAction<boolean>>
+  setShowContinuePill: Dispatch<SetStateAction<boolean>>,
 ): UseVaultProgressReturn {
   const progressRef = useRef(0)
   const topBarRef = useRef<HTMLDivElement>(null)

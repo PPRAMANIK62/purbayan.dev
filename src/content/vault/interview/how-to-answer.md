@@ -33,15 +33,15 @@ Can they use AI tools effectively and critically, not blindly? This is 2026. I e
 
 ### How I Would Test These
 
-| Quality | Test Method | What I Watch For |
-|---------|-------------|-----------------|
-| Technical Depth | "Explain how your canvas layer system works" | Can they go from high-level to implementation details without losing me? Do they know *why* they made each choice? |
-| Problem-Solving | Live coding: "Fix this React performance bug" | Do they measure before optimizing? Do they read the error message? Do they talk through their thinking? |
-| Real Experience | "Tell me about a bug that took you more than a day to fix" | Specificity of the story. Honesty about what went wrong. I can smell a fabricated answer instantly. |
-| Learning Velocity | "How did you approach migrating from react-flow to tldraw?" | Did they study the new tool first or just start coding? Did they plan the migration or wing it? |
-| Communication | "Explain TCP to someone who only knows HTTP" | Simplicity. Analogies. Do they check if I'm following? |
-| Ownership | "What's something you fixed that wasn't your task?" | Proactive bug-finding. Initiative. Did they wait to be told or did they just do it? |
-| AI Literacy | "How do you use Claude/Copilot in your workflow?" | Do they verify output? Do they know limitations? Can they articulate when AI helps and when it hurts? |
+| Quality           | Test Method                                                 | What I Watch For                                                                                                   |
+| ----------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Technical Depth   | "Explain how your canvas layer system works"                | Can they go from high-level to implementation details without losing me? Do they know _why_ they made each choice? |
+| Problem-Solving   | Live coding: "Fix this React performance bug"               | Do they measure before optimizing? Do they read the error message? Do they talk through their thinking?            |
+| Real Experience   | "Tell me about a bug that took you more than a day to fix"  | Specificity of the story. Honesty about what went wrong. I can smell a fabricated answer instantly.                |
+| Learning Velocity | "How did you approach migrating from react-flow to tldraw?" | Did they study the new tool first or just start coding? Did they plan the migration or wing it?                    |
+| Communication     | "Explain TCP to someone who only knows HTTP"                | Simplicity. Analogies. Do they check if I'm following?                                                             |
+| Ownership         | "What's something you fixed that wasn't your task?"         | Proactive bug-finding. Initiative. Did they wait to be told or did they just do it?                                |
+| AI Literacy       | "How do you use Claude/Copilot in your workflow?"           | Do they verify output? Do they know limitations? Can they articulate when AI helps and when it hurts?              |
 
 ### Red Flags That Get Candidates Rejected
 
@@ -84,15 +84,15 @@ No sugarcoating. Here's where you stand.
 
 ### Quality-by-Quality Assessment
 
-| Quality | Rating | Evidence | Gap to Fill |
-|---------|--------|----------|-------------|
-| Technical Depth | **STRONG** | Built TCP from sockets, FFT from math, TF-IDF from scratch, Canvas layers from Canvas API. These aren't wrappers around libraries. | Practice articulating these verbally under time pressure. Knowing it and explaining it in 2 minutes are different skills. |
-| Problem-Solving | **STRONG** | Multiple complex bug fixes at fiddle: canvas loading race condition (React Query cold cache + tldraw onMount timing), iframe clipboard focus theft, sandbox timeout restoration. Each required systematic debugging. | Practice structured problem-solving out loud. Interviewers can't see your thinking unless you narrate it. |
-| Real Experience | **STRONG** | fiddle-factory has real users. 48+ PRs shipped. Worked across 6 repos: frontend, component libraries, build infrastructure, auth, canvas rendering. | Can credibly say "I shipped code that real users depend on." Don't undersell this. |
-| Learning Velocity | **EXCEPTIONAL** | Mechanical Engineering to full-stack with Rust, C, Go depth in roughly 3 years. Migrated react-flow to tldraw (learned a new canvas library under deadline). Picked up e2b sandboxes for cloud migration. | Frame this as your biggest strength in behavioral answers. The non-CS angle is a feature, not a bug. |
-| Communication | **NEEDS PRACTICE** | Blog shows strong writing ability. PR descriptions are detailed and clear. But verbal interview communication is a different muscle. | Practice explaining projects in 2 minutes (elevator pitch) and 10 minutes (deep dive). Record yourself. Listen back. Cut the filler. |
-| Ownership | **STRONG** | Proactively fixed 15+ bugs at fiddle. Set up Storybook across 4 repos without being asked. Contributed to Apache ECharts on your own initiative. | Have 2-3 "I noticed X was broken and fixed it without being asked" stories rehearsed and ready. |
-| AI Literacy | **STRONG** | Built Claude health check endpoint and API integration at fiddle. Uses AI tools in development workflow. Understands the difference between using AI and depending on AI. | Practice articulating HOW you use AI and WHEN you choose not to. Interviewers want nuance here. |
+| Quality           | Rating             | Evidence                                                                                                                                                                                                             | Gap to Fill                                                                                                                          |
+| ----------------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| Technical Depth   | **STRONG**         | Built TCP from sockets, FFT from math, TF-IDF from scratch, Canvas layers from Canvas API. These aren't wrappers around libraries.                                                                                   | Practice articulating these verbally under time pressure. Knowing it and explaining it in 2 minutes are different skills.            |
+| Problem-Solving   | **STRONG**         | Multiple complex bug fixes at fiddle: canvas loading race condition (React Query cold cache + tldraw onMount timing), iframe clipboard focus theft, sandbox timeout restoration. Each required systematic debugging. | Practice structured problem-solving out loud. Interviewers can't see your thinking unless you narrate it.                            |
+| Real Experience   | **STRONG**         | fiddle-factory has real users. 48+ PRs shipped. Worked across 6 repos: frontend, component libraries, build infrastructure, auth, canvas rendering.                                                                  | Can credibly say "I shipped code that real users depend on." Don't undersell this.                                                   |
+| Learning Velocity | **EXCEPTIONAL**    | Mechanical Engineering to full-stack with Rust, C, Go depth in roughly 3 years. Migrated react-flow to tldraw (learned a new canvas library under deadline). Picked up e2b sandboxes for cloud migration.            | Frame this as your biggest strength in behavioral answers. The non-CS angle is a feature, not a bug.                                 |
+| Communication     | **NEEDS PRACTICE** | Blog shows strong writing ability. PR descriptions are detailed and clear. But verbal interview communication is a different muscle.                                                                                 | Practice explaining projects in 2 minutes (elevator pitch) and 10 minutes (deep dive). Record yourself. Listen back. Cut the filler. |
+| Ownership         | **STRONG**         | Proactively fixed 15+ bugs at fiddle. Set up Storybook across 4 repos without being asked. Contributed to Apache ECharts on your own initiative.                                                                     | Have 2-3 "I noticed X was broken and fixed it without being asked" stories rehearsed and ready.                                      |
+| AI Literacy       | **STRONG**         | Built Claude health check endpoint and API integration at fiddle. Uses AI tools in development workflow. Understands the difference between using AI and depending on AI.                                            | Practice articulating HOW you use AI and WHEN you choose not to. Interviewers want nuance here.                                      |
 
 ### Honest Gaps
 
@@ -131,6 +131,7 @@ Don't recite your resume. Tell a story.
 Don't just define. Show you've used it.
 
 Example: "Explain the event loop."
+
 - **Definition:** "It's the mechanism that lets JavaScript handle async operations despite being single-threaded."
 - **How it works:** "The call stack executes synchronous code. Async callbacks go to the task queue. The event loop checks if the call stack is empty, then pulls from the queue. Microtasks (promises) get priority over macrotasks (setTimeout)."
 - **Why it matters:** "If you block the event loop with heavy computation, the UI freezes. That's why we use Web Workers or break work into chunks."
@@ -203,7 +204,7 @@ Don't be generic. Connect your specific experience to what they need.
 
 > Q: Tell me about yourself.
 
-*Interviewer's Note: I'm checking if they can be concise, coherent, and interesting in 90 seconds. Most candidates ramble.*
+_Interviewer's Note: I'm checking if they can be concise, coherent, and interesting in 90 seconds. Most candidates ramble._
 
 "I'm a full-stack developer finishing my B.Tech at NIT Durgapur. I've been working as a contractor at fiddle-factory for the past 8 months, shipping features across their canvas editor, component libraries, and build pipeline. Before that, I interned there and led a major migration from react-flow to tldraw.
 
@@ -211,35 +212,35 @@ What got me into programming was curiosity about how things actually work. So I 
 
 I'm looking for a full-stack role where I can bring that same depth to building products people use every day."
 
-*Common mistake to avoid: Going over 90 seconds. Listing technologies instead of telling a story.*
+_Common mistake to avoid: Going over 90 seconds. Listing technologies instead of telling a story._
 
 ---
 
 > Q: Why are you interested in this role?
 
-*Interviewer's Note: I want to know if they've researched us or if they're spray-and-praying applications.*
+_Interviewer's Note: I want to know if they've researched us or if they're spray-and-praying applications._
 
 "I've been looking at what your team is building, and two things stand out. First, [specific product feature or technical challenge from the company]. That's the kind of problem I enjoy. At fiddle-factory, I worked on a canvas-based editor where the hard part wasn't building features but making them work reliably across different user states and browser environments. Second, I want to work somewhere my systems-level knowledge actually matters. I've built things from raw sockets and C, and I want a team that values understanding the full stack, not just the framework layer."
 
-*Common mistake to avoid: Generic answers like "I want to grow" or "your company is innovative." Be specific about THEIR product and YOUR fit.*
+_Common mistake to avoid: Generic answers like "I want to grow" or "your company is innovative." Be specific about THEIR product and YOUR fit._
 
 ---
 
 > Q: What's your strongest technical skill?
 
-*Interviewer's Note: I'm testing self-awareness and depth. Can they pick one thing and go deep?*
+_Interviewer's Note: I'm testing self-awareness and depth. Can they pick one thing and go deep?_
 
 "TypeScript and React for production work. But what makes that useful is the depth underneath. I've built things from the ground up in Rust and C, so when I'm debugging a React performance issue or designing a component architecture, I'm thinking about what's actually happening. Memory, rendering cycles, event propagation. Not just the API surface.
 
 For example, at fiddle-factory I fixed a canvas loading bug that only affected new users. The root cause was a race condition between tldraw's onMount callback and React Query's cache state. Understanding how both systems work under the hood is what let me find it."
 
-*Common mistake to avoid: Saying "I'm good at everything" or picking something you can't back up with a story.*
+_Common mistake to avoid: Saying "I'm good at everything" or picking something you can't back up with a story._
 
 ---
 
 > Q: Tell me about a time you had to learn something quickly.
 
-*Interviewer's Note: Learning velocity is one of the most important signals. I want specifics, not "I'm a fast learner."*
+_Interviewer's Note: Learning velocity is one of the most important signals. I want specifics, not "I'm a fast learner."_
 
 "During my internship at fiddle-factory, I was tasked with migrating the canvas system from react-flow to tldraw. I'd never used tldraw before. I had maybe two weeks to understand the library, plan the migration, and ship it.
 
@@ -247,13 +248,13 @@ My approach was to spend the first two days just reading tldraw's source code an
 
 I shipped the migration on time. The key was resisting the urge to start coding immediately. Those two days of reading saved me a week of wrong turns."
 
-*Common mistake to avoid: Skipping the HOW. "I learned it fast" means nothing. Walk through your actual process.*
+_Common mistake to avoid: Skipping the HOW. "I learned it fast" means nothing. Walk through your actual process._
 
 ---
 
 > Q: How do you use AI tools in your development workflow?
 
-*Interviewer's Note: I want nuance. Not "AI is amazing" and not "I don't use AI." I want to know if they think critically about it.*
+_Interviewer's Note: I want nuance. Not "AI is amazing" and not "I don't use AI." I want to know if they think critically about it._
 
 "I use AI tools daily, but with guardrails. For boilerplate, repetitive patterns, and exploring unfamiliar APIs, AI is great. It saves me time on things I could do but don't need to think hard about.
 
@@ -261,7 +262,7 @@ Where I'm careful is anything involving architecture decisions, security, or com
 
 The biggest mistake I see is people using AI to write code they don't understand. If you can't explain it, you can't debug it."
 
-*Common mistake to avoid: Either dismissing AI entirely or sounding like you can't code without it. Show balance.*
+_Common mistake to avoid: Either dismissing AI entirely or sounding like you can't code without it. Show balance._
 
 ---
 
@@ -269,7 +270,7 @@ The biggest mistake I see is people using AI to write code they don't understand
 
 > Q: Explain how React's reconciliation works and how it affected a decision you made.
 
-*Interviewer's Note: This separates "I use React" from "I understand React." I want them to connect theory to practice.*
+_Interviewer's Note: This separates "I use React" from "I understand React." I want them to connect theory to practice._
 
 "React's reconciliation is how it figures out what actually changed in the DOM. When state updates, React builds a new virtual DOM tree and diffs it against the previous one. It uses a heuristic algorithm: elements of different types produce different trees, and the `key` prop helps React identify which items in a list moved, were added, or were removed.
 
@@ -277,13 +278,13 @@ The important thing is that reconciliation is O(n), not O(n^3) like a naive tree
 
 This affected my work at fiddle-factory when I was building the visual component grid (PR #236). I replaced a text-only MentionMenu with a grid of component thumbnails. The grid items were dynamically generated from component data, and without proper keys, React was re-mounting every thumbnail on each filter change instead of just reordering them. Adding stable keys based on component IDs turned a janky experience into a smooth one."
 
-*Common mistake to avoid: Reciting the docs without connecting to real experience. Or getting lost in implementation details without explaining the high-level concept first.*
+_Common mistake to avoid: Reciting the docs without connecting to real experience. Or getting lost in implementation details without explaining the high-level concept first._
 
 ---
 
 > Q: You built a TCP chat server in both Rust and Go. Walk me through the concurrency model differences.
 
-*Interviewer's Note: This is a systems question disguised as a project question. I want to see if they understand OS-level concepts.*
+_Interviewer's Note: This is a systems question disguised as a project question. I want to see if they understand OS-level concepts._
 
 "In the Rust version, I used `std::thread` for OS threads. Each client connection gets its own thread. Shared state, like the list of connected clients, lives behind an `Arc<Mutex<>>`. Arc gives thread-safe reference counting, Mutex gives exclusive access. The tradeoff: OS threads are heavy. Each one gets a stack (usually 2-8MB), and context switching between them involves the kernel scheduler.
 
@@ -293,13 +294,13 @@ The practical difference: the Go version can handle way more concurrent connecti
 
 For a chat server, Go's model is probably the better fit because you're I/O bound, not CPU bound. Goroutines shine when you're waiting on network calls. But I built both specifically to understand the tradeoff, not because one is universally better."
 
-*Common mistake to avoid: Saying one is "better" without context. Interviewers want tradeoff thinking, not opinions.*
+_Common mistake to avoid: Saying one is "better" without context. Interviewers want tradeoff thinking, not opinions._
 
 ---
 
 > Q: How does TF-IDF work, and what were the hardest parts of implementing it from scratch?
 
-*Interviewer's Note: Can they explain an algorithm clearly AND talk about implementation challenges? Theory plus practice.*
+_Interviewer's Note: Can they explain an algorithm clearly AND talk about implementation challenges? Theory plus practice._
 
 "TF-IDF stands for Term Frequency, Inverse Document Frequency. It's a way to score how relevant a word is to a document in a collection.
 
@@ -311,13 +312,13 @@ The hardest part of implementing it in seroost wasn't the math. It was tokenizat
 
 I used only 3 external Rust crates for the whole project: tiny_http for serving, xml for parsing, serde_json for serialization. Everything else, the tokenizer, the index, the scoring, I built from scratch."
 
-*Common mistake to avoid: Only explaining the math without talking about real implementation challenges. Or hand-waving the hard parts.*
+_Common mistake to avoid: Only explaining the math without talking about real implementation challenges. Or hand-waving the hard parts._
 
 ---
 
 > Q: At fiddle-factory, you fixed a canvas loading bug that only affected new users. Walk me through your debugging process.
 
-*Interviewer's Note: This is my favorite type of question. I'm not testing if they know the answer. I'm testing HOW they debug.*
+_Interviewer's Note: This is my favorite type of question. I'm not testing if they know the answer. I'm testing HOW they debug._
 
 "New users were seeing broken canvas states on their first visit. Returning users were fine. That asymmetry was the first clue.
 
@@ -329,13 +330,13 @@ The bug was a race condition. tldraw's `onMount` was firing before the React Que
 
 The fix was to defer canvas hydration until the data was confirmed available. I added a check that waits for the React Query response before allowing tldraw to mount with project data. Simple fix, but finding the root cause required understanding three systems: React's lifecycle, tldraw's initialization, and React Query's caching behavior."
 
-*Common mistake to avoid: Jumping to the solution without explaining the investigation. The debugging PROCESS is what I'm evaluating, not the fix itself.*
+_Common mistake to avoid: Jumping to the solution without explaining the investigation. The debugging PROCESS is what I'm evaluating, not the fix itself._
 
 ---
 
 > Q: You set up Storybook across 4 repos at fiddle-factory. Why does that matter?
 
-*Interviewer's Note: I'm testing if they think about developer experience and team productivity, not just features.*
+_Interviewer's Note: I'm testing if they think about developer experience and team productivity, not just features._
 
 "Component libraries without visual documentation are a guessing game. Developers end up reading source code to figure out what props a component takes and what it looks like in different states. That's slow and error-prone.
 
@@ -345,7 +346,7 @@ But the bigger win was the screenshot pipeline. I built a MutationObserver-based
 
 The reason this matters: it's infrastructure that makes the whole team faster. Every new component gets visual documentation automatically. Every PR can include visual regression checks. It's the kind of work that doesn't show up in feature demos but saves hours every week."
 
-*Common mistake to avoid: Treating infrastructure work as less important than feature work. If anything, it shows more maturity.*
+_Common mistake to avoid: Treating infrastructure work as less important than feature work. If anything, it shows more maturity._
 
 ---
 
@@ -353,7 +354,7 @@ The reason this matters: it's infrastructure that makes the whole team faster. E
 
 > Q: Design a collaborative drawing tool (like the canvas editor you worked on at fiddle).
 
-*Interviewer's Note: They've actually built something like this. I want to see if they can abstract from their experience to a general design.*
+_Interviewer's Note: They've actually built something like this. I want to see if they can abstract from their experience to a general design._
 
 "Let me start by clarifying scope. Are we talking about real-time collaboration where multiple users draw simultaneously? What's the expected number of concurrent users per canvas? Do we need version history?
 
@@ -371,13 +372,13 @@ Assuming real-time collaboration with up to 50 concurrent users per canvas and b
 
 **Tradeoffs I'd discuss:** CRDTs add complexity but eliminate the need for a central authority to resolve conflicts. An alternative is Operational Transform (OT), which Google Docs uses, but OT requires a central server to transform operations, which is a bottleneck. For a drawing tool where operations are mostly independent (shapes don't overlap in the data model), CRDTs are a better fit."
 
-*Common mistake to avoid: Designing the entire system in equal detail. Pick the hardest part (conflict resolution) and go deep. Skim the rest.*
+_Common mistake to avoid: Designing the entire system in equal detail. Pick the hardest part (conflict resolution) and go deep. Skim the rest._
 
 ---
 
 > Q: Design a real-time chat system.
 
-*Interviewer's Note: They built a TCP chat server from scratch. I want to see if they can scale the concept.*
+_Interviewer's Note: They built a TCP chat server from scratch. I want to see if they can scale the concept._
 
 "Let me clarify: are we talking about 1-on-1 chat, group chat, or both? What's the scale? Do we need message persistence, read receipts, typing indicators?
 
@@ -399,13 +400,13 @@ Assuming group chat with persistence, read receipts, and typing indicators for u
 
 Having built 4at from raw TCP sockets, I understand what's happening at the protocol level beneath all these abstractions. WebSockets are just an upgrade from HTTP, and underneath, it's still TCP. The framing, the keep-alive, the connection management, I've dealt with all of that manually."
 
-*Common mistake to avoid: Forgetting about failure cases. What happens when a WebSocket server crashes? What about message ordering? Always address the unhappy path.*
+_Common mistake to avoid: Forgetting about failure cases. What happens when a WebSocket server crashes? What about message ordering? Always address the unhappy path._
 
 ---
 
 > Q: Design a search engine (you built one, so let's scale it).
 
-*Interviewer's Note: Perfect question for this candidate. They built seroost. Now I want to see if they can think beyond a single-machine implementation.*
+_Interviewer's Note: Perfect question for this candidate. They built seroost. Now I want to see if they can think beyond a single-machine implementation._
 
 "I built seroost as a single-machine TF-IDF search engine. Let me scale that up.
 
@@ -429,7 +430,7 @@ Assuming we're building a document search engine for 10 million documents with s
 
 **The tradeoff I'd highlight:** Freshness vs. performance. If we need real-time indexing (document is searchable immediately after upload), we need a more complex architecture with a real-time index that gets periodically merged into the main index. If a few minutes of delay is acceptable, batch indexing is simpler and more efficient."
 
-*Common mistake to avoid: Not connecting to your actual experience. I built the single-machine version. I know what TF-IDF scoring looks like in code. That grounds the design in reality, not just theory.*
+_Common mistake to avoid: Not connecting to your actual experience. I built the single-machine version. I know what TF-IDF scoring looks like in code. That grounds the design in reality, not just theory._
 
 ---
 
@@ -437,7 +438,7 @@ Assuming we're building a document search engine for 10 million documents with s
 
 > Q: Tell me about the most challenging bug you've ever fixed.
 
-*Interviewer's Note: I want specificity, honesty about the struggle, and a clear debugging methodology.*
+_Interviewer's Note: I want specificity, honesty about the struggle, and a clear debugging methodology._
 
 "The canvas loading bug at fiddle-factory. New users were seeing broken canvas states, but returning users were fine.
 
@@ -449,13 +450,13 @@ The fix was straightforward once I understood the cause: defer canvas hydration 
 
 What I learned: always test the cold-cache path. It's easy to develop with warm caches and miss bugs that only affect new users."
 
-*Common mistake to avoid: Picking a trivial bug. Or not explaining why it was hard. The struggle is the point of this question.*
+_Common mistake to avoid: Picking a trivial bug. Or not explaining why it was hard. The struggle is the point of this question._
 
 ---
 
 > Q: Tell me about a time you had to work with a codebase you'd never seen before.
 
-*Interviewer's Note: Every new job starts with an unfamiliar codebase. I want to know their onboarding strategy.*
+_Interviewer's Note: Every new job starts with an unfamiliar codebase. I want to know their onboarding strategy._
 
 "When I contributed to Apache ECharts. It's a 65k-star charting library with a massive codebase. I'd never looked at it before.
 
@@ -467,13 +468,13 @@ The fix was reviewed by the maintainers and merged. What helped was reading exis
 
 I use the same approach at fiddle-factory when I context-switch between their 6 repos. You can't hold the entire codebase in your head. You learn to navigate efficiently."
 
-*Common mistake to avoid: Claiming you understood the whole codebase. Nobody does. Show that you can be effective without understanding everything.*
+_Common mistake to avoid: Claiming you understood the whole codebase. Nobody does. Show that you can be effective without understanding everything._
 
 ---
 
 > Q: Describe a time you disagreed with a technical decision. How did you handle it?
 
-*Interviewer's Note: I'm testing emotional intelligence and collaboration skills. Can they disagree without being difficult?*
+_Interviewer's Note: I'm testing emotional intelligence and collaboration skills. Can they disagree without being difficult?_
 
 "At fiddle-factory, the screenshot pipeline for component thumbnails was using runtime iframe capture. It was complex, flaky, and slow. I thought there was a simpler approach.
 
@@ -483,13 +484,13 @@ The team agreed to switch. PR #185 replaced the old system.
 
 What I've learned is that disagreements go better when you bring an alternative, not just criticism. 'This is bad' starts an argument. 'Here's another way, and here are the tradeoffs' starts a conversation."
 
-*Common mistake to avoid: Either saying "I've never disagreed" (unbelievable) or telling a story where you were clearly difficult to work with. Show diplomacy.*
+_Common mistake to avoid: Either saying "I've never disagreed" (unbelievable) or telling a story where you were clearly difficult to work with. Show diplomacy._
 
 ---
 
 > Q: Why software engineering? You're from a mechanical engineering background.
 
-*Interviewer's Note: The career pivot is interesting. I want to understand the motivation. Is it genuine curiosity or just chasing salaries?*
+_Interviewer's Note: The career pivot is interesting. I want to understand the motivation. Is it genuine curiosity or just chasing salaries?_
 
 "Curiosity. That's the honest answer.
 
@@ -499,13 +500,13 @@ What hooked me was going deep. I didn't just learn React and start applying for 
 
 The mechanical engineering background isn't wasted. It taught me to think in systems, to understand constraints, and to be comfortable with math. The transition wasn't 'I gave up on mech eng.' It was 'I found a field where my curiosity has no ceiling.'"
 
-*Common mistake to avoid: Being defensive about the non-CS background. Own it. It's a strength. The curiosity-driven narrative is compelling and true.*
+_Common mistake to avoid: Being defensive about the non-CS background. Own it. It's a strength. The curiosity-driven narrative is compelling and true._
 
 ---
 
 > Q: Tell me about a time you went above and beyond what was expected.
 
-*Interviewer's Note: Ownership. Initiative. Does this person wait for instructions or do they see problems and fix them?*
+_Interviewer's Note: Ownership. Initiative. Does this person wait for instructions or do they see problems and fix them?_
 
 "When I joined fiddle-factory, there was no Storybook setup. Components existed across multiple repos, but there was no visual documentation, no way to see all variants of a component without running the app and navigating to the right state.
 
@@ -515,7 +516,7 @@ I set up Storybook across 4 repos. For the shadcn-ui repo alone, I wrote stories
 
 It took significant effort across multiple PRs. But now the team has a visual catalog of every component, automated screenshots for thumbnails, and a foundation for visual regression testing. That's the kind of work I do naturally. If I see something that would make the team more productive, I build it."
 
-*Common mistake to avoid: Picking something small. "I stayed late once" isn't above and beyond. Pick something with real scope and impact.*
+_Common mistake to avoid: Picking something small. "I stayed late once" isn't above and beyond. Pick something with real scope and impact._
 
 ---
 
@@ -523,18 +524,18 @@ It took significant effort across multiple PRs. But now the team has a visual ca
 
 > Q: (Question Purbayan should ask) "What does the first 90 days look like for someone in this role?"
 
-*Why this question works:* It shows you're thinking about impact, not just getting hired. You want to know how you'll ramp up, what you'll own, and when you're expected to be productive. It also reveals how structured (or unstructured) the team is.
+_Why this question works:_ It shows you're thinking about impact, not just getting hired. You want to know how you'll ramp up, what you'll own, and when you're expected to be productive. It also reveals how structured (or unstructured) the team is.
 
-*What to listen for:* If they have a clear onboarding plan, that's a good sign. If they say "you'll figure it out," that might be fine for a senior role but concerning for someone earlier in their career.
+_What to listen for:_ If they have a clear onboarding plan, that's a good sign. If they say "you'll figure it out," that might be fine for a senior role but concerning for someone earlier in their career.
 
 ---
 
 > Q: (Question Purbayan should ask) "What's the hardest technical problem your team is facing right now?"
 
-*Why this question works:* It shows genuine interest in the work, not just the company. It also gives you a chance to respond with relevant experience. If they mention a canvas rendering challenge, you can say "I've worked on exactly that at fiddle-factory." If they mention scaling, you can talk about your system design thinking.
+_Why this question works:_ It shows genuine interest in the work, not just the company. It also gives you a chance to respond with relevant experience. If they mention a canvas rendering challenge, you can say "I've worked on exactly that at fiddle-factory." If they mention scaling, you can talk about your system design thinking.
 
-*What to listen for:* The specificity of their answer tells you a lot. A vague answer ("scaling") might mean they don't have clear technical direction. A specific answer ("we're trying to reduce our p99 latency on search from 800ms to 200ms") means they know their problems and are actively working on them.
+_What to listen for:_ The specificity of their answer tells you a lot. A vague answer ("scaling") might mean they don't have clear technical direction. A specific answer ("we're trying to reduce our p99 latency on search from 800ms to 200ms") means they know their problems and are actively working on them.
 
 ---
 
-*Last updated: February 2026*
+_Last updated: February 2026_

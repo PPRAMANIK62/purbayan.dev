@@ -19,7 +19,7 @@ export function renderInlineText(text: string): ReactNode[] {
       parts.push(
         <strong key={match.index} className="text-foreground font-medium">
           {match[2]}
-        </strong>
+        </strong>,
       )
     } else if (match[3]) {
       parts.push(
@@ -28,7 +28,7 @@ export function renderInlineText(text: string): ReactNode[] {
           className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono text-primary"
         >
           {match[3]}
-        </code>
+        </code>,
       )
     }
 
@@ -46,17 +46,12 @@ export function renderBlock(block: ContentBlock, index: number): ReactNode {
   switch (block.type) {
     case "paragraph":
       return (
-        <p
-          key={index}
-          className="text-secondary-foreground leading-relaxed"
-        >
+        <p key={index} className="text-secondary-foreground leading-relaxed">
           {renderInlineText(block.text)}
         </p>
       )
     case "heading":
-      return (
-        <SectionHeading key={index} title={block.text} className="pt-4" />
-      )
+      return <SectionHeading key={index} title={block.text} className="pt-4" />
     case "code":
       return <CodeBlock key={index} language={block.language} code={block.code} />
     case "list":

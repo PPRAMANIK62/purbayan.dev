@@ -10,8 +10,7 @@ import { usePageMeta } from "@/hooks/use-page-meta"
 export default function ProjectsPage() {
   usePageMeta({
     title: "Projects",
-    description:
-      "Projects by Purbayan Pramanik — five projects, five languages, five domains.",
+    description: "Projects by Purbayan Pramanik — five projects, five languages, five domains.",
   })
 
   return (
@@ -21,9 +20,7 @@ export default function ProjectsPage() {
       </FadeUp>
 
       <FadeUp delay={0.1}>
-        <p className="text-muted-foreground mt-2">
-          Five projects. Five languages. Five domains.
-        </p>
+        <p className="text-muted-foreground mt-2">Five projects. Five languages. Five domains.</p>
       </FadeUp>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
@@ -37,9 +34,7 @@ export default function ProjectsPage() {
               />
 
               <div className="flex items-center justify-between">
-                <h2 className="font-mono font-bold text-xl text-foreground">
-                  {project.title}
-                </h2>
+                <h2 className="font-mono font-bold text-xl text-foreground">{project.title}</h2>
                 <Badge variant="outline" className="font-mono text-xs">
                   {project.language}
                 </Badge>
@@ -51,11 +46,7 @@ export default function ProjectsPage() {
 
               <div className="flex flex-wrap gap-2 mt-4">
                 {project.tags.map((tag) => (
-                  <Badge
-                    key={tag}
-                    variant="outline"
-                    className="font-mono text-xs"
-                  >
+                  <Badge key={tag} variant="outline" className="font-mono text-xs">
                     {tag}
                   </Badge>
                 ))}

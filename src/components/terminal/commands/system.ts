@@ -1,9 +1,4 @@
-import {
-  registerCommand,
-  registry,
-  type CommandContext,
-  type CommandResult,
-} from "./index"
+import { registerCommand, registry, type CommandContext, type CommandResult } from "./index"
 import type { OutputLine } from "../terminal-output"
 
 // ---------------------------------------------------------------------------
@@ -64,8 +59,18 @@ function dateCommand(_args: string[], _ctx: CommandContext): CommandResult {
   const now = new Date()
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
   const months = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
   ]
 
   const day = days[now.getDay()]
@@ -77,9 +82,7 @@ function dateCommand(_args: string[], _ctx: CommandContext): CommandResult {
   const year = now.getFullYear()
 
   return {
-    lines: [
-      { text: `${day} ${month} ${date} ${hours}:${minutes}:${seconds} IST ${year}` },
-    ],
+    lines: [{ text: `${day} ${month} ${date} ${hours}:${minutes}:${seconds} IST ${year}` }],
   }
 }
 
@@ -252,5 +255,10 @@ registerCommand("echo", echoCommand, "Print text to terminal", "echo <text>")
 registerCommand("env", envCommand, "Print environment variables", "env")
 registerCommand("which", whichCommand, "Locate a command", "which <command>")
 registerCommand("type", typeCommand, "Describe a command", "type <command>")
-registerCommand("export", exportCommand, "Set environment variable (denied)", "export <VAR>=<value>")
+registerCommand(
+  "export",
+  exportCommand,
+  "Set environment variable (denied)",
+  "export <VAR>=<value>",
+)
 registerCommand("neofetch", neofetchCommand, "Display system information", "neofetch")

@@ -26,9 +26,7 @@ export function CodeBlock({ language, code }: { language: string; code: string }
         </button>
       </div>
       <pre className="p-4 overflow-x-auto">
-        <code className="font-mono text-sm text-secondary-foreground">
-          {code}
-        </code>
+        <code className="font-mono text-sm text-secondary-foreground">{code}</code>
       </pre>
     </div>
   )

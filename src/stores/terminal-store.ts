@@ -76,9 +76,7 @@ export const useTerminalStore = create<TerminalState>()(
         const updated = [...commandHistory, command]
         set({
           commandHistory:
-            updated.length > MAX_HISTORY
-              ? updated.slice(updated.length - MAX_HISTORY)
-              : updated,
+            updated.length > MAX_HISTORY ? updated.slice(updated.length - MAX_HISTORY) : updated,
         })
       },
 
@@ -86,8 +84,7 @@ export const useTerminalStore = create<TerminalState>()(
 
       toggleSound: () => set((state) => ({ soundEnabled: !state.soundEnabled })),
 
-      setTheme: (theme: TerminalState["terminalTheme"]) =>
-        set({ terminalTheme: theme }),
+      setTheme: (theme: TerminalState["terminalTheme"]) => set({ terminalTheme: theme }),
 
       updateSnakeHighScore: (score: number) => {
         if (score > get().snakeHighScore) {

@@ -81,10 +81,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
       description="Search for pages, projects, and links"
       showCloseButton={false}
     >
-      <CommandInput
-        placeholder="Type a command or search..."
-        className="font-mono"
-      />
+      <CommandInput placeholder="Type a command or search..." className="font-mono" />
       <CommandList>
         <CommandEmpty className="py-12 font-mono">
           <div className="flex flex-col items-center gap-3">
@@ -149,9 +146,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
             <CommandItem
               key={link.label}
               value={link.label}
-              onSelect={() =>
-                runCommand(() => window.open(link.href, "_blank"))
-              }
+              onSelect={() => runCommand(() => window.open(link.href, "_blank"))}
               className="font-mono"
             >
               <link.icon className="size-4" />
@@ -159,8 +154,6 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
             </CommandItem>
           ))}
         </CommandGroup>
-
-
       </CommandList>
     </CommandDialog>
   )

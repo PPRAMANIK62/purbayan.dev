@@ -9,8 +9,7 @@ import { usePageMeta } from "@/hooks/use-page-meta"
 export default function BlogPage() {
   usePageMeta({
     title: "Blog",
-    description:
-      "Blog — writing about TypeScript, Rust, systems programming, and whatever else.",
+    description: "Blog — writing about TypeScript, Rust, systems programming, and whatever else.",
   })
 
   return (
@@ -19,8 +18,7 @@ export default function BlogPage() {
       <FadeUp>
         <PageHeading title="blog" />
         <p className="mt-4 font-mono text-base md:text-lg text-secondary-foreground leading-relaxed">
-          Writing about TypeScript, Rust, systems programming,
-          and whatever else I'm thinking about.
+          Writing about TypeScript, Rust, systems programming, and whatever else I'm thinking about.
         </p>
       </FadeUp>
 
@@ -37,17 +35,13 @@ export default function BlogPage() {
                 />
 
                 <div className="flex items-center justify-between">
-                  <h2 className="font-mono font-bold text-xl text-foreground">
-                    {post.title}
-                  </h2>
+                  <h2 className="font-mono font-bold text-xl text-foreground">{post.title}</h2>
                   <span className="text-muted-foreground font-mono text-xs shrink-0 ml-4">
                     {post.readingTime}
                   </span>
                 </div>
 
-                <p className="text-muted-foreground font-mono text-sm mt-1">
-                  {post.date}
-                </p>
+                <p className="text-muted-foreground font-mono text-sm mt-1">{post.date}</p>
 
                 <p className="text-secondary-foreground text-sm leading-relaxed mt-3">
                   {post.summary}
@@ -55,11 +49,7 @@ export default function BlogPage() {
 
                 <div className="flex flex-wrap gap-2 mt-4">
                   {post.tags.map((tag) => (
-                    <Badge
-                      key={tag}
-                      variant="outline"
-                      className="font-mono text-xs"
-                    >
+                    <Badge key={tag} variant="outline" className="font-mono text-xs">
                       {tag}
                     </Badge>
                   ))}
@@ -78,9 +68,7 @@ export default function BlogPage() {
         <FadeUp delay={0.1}>
           <section>
             <div>
-              <p className="text-muted-foreground font-mono">
-                No posts yet. Check back soon.
-              </p>
+              <p className="text-muted-foreground font-mono">No posts yet. Check back soon.</p>
             </div>
           </section>
         </FadeUp>

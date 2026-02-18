@@ -44,7 +44,9 @@ export function extractTextFromChildren(children: ReactNode): string {
   if (typeof children === "number") return String(children)
   if (Array.isArray(children)) return children.map(extractTextFromChildren).join("")
   if (children && typeof children === "object" && "props" in children) {
-    return extractTextFromChildren((children as ReactElement<{children?: ReactNode}>).props.children)
+    return extractTextFromChildren(
+      (children as ReactElement<{ children?: ReactNode }>).props.children,
+    )
   }
   return ""
 }
@@ -77,7 +79,9 @@ export function computeFileStats(content: string): FileStats {
   return { lineCount: lines, wordCount: words, readingTime: Math.ceil(words / 200) }
 }
 
-export function findNearestHeadingAbove(contentEl: HTMLElement): { id: string; text: string } | null {
+export function findNearestHeadingAbove(
+  contentEl: HTMLElement,
+): { id: string; text: string } | null {
   const headings = contentEl.querySelectorAll("h1[id], h2[id], h3[id], h4[id]")
   const scrollTop = contentEl.scrollTop
   let nearest: HTMLElement | null = null
@@ -127,12 +131,9 @@ export const vaultFiles: VaultFile[] = Object.entries(vaultModules)
   })
   .sort((a, b) => a.label.localeCompare(b.label))
 
-export const groupedFiles = vaultFiles.reduce<Record<string, VaultFile[]>>(
-  (acc, file) => {
-    const group = file.category
-    if (!acc[group]) acc[group] = []
-    acc[group].push(file)
-    return acc
-  },
-  {}
-)
+export const groupedFiles = vaultFiles.reduce<Record<string, VaultFile[]>>((acc, file) => {
+  const group = file.category
+  if (!acc[group]) acc[group] = []
+  acc[group].push(file)
+  return acc
+}, {})

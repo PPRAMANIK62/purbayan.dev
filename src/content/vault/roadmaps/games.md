@@ -31,14 +31,14 @@ under the hood when someone says "netcode."**
 
 Game networking is fundamentally different from web networking:
 
-| Aspect | Web (HTTP/REST) | Game Networking |
-|--------|----------------|-----------------|
-| Protocol | TCP (reliable, ordered) | UDP (unreliable, unordered) — by design |
-| Latency tolerance | 200-500ms acceptable | 16-50ms or it "feels wrong" |
-| Data pattern | Request-response | Continuous stream, 20-128 times/second |
-| State model | Stateless | Entire world must stay in sync |
-| Failure mode | Retry the request | Can't retry — game already moved on |
-| Serialization | JSON | Custom binary, every byte counts |
+| Aspect            | Web (HTTP/REST)         | Game Networking                         |
+| ----------------- | ----------------------- | --------------------------------------- |
+| Protocol          | TCP (reliable, ordered) | UDP (unreliable, unordered) — by design |
+| Latency tolerance | 200-500ms acceptable    | 16-50ms or it "feels wrong"             |
+| Data pattern      | Request-response        | Continuous stream, 20-128 times/second  |
+| State model       | Stateless               | Entire world must stay in sync          |
+| Failure mode      | Retry the request       | Can't retry — game already moved on     |
+| Serialization     | JSON                    | Custom binary, every byte counts        |
 
 Games use UDP because TCP's reliability guarantees (retransmission, ordering)
 add latency. A late packet is worse than a lost packet — you'd rather drop
@@ -51,16 +51,19 @@ an old position update than delay the current frame waiting for it.
 Glenn Fiedler (gafferongames.com — THE bible) defines three strategies:
 
 ### 1. Deterministic Lockstep
+
 Send only inputs, both sides simulate identically. Bandwidth scales with
 input size, not world size. Used in RTS games (StarCraft, Age of Empires).
 Hard because floating-point determinism is a nightmare.
 
 ### 2. Snapshot Interpolation
+
 Server sends full world snapshots, clients interpolate between them.
 Simple, robust, no determinism needed. Used in FPS games (Quake, Overwatch).
 Bandwidth scales with world size.
 
 ### 3. State Synchronization
+
 Hybrid: simulation runs on both sides, server sends corrections. Only sends
 updates for objects that changed. Used in physics-heavy games. Complex but
 bandwidth-efficient.
@@ -69,18 +72,18 @@ bandwidth-efficient.
 
 ## ⏳ The Standard Tech Stack
 
-| Layer | AAA / Corporate | Indie / Low-Level Hacker |
-|-------|----------------|--------------------------|
-| **Language** | C++ (Unreal), C# (Unity) | Rust, C, Zig, Go |
-| **Engine** | Unreal, Unity | Bevy (Rust), Godot, custom |
-| **Networking** | Unreal Replication, Netcode for GameObjects | lightyear, bevy_replicon, raw sockets, enet |
-| **Protocol** | UDP with custom reliability | Raw UDP, netcode-rs (Glenn Fiedler's protocol) |
-| **ECS** | Built into engine | Bevy ECS, hecs, specs, flecs (C/C++) |
-| **Serialization** | Protobuf, FlatBuffers | Custom binary, bitcode (Rust), MessagePack |
-| **Rollback** | In-house | ggrs (Rust GGPO), GGPO (C++) |
-| **P2P (browser)** | Proprietary | matchbox (Rust/WebRTC) |
-| **Session DB** | Custom | Redis, PostgreSQL |
-| **Infrastructure** | Dedicated bare-metal | Fly.io, dedicated VPS, edge compute |
+| Layer              | AAA / Corporate                             | Indie / Low-Level Hacker                       |
+| ------------------ | ------------------------------------------- | ---------------------------------------------- |
+| **Language**       | C++ (Unreal), C# (Unity)                    | Rust, C, Zig, Go                               |
+| **Engine**         | Unreal, Unity                               | Bevy (Rust), Godot, custom                     |
+| **Networking**     | Unreal Replication, Netcode for GameObjects | lightyear, bevy_replicon, raw sockets, enet    |
+| **Protocol**       | UDP with custom reliability                 | Raw UDP, netcode-rs (Glenn Fiedler's protocol) |
+| **ECS**            | Built into engine                           | Bevy ECS, hecs, specs, flecs (C/C++)           |
+| **Serialization**  | Protobuf, FlatBuffers                       | Custom binary, bitcode (Rust), MessagePack     |
+| **Rollback**       | In-house                                    | ggrs (Rust GGPO), GGPO (C++)                   |
+| **P2P (browser)**  | Proprietary                                 | matchbox (Rust/WebRTC)                         |
+| **Session DB**     | Custom                                      | Redis, PostgreSQL                              |
+| **Infrastructure** | Dedicated bare-metal                        | Fly.io, dedicated VPS, edge compute            |
 
 ---
 
@@ -128,6 +131,7 @@ message format (packet header + payload), implement serialization/
 deserialization by hand, handle packet loss gracefully.
 
 **Structure:**
+
 ```
 src/
   protocol.rs    — packet header struct, serialize to bytes, deserialize
@@ -137,6 +141,7 @@ src/
 ```
 
 **Critical learnings to focus on:**
+
 - **Why UDP, not TCP**: Run both side by side. Measure latency. TCP has
   head-of-line blocking — one lost packet delays ALL subsequent packets.
   UDP lets you just move on.
@@ -167,6 +172,7 @@ broadcasts game state. Clients render at whatever FPS they can,
 interpolating between server snapshots.
 
 **Structure:**
+
 ```
 shared/
   game_state.rs  — ball position, paddle positions, score (serializable)
@@ -179,12 +185,13 @@ client/
 ```
 
 **Critical learnings to focus on:**
+
 - **"Fix Your Timestep!"**: Glenn Fiedler's most important article. Game
   logic MUST run at a fixed rate (e.g., 60 updates/sec), decoupled from
   render framerate. Accumulate time, step in fixed increments, render
   with interpolation.
 - **The game loop**: `while running { process_input(); update(fixed_dt);
-  render(interpolation_alpha); }` — the heartbeat of every game.
+render(interpolation_alpha); }` — the heartbeat of every game.
 - **Tick rate**: Server simulation rate. CS2 runs at 64Hz (now 128Hz).
   Higher = smoother but more bandwidth/CPU. Feel the difference between
   20Hz, 60Hz, and 128Hz.
@@ -207,6 +214,7 @@ Clients send inputs (move direction, shoot), server simulates everything
 tells them. Add entity interpolation so other players look smooth.
 
 **Structure:**
+
 ```
 shared/
   components.rs  — Position, Velocity, Health, Bullet
@@ -223,6 +231,7 @@ client/
 ```
 
 **Critical learnings to focus on:**
+
 - **Authoritative server**: The server is GOD. The client is a dumb
   terminal. If the client says "I moved to (100, 200)" the server says
   "No, you're at (99, 198) because there's a wall." Fundamental
@@ -252,6 +261,7 @@ there's a mismatch, replays all inputs since that server tick to
 reconcile.
 
 **Structure:**
+
 ```
 client/
   prediction.rs     — run local player simulation ahead of server
@@ -262,6 +272,7 @@ client/
 ```
 
 **Critical learnings to focus on:**
+
 - **Client-side prediction**: Client doesn't wait for server. Applies
   input IMMEDIATELY and simulates locally. Player sees instant response.
   But client state is speculative — it could be wrong.
@@ -291,6 +302,7 @@ Write the archetype storage, the query system, the system scheduler. Build
 a simple game on top of it to prove it works.
 
 **Structure:**
+
 ```
 src/
   world.rs       — World { entities, archetypes, component_storage }
@@ -307,6 +319,7 @@ game/
 ```
 
 **Critical learnings to focus on:**
+
 - **Data-oriented design**: OOP says "objects have data and behavior."
   ECS says "data is stored separately, behavior is functions over data."
   This is a 10-100x performance difference because of CPU cache.
@@ -339,6 +352,7 @@ exchanged, and when a remote input arrives late, the game rolls back to
 that frame, applies it, and re-simulates forward to the current frame.
 
 **Structure:**
+
 ```
 src/
   game_state.rs    — Clone + Eq + Serialize, fully deterministic
@@ -351,6 +365,7 @@ src/
 ```
 
 **Critical learnings to focus on:**
+
 - **Deterministic simulation**: Must be a pure function: same inputs =
   same output, ALWAYS. No randomness (use seeded RNG), no floating point
   (use fixed-point math), no HashMap iteration (non-deterministic order).
@@ -381,6 +396,7 @@ reliability (selective ACKs), ordering (sequence numbers), fragmentation
 This is what enet, GameNetworkingSockets, and netcode-rs do internally.
 
 **Structure:**
+
 ```
 src/
   socket.rs           — raw UDP wrapper, non-blocking
@@ -396,6 +412,7 @@ src/
 ```
 
 **Critical learnings to focus on:**
+
 - **Selective ACKs**: TCP retransmits everything after a loss. Games use a
   bitfield: "I received 100, 99, 98, 97, 95 (missed 96)." Only 96 resent.
 - **Sequence number wrapping**: 16-bit (0-65535). When they wrap,
@@ -425,6 +442,7 @@ World modifications replicated to nearby players. Combines rendering,
 networking, spatial data structures, and optimization.
 
 **Structure:**
+
 ```
 shared/
   chunk.rs         — Chunk<16x16x16>, run-length encoding, serialization
@@ -442,6 +460,7 @@ client/
 ```
 
 **Critical learnings to focus on:**
+
 - **Interest management / Area of Interest**: Server doesn't send entire
   world. Tracks what each player can "see" (loaded chunk radius). Sends
   updates only for that area. How every MMO/open-world game works.
@@ -470,6 +489,7 @@ assigns them to a game, server instance spins up, players redirect to it.
 After game ends, results persist, players return to lobby.
 
 **Structure:**
+
 ```
 gateway/
   src/main.rs        — TLS listener, auth, route to services
@@ -491,6 +511,7 @@ infra/
 ```
 
 **Critical learnings to focus on:**
+
 - **Service architecture for games**: Game server is just ONE piece. Need
   auth, matchmaking, lobby, session management, leaderboards, anti-cheat.
 - **Matchmaking algorithms**: Elo, Glicko-2, TrueSkill. Tradeoff between
@@ -519,6 +540,7 @@ solver, fixed-point arithmetic (no floats), state synchronization with
 authority handoff, jitter-free rendering.
 
 **Structure:**
+
 ```
 physics/
   math/
@@ -547,6 +569,7 @@ client/
 ```
 
 **Critical learnings to focus on:**
+
 - **Fixed-point arithmetic**: Floating-point is NOT deterministic across
   CPUs. For deterministic physics, use fixed-point math (integers
   representing fractional values). How StarCraft 2 and Factorio do it.
@@ -575,47 +598,47 @@ engine source (Rust).
 
 Read these in order, before or alongside the projects:
 
-| # | Resource | What It Teaches |
-|---|----------|-----------------|
-| 1 | Glenn Fiedler — gafferongames.com (ALL articles) | Everything. Start with "UDP vs TCP", "Fix Your Timestep!", Networked Physics series. |
-| 2 | Gabriel Gambetta — Fast-Paced Multiplayer (4 parts) | Client-server, prediction, reconciliation, interpolation. Has a live demo. |
-| 3 | Valve Developer Wiki — Source Multiplayer Networking | How Half-Life/CS implements networking. Tick rate, interpolation, lag comp. |
-| 4 | Jimmy's Blog — outof.pizza/posts/rollback/ | Practical rollback implementation with code. |
-| 5 | GGPO — ggpo.net | The rollback networking SDK, theory and implementation. |
-| 6 | Erin Catto — GDC talks | Constraint solving, Box2D internals. |
+| #   | Resource                                             | What It Teaches                                                                      |
+| --- | ---------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| 1   | Glenn Fiedler — gafferongames.com (ALL articles)     | Everything. Start with "UDP vs TCP", "Fix Your Timestep!", Networked Physics series. |
+| 2   | Gabriel Gambetta — Fast-Paced Multiplayer (4 parts)  | Client-server, prediction, reconciliation, interpolation. Has a live demo.           |
+| 3   | Valve Developer Wiki — Source Multiplayer Networking | How Half-Life/CS implements networking. Tick rate, interpolation, lag comp.          |
+| 4   | Jimmy's Blog — outof.pizza/posts/rollback/           | Practical rollback implementation with code.                                         |
+| 5   | GGPO — ggpo.net                                      | The rollback networking SDK, theory and implementation.                              |
+| 6   | Erin Catto — GDC talks                               | Constraint solving, Box2D internals.                                                 |
 
 ---
 
 ## ⏳ Key Open-Source Projects to Study
 
-| Project | Language | What to Learn |
-|---------|----------|---------------|
-| `cBournhonesque/lightyear` | Rust | Production Bevy multiplayer networking. Prediction, interpolation, interest management. |
-| `simgine/bevy_replicon` | Rust | Server-authoritative replication for Bevy. Clean API design. |
-| `gschup/ggrs` | Rust | GGPO rollback implementation. |
-| `johanhelsing/matchbox` | Rust | P2P WebRTC for Bevy games (works in browser). |
-| `pond3r/ggpo` | C++ | The original rollback SDK. |
-| `lsalzman/enet` | C | The OG game networking library. Simple, battle-tested UDP reliability. |
-| `ValveSoftware/GameNetworkingSockets` | C++ | Valve's production networking library. |
-| `veloren/veloren` | Rust | Open-world voxel RPG. Full multiplayer, ECS, massive codebase. |
-| `andrewgazelka/hyperion` | Rust | High-perf Minecraft server. Bevy ECS. Insane optimization. |
+| Project                               | Language | What to Learn                                                                           |
+| ------------------------------------- | -------- | --------------------------------------------------------------------------------------- |
+| `cBournhonesque/lightyear`            | Rust     | Production Bevy multiplayer networking. Prediction, interpolation, interest management. |
+| `simgine/bevy_replicon`               | Rust     | Server-authoritative replication for Bevy. Clean API design.                            |
+| `gschup/ggrs`                         | Rust     | GGPO rollback implementation.                                                           |
+| `johanhelsing/matchbox`               | Rust     | P2P WebRTC for Bevy games (works in browser).                                           |
+| `pond3r/ggpo`                         | C++      | The original rollback SDK.                                                              |
+| `lsalzman/enet`                       | C        | The OG game networking library. Simple, battle-tested UDP reliability.                  |
+| `ValveSoftware/GameNetworkingSockets` | C++      | Valve's production networking library.                                                  |
+| `veloren/veloren`                     | Rust     | Open-world voxel RPG. Full multiplayer, ECS, massive codebase.                          |
+| `andrewgazelka/hyperion`              | Rust     | High-perf Minecraft server. Bevy ECS. Insane optimization.                              |
 
 ---
 
 ## ✅ Summary: What Each Project Teaches
 
-| # | Project | Core Concept | Company Relevance |
-|---|---------|-------------|-------------------|
-| 1 | `rawnet` | UDP sockets + binary protocol | Foundation — nothing works without this |
-| 2 | `ticktock` | Game loop + fixed timestep | The heartbeat of all games |
-| 3 | `authserver` | Authoritative server + interpolation | How real multiplayer games work |
-| 4 | `predict` | Client prediction + reconciliation | Why modern games feel responsive |
-| 5 | `tinecs` | ECS from scratch | Data-oriented design, 10-100x perf |
-| 6 | `rollback-fighters` | Rollback netcode | Fighting game industry standard |
-| 7 | `netproto` | Custom reliable UDP protocol | What every networking lib does |
-| 8 | `voxelworld` | Interest management + spatial data | Scaling game worlds |
-| 9 | `arenanet` | Game infra + matchmaking | Production game backend systems |
-| 10 | `physworld` | Deterministic networked physics | The final boss of game networking |
+| #   | Project             | Core Concept                         | Company Relevance                       |
+| --- | ------------------- | ------------------------------------ | --------------------------------------- |
+| 1   | `rawnet`            | UDP sockets + binary protocol        | Foundation — nothing works without this |
+| 2   | `ticktock`          | Game loop + fixed timestep           | The heartbeat of all games              |
+| 3   | `authserver`        | Authoritative server + interpolation | How real multiplayer games work         |
+| 4   | `predict`           | Client prediction + reconciliation   | Why modern games feel responsive        |
+| 5   | `tinecs`            | ECS from scratch                     | Data-oriented design, 10-100x perf      |
+| 6   | `rollback-fighters` | Rollback netcode                     | Fighting game industry standard         |
+| 7   | `netproto`          | Custom reliable UDP protocol         | What every networking lib does          |
+| 8   | `voxelworld`        | Interest management + spatial data   | Scaling game worlds                     |
+| 9   | `arenanet`          | Game infra + matchmaking             | Production game backend systems         |
+| 10  | `physworld`         | Deterministic networked physics      | The final boss of game networking       |
 
 **Recommended path:** Start with 1-2-3-4 in order (~2-3 months). Then
 choose based on what excites you or what the company needs. Project 5 (ECS)

@@ -50,9 +50,7 @@ export function detectFlags(
     const uncaptured = [1, 2, 3, 4, 5, 6, 7].filter((n) => !allFound.includes(n))
     if (uncaptured.length > 0) {
       const randomFlag = uncaptured[Math.floor(Math.random() * uncaptured.length)]
-      celebrationLines.push(
-        { text: `  Hint: ${getRandomHint(randomFlag)}`, color: "muted" },
-      )
+      celebrationLines.push({ text: `  Hint: ${getRandomHint(randomFlag)}`, color: "muted" })
     }
     celebrationLines.push({ text: "", color: "default" })
   }

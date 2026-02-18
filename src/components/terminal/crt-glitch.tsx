@@ -21,10 +21,7 @@ export function CrtGlitch({ trigger, onComplete }: CrtGlitchProps) {
   if (!active) return null
 
   return (
-    <div
-      className="fixed inset-0 z-[200] pointer-events-none crt-glitch"
-      aria-hidden="true"
-    >
+    <div className="fixed inset-0 z-[200] pointer-events-none crt-glitch" aria-hidden="true">
       <div className="absolute inset-0 crt-scanlines" />
     </div>
   )

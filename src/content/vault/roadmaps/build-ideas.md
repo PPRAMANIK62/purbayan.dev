@@ -21,6 +21,7 @@ beautifully — syntax highlighted, grouped by category (shell, editor, WM),
 with a visual "setup score" or "ricing grade."
 
 **Why build it:**
+
 - Directly related to your interests (dotfiles, Linux, ricing)
 - Could get stars — the Linux community loves this stuff
 - Demonstrates GitHub API, syntax highlighting, and design skills
@@ -43,6 +44,7 @@ Like type-challenges but with a beautiful UI, hints, and a progression
 system.
 
 **Why build it:**
+
 - You say you love TypeScript. This PROVES it at a deep level.
 - Educational tools get shared widely (good for stars/visibility)
 - Demonstrates advanced TS knowledge (generics, conditional types, mapped types)
@@ -64,6 +66,7 @@ beautifully — side-by-side, syntax highlighted, with keyboard navigation.
 Like `delta` but more visual, maybe with inline comments.
 
 **Why build it:**
+
 - Rust TUI app — extends your 4at and seroost narrative
 - Developer tools get stars if they solve a real pain point
 - Demonstrates Rust, TUI development, and git internals
@@ -85,6 +88,7 @@ weather, bookmarks, quick links, Spotify now-playing, system status.
 Tokyo Night themed. Exports/imports config as JSON.
 
 **Why build it:**
+
 - Visual, design-heavy project that showcases UI skills
 - Daily-use tool (you'd actually use it)
 - Widget architecture demonstrates component composition
@@ -106,12 +110,14 @@ Others can watch the replay in the browser with full formatting. Maybe
 even live-stream terminal sessions.
 
 **Why build it:**
+
 - Combines your web + systems duality perfectly
 - Terminal recording is niche but useful (conference talks, tutorials)
 - Real-time streaming shows WebSocket/infrastructure skills
 - Could actually get traction as an indie tool
 
 **Tech:**
+
 - Backend: Rust (recording daemon) or Go
 - Frontend: Next.js, xterm.js, WebSocket
 - Storage: S3/R2 for recordings
@@ -130,6 +136,7 @@ tools (Vim, VS Code, Hyprland, tmux). Users see a prompt, press the
 correct keys, and get scored. Leaderboard optional.
 
 **Why build it:**
+
 - Fun, shareable, and viral potential
 - Related to your CLI/keyboard-driven workflow aesthetic
 - Quick to build and polish
@@ -146,31 +153,35 @@ correct keys, and get scored. Leaderboard optional.
 **Build ONE of these before launching the portfolio:**
 
 ### If you want stars and visibility → Idea 1 (`dotbrowser`)
+
 It's the most shareable, most related to your identity, and most
 likely to resonate with the Linux/ricing community.
 
 ### If you want to flex TypeScript depth → Idea 2 (`typecheck`)
+
 Proves you understand TypeScript at a level beyond "I use it for React."
 
 ### If you want the most impressive single project → Idea 5 (`shellshare`)
+
 Full-stack + systems + real-time. This would be a Tier 1 hero project
 immediately. But it's also the most work.
 
 ### If you want something fast → Idea 6 (`keybind`)
+
 Build it in a weekend. Ship it. Write a blog post. Move on.
 
 ---
 
 ## ✅ What NOT to Build
 
-| Avoid | Why |
-|-------|-----|
-| Another todo app | Please. |
-| Another chat app | You already have 4at. |
-| Another dashboard | You already have ad-my-brand-insights. |
-| A social media clone | Twitter/Instagram clones say nothing new. |
-| An AI wrapper | "I called the OpenAI API" is not a project. |
-| A portfolio template | The portfolio itself is the project. |
+| Avoid                | Why                                         |
+| -------------------- | ------------------------------------------- |
+| Another todo app     | Please.                                     |
+| Another chat app     | You already have 4at.                       |
+| Another dashboard    | You already have ad-my-brand-insights.      |
+| A social media clone | Twitter/Instagram clones say nothing new.   |
+| An AI wrapper        | "I called the OpenAI API" is not a project. |
+| A portfolio template | The portfolio itself is the project.        |
 
 ---
 

@@ -1,8 +1,4 @@
-import {
-  registerCommand,
-  type CommandContext,
-  type CommandResult,
-} from "./index"
+import { registerCommand, type CommandContext, type CommandResult } from "./index"
 import type { OutputLine } from "../terminal-output"
 
 // ---------------------------------------------------------------------------
@@ -158,9 +154,7 @@ function curlCommand(args: string[], _ctx: CommandContext): CommandResult {
   }
 
   return {
-    lines: [
-      { text: `curl: (6) Could not resolve host: ${url}`, color: "error" },
-    ],
+    lines: [{ text: `curl: (6) Could not resolve host: ${url}`, color: "error" }],
   }
 }
 

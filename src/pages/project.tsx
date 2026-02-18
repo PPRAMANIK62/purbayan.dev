@@ -36,17 +36,11 @@ export default function ProjectPage() {
         <FadeUp>
           <div>
             <h1 className="text-4xl font-mono font-bold">{project.title}</h1>
-            <p className="text-muted-foreground text-lg mt-2">
-              {project.tagline}
-            </p>
+            <p className="text-muted-foreground text-lg mt-2">{project.tagline}</p>
 
             <div className="flex flex-wrap gap-2 mt-4">
               {project.tags.map((tag) => (
-                <Badge
-                  key={tag}
-                  variant="outline"
-                  className="font-mono text-xs"
-                >
+                <Badge key={tag} variant="outline" className="font-mono text-xs">
                   {tag}
                 </Badge>
               ))}
@@ -54,22 +48,14 @@ export default function ProjectPage() {
 
             <div className="flex items-center gap-4 mt-6">
               <Button variant="outline" asChild>
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href={project.github} target="_blank" rel="noopener noreferrer">
                   <Github className="size-4" />
                   View on GitHub
                 </a>
               </Button>
               {project.demo && (
                 <Button variant="outline" asChild>
-                  <a
-                    href={project.demo}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <a href={project.demo} target="_blank" rel="noopener noreferrer">
                     <ExternalLink className="size-4" />
                     Live Demo
                   </a>
@@ -83,9 +69,7 @@ export default function ProjectPage() {
         <FadeUp delay={0.1}>
           <div>
             <SectionHeading title="the problem" />
-            <p className="text-secondary-foreground leading-relaxed mt-4">
-              {project.problem}
-            </p>
+            <p className="text-secondary-foreground leading-relaxed mt-4">{project.problem}</p>
           </div>
         </FadeUp>
 
@@ -93,9 +77,7 @@ export default function ProjectPage() {
         <FadeUp delay={0.2}>
           <div>
             <SectionHeading title="the solution" />
-            <p className="text-secondary-foreground leading-relaxed mt-4">
-              {project.solution}
-            </p>
+            <p className="text-secondary-foreground leading-relaxed mt-4">{project.solution}</p>
           </div>
         </FadeUp>
 
@@ -129,10 +111,7 @@ export default function ProjectPage() {
 
         {/* Back Link */}
         <FadeUp delay={0.6}>
-          <Link
-            to="/projects"
-            className="text-primary font-mono hover:underline"
-          >
+          <Link to="/projects" className="text-primary font-mono hover:underline">
             ← back to projects
           </Link>
         </FadeUp>

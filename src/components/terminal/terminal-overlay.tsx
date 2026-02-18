@@ -35,15 +35,24 @@ export function TerminalOverlay() {
     setTheme,
     snakeHighScore,
     updateSnakeHighScore,
-  } = useTerminalStore(useShallow((s) => ({
-    isOpen: s.isOpen, closeTerminal: s.closeTerminal, flagsFound: s.flagsFound,
-    soundEnabled: s.soundEnabled, toggleSound: s.toggleSound,
-    currentDirectory: s.currentDirectory, commandHistory: s.commandHistory,
-    addToHistory: s.addToHistory, setDirectory: s.setDirectory,
-    captureFlag: s.captureFlag, terminalTheme: s.terminalTheme,
-    setTheme: s.setTheme, snakeHighScore: s.snakeHighScore,
-    updateSnakeHighScore: s.updateSnakeHighScore,
-  })))
+  } = useTerminalStore(
+    useShallow((s) => ({
+      isOpen: s.isOpen,
+      closeTerminal: s.closeTerminal,
+      flagsFound: s.flagsFound,
+      soundEnabled: s.soundEnabled,
+      toggleSound: s.toggleSound,
+      currentDirectory: s.currentDirectory,
+      commandHistory: s.commandHistory,
+      addToHistory: s.addToHistory,
+      setDirectory: s.setDirectory,
+      captureFlag: s.captureFlag,
+      terminalTheme: s.terminalTheme,
+      setTheme: s.setTheme,
+      snakeHighScore: s.snakeHighScore,
+      updateSnakeHighScore: s.updateSnakeHighScore,
+    })),
+  )
 
   const sounds = useTerminalSounds()
 
@@ -58,9 +67,7 @@ export function TerminalOverlay() {
   const appendLines = useCallback((newLines: OutputLine[]) => {
     setOutputLines((prev) => {
       const combined = [...prev, ...newLines]
-      return combined.length > MAX_LINES
-        ? combined.slice(combined.length - MAX_LINES)
-        : combined
+      return combined.length > MAX_LINES ? combined.slice(combined.length - MAX_LINES) : combined
     })
   }, [])
 
@@ -230,9 +237,7 @@ export function TerminalOverlay() {
 
       if (direction === "up") {
         const nextIndex =
-          historyIndex === -1
-            ? commandHistory.length - 1
-            : Math.max(0, historyIndex - 1)
+          historyIndex === -1 ? commandHistory.length - 1 : Math.max(0, historyIndex - 1)
         setHistoryIndex(nextIndex)
         setInputValue(commandHistory[nextIndex] ?? "")
       } else {
@@ -272,9 +277,7 @@ export function TerminalOverlay() {
               PurbayanOS v1.0.0 — Tokyo Night Edition
             </span>
             <div className="flex items-center gap-3">
-              <span className="text-tokyo-yellow text-xs">
-                [{flagsFound.length}/7 flags]
-              </span>
+              <span className="text-tokyo-yellow text-xs">[{flagsFound.length}/7 flags]</span>
               <button
                 type="button"
                 onClick={(e) => {
@@ -303,9 +306,7 @@ export function TerminalOverlay() {
           {gameMode ? (
             <div className="flex-1 flex flex-col items-center justify-center select-none">
               <div className="text-center mb-4">
-                <h2 className="text-tokyo-green text-2xl font-bold tracking-[0.5em] mb-1">
-                  SNAKE
-                </h2>
+                <h2 className="text-tokyo-green text-2xl font-bold tracking-[0.5em] mb-1">SNAKE</h2>
                 <p className="text-muted-foreground text-xs">
                   Eat ● to grow · Don't hit walls or yourself
                 </p>
@@ -314,12 +315,17 @@ export function TerminalOverlay() {
                 {gameLines.map((line, i) => {
                   const color = line.color ?? "default"
                   const colorClass =
-                    color === "success" ? "text-tokyo-green" :
-                    color === "warning" ? "text-tokyo-yellow" :
-                    color === "error" ? "text-tokyo-red" :
-                    color === "info" ? "text-tokyo-cyan" :
-                    color === "muted" ? "text-muted-foreground" :
-                    "text-foreground"
+                    color === "success"
+                      ? "text-tokyo-green"
+                      : color === "warning"
+                        ? "text-tokyo-yellow"
+                        : color === "error"
+                          ? "text-tokyo-red"
+                          : color === "info"
+                            ? "text-tokyo-cyan"
+                            : color === "muted"
+                              ? "text-muted-foreground"
+                              : "text-foreground"
                   return (
                     <div key={i} className={colorClass}>
                       {line.text}
@@ -329,17 +335,11 @@ export function TerminalOverlay() {
               </div>
             </div>
           ) : (
-            <div
-              ref={scrollRef}
-              className="flex-1 overflow-y-auto p-4 leading-relaxed"
-            >
+            <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 leading-relaxed">
               <TerminalOutput lines={outputLines} />
 
               <div className="flex items-start">
-                <TerminalPrompt
-                  cwd={currentDirectory}
-                  flagCount={flagsFound.length}
-                />
+                <TerminalPrompt cwd={currentDirectory} flagCount={flagsFound.length} />
                 <TerminalInput
                   value={inputValue}
                   onChange={setInputValue}

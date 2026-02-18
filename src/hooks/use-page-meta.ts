@@ -9,9 +9,7 @@ interface PageMeta {
 export function usePageMeta({ title, description }: PageMeta = {}): void {
   useEffect(() => {
     const prevTitle = document.title
-    const descriptionTag = document.querySelector<HTMLMetaElement>(
-      'meta[name="description"]',
-    )
+    const descriptionTag = document.querySelector<HTMLMetaElement>('meta[name="description"]')
     const prevDescription = descriptionTag?.getAttribute("content") ?? ""
 
     document.title = title ? `${title} — ${SITE_NAME}` : SITE_NAME

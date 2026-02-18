@@ -14,23 +14,40 @@ function VaultViewer() {
   const contentRef = useRef<HTMLDivElement>(null)
   const [showShortcutHelp, setShowShortcutHelp] = useState(false)
 
-  const activeFile = active ? vaultFiles.find((f) => `${f.category}/${f.slug}` === active) ?? null : null
+  const activeFile = active
+    ? (vaultFiles.find((f) => `${f.category}/${f.slug}` === active) ?? null)
+    : null
   const fileKeys = useMemo(() => vaultFiles.map((f) => `${f.category}/${f.slug}`), [])
   const vaultStats = useMemo(() => {
     let totalWords = 0
     for (const f of vaultFiles) totalWords += f.content.split(/\s+/).filter(Boolean).length
-    return { totalDocs: vaultFiles.length, totalWords, totalReadingTime: Math.ceil(totalWords / 200) }
+    return {
+      totalDocs: vaultFiles.length,
+      totalWords,
+      totalReadingTime: Math.ceil(totalWords / 200),
+    }
   }, [])
   const toc = useMemo(() => (activeFile ? extractToc(activeFile.content) : []), [activeFile])
-  const fileStats = useMemo(() => (activeFile ? computeFileStats(activeFile.content) : null), [activeFile])
+  const fileStats = useMemo(
+    () => (activeFile ? computeFileStats(activeFile.content) : null),
+    [activeFile],
+  )
 
   const bookmarks = useVaultBookmarks(active, setActive, contentRef)
-  const progress = useVaultProgress(active, contentRef, bookmarks.pendingScrollTarget, bookmarks.setShowContinuePill)
+  const progress = useVaultProgress(
+    active,
+    contentRef,
+    bookmarks.pendingScrollTarget,
+    bookmarks.setShowContinuePill,
+  )
 
   bookmarks.checkboxIndexRef.current = 0
   const components = mdComponents(
-    bookmarks.currentBookmarks, bookmarks.toggleBookmark,
-    bookmarks.toggledCheckboxes, bookmarks.onToggleCheckbox, bookmarks.checkboxIndexRef
+    bookmarks.currentBookmarks,
+    bookmarks.toggleBookmark,
+    bookmarks.toggledCheckboxes,
+    bookmarks.onToggleCheckbox,
+    bookmarks.checkboxIndexRef,
   )
 
   return (
@@ -64,9 +81,7 @@ function VaultViewer() {
 }
 
 export default function VaultPage() {
-  const [unlocked, setUnlocked] = useState(
-    () => sessionStorage.getItem(SESSION_KEY) === "true"
-  )
+  const [unlocked, setUnlocked] = useState(() => sessionStorage.getItem(SESSION_KEY) === "true")
 
   useEffect(() => {
     const stored = sessionStorage.getItem(SESSION_KEY) === "true"
@@ -85,11 +100,7 @@ export default function VaultPage() {
           <VaultViewer />
         </motion.div>
       ) : (
-        <motion.div
-          key="gate"
-          exit={{ opacity: 0, scale: 0.98 }}
-          transition={{ duration: 0.3 }}
-        >
+        <motion.div key="gate" exit={{ opacity: 0, scale: 0.98 }} transition={{ duration: 0.3 }}>
           <PasswordGate onUnlock={() => setUnlocked(true)} />
         </motion.div>
       )}

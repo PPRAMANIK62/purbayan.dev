@@ -994,46 +994,20 @@ export const ROOT: FSNode = dir("/", [
           file("README.md", CANVAS_KIT_README),
           file("package.json", CANVAS_KIT_PACKAGE),
         ]),
-        dir("4at", [
-          file("README.md", FOURAT_README),
-          file("main.rs", FOURAT_MAIN_RS),
-        ]),
-        dir("seroost", [
-          file("README.md", SEROOST_README),
-          file("model.rs", SEROOST_MODEL_RS),
-        ]),
-        dir("musializer", [
-          file("README.md", MUSIALIZER_README),
-          file("fft.h", MUSIALIZER_FFT_H),
-        ]),
+        dir("4at", [file("README.md", FOURAT_README), file("main.rs", FOURAT_MAIN_RS)]),
+        dir("seroost", [file("README.md", SEROOST_README), file("model.rs", SEROOST_MODEL_RS)]),
+        dir("musializer", [file("README.md", MUSIALIZER_README), file("fft.h", MUSIALIZER_FFT_H)]),
       ]),
-      dir("documents", [
-        file("resume.txt", RESUME_TXT),
-        file("about.txt", ABOUT_TXT),
-      ]),
-      dir(".secrets", [
-        file(".flag.txt", FLAG_TXT),
-        file("notes.txt", SECRETS_NOTES),
-      ]),
-      dir("games", [
-        file("snake", SNAKE_FILE, { executable: true }),
-      ]),
+      dir("documents", [file("resume.txt", RESUME_TXT), file("about.txt", ABOUT_TXT)]),
+      dir(".secrets", [file(".flag.txt", FLAG_TXT), file("notes.txt", SECRETS_NOTES)]),
+      dir("games", [file("snake", SNAKE_FILE, { executable: true })]),
     ]),
   ]),
-  dir("etc", [
-    file("hostname", HOSTNAME),
-    file("os-release", OS_RELEASE),
-    file("motd", MOTD),
-  ]),
+  dir("etc", [file("hostname", HOSTNAME), file("os-release", OS_RELEASE), file("motd", MOTD)]),
   dir("usr", [
     dir("share", [
-      dir("man", [
-        file("purbayan.1", MAN_PURBAYAN),
-        file("purbayanOS.1", MAN_PURBAYANOS),
-      ]),
+      dir("man", [file("purbayan.1", MAN_PURBAYAN), file("purbayanOS.1", MAN_PURBAYANOS)]),
     ]),
   ]),
-  dir("tmp", [
-    file(".you-found-me.txt", TMP_FLAG),
-  ]),
+  dir("tmp", [file(".you-found-me.txt", TMP_FLAG)]),
 ])

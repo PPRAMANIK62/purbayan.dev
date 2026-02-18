@@ -3,12 +3,7 @@ import { Link, useLocation } from "react-router-dom"
 import { Menu } from "lucide-react"
 import { useScroll, useMotionValueEvent, motion } from "motion/react"
 import { cn } from "@/lib/utils"
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
 import { CommandPalette } from "@/components/command-palette"
 
 const navLinks = [
@@ -59,9 +54,7 @@ function NavLink({
       <span
         className={cn(
           "absolute -bottom-1 left-0 h-px w-full origin-left transition-transform duration-150",
-          active
-            ? "scale-x-100 bg-primary"
-            : "scale-x-0 bg-foreground group-hover:scale-x-100",
+          active ? "scale-x-100 bg-primary" : "scale-x-0 bg-foreground group-hover:scale-x-100",
         )}
       />
     </Link>
@@ -98,11 +91,7 @@ export function Navbar() {
 
         <nav className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
-            <NavLink
-              key={link.path}
-              to={link.path}
-              active={location.pathname === link.path}
-            >
+            <NavLink key={link.path} to={link.path} active={location.pathname === link.path}>
               {link.label}
             </NavLink>
           ))}
@@ -152,9 +141,7 @@ export function Navbar() {
                 }}
                 className="flex items-center gap-2 font-mono text-sm text-muted-foreground hover:text-foreground transition-colors duration-150"
               >
-                <span className="border border-border/50 text-xs px-2 py-0.5 rounded-md">
-                  ⌘K
-                </span>
+                <span className="border border-border/50 text-xs px-2 py-0.5 rounded-md">⌘K</span>
                 <span>Command palette</span>
               </button>
             </div>

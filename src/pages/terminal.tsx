@@ -6,8 +6,7 @@ import { usePageMeta } from "@/hooks/use-page-meta"
 export default function TerminalPage() {
   usePageMeta({
     title: "PurbayanOS",
-    description:
-      "PurbayanOS — a developer portfolio disguised as a Linux terminal.",
+    description: "PurbayanOS — a developer portfolio disguised as a Linux terminal.",
   })
 
   const openTerminal = useTerminalStore((s) => s.openTerminal)
@@ -27,7 +26,8 @@ export default function TerminalPage() {
       </div>
       <div className="flex md:hidden min-h-screen items-center justify-center bg-background p-6">
         <p className="font-mono text-sm text-muted-foreground text-center leading-relaxed">
-          PurbayanOS requires a keyboard.<br />
+          PurbayanOS requires a keyboard.
+          <br />
           Come back on desktop.
         </p>
       </div>

@@ -6,7 +6,9 @@ export interface SnakeGame {
   start(): void
   stop(): void
   handleKey(key: string): void
-  onFrame(callback: (frame: string[], score: number, highScore: number, gameOver: boolean) => void): void
+  onFrame(
+    callback: (frame: string[], score: number, highScore: number, gameOver: boolean) => void,
+  ): void
   onFlag(callback: () => void): void
   onEat(callback: () => void): void
   onGameOver(callback: () => void): void
@@ -59,7 +61,9 @@ export function createSnakeGame(initialHighScore: number): SnakeGame {
   let flagFired = false
 
   // Callbacks
-  let frameCallback: ((frame: string[], score: number, highScore: number, gameOver: boolean) => void) | null = null
+  let frameCallback:
+    | ((frame: string[], score: number, highScore: number, gameOver: boolean) => void)
+    | null = null
   let flagCallback: (() => void) | null = null
   let eatCallback: (() => void) | null = null
   let gameOverCallback: (() => void) | null = null
@@ -302,7 +306,9 @@ export function createSnakeGame(initialHighScore: number): SnakeGame {
     clearTickInterval()
   }
 
-  function onFrame(callback: (frame: string[], score: number, highScore: number, gameOver: boolean) => void): void {
+  function onFrame(
+    callback: (frame: string[], score: number, highScore: number, gameOver: boolean) => void,
+  ): void {
     frameCallback = callback
   }
 

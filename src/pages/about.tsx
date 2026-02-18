@@ -22,20 +22,19 @@ export default function AboutPage() {
 
             <div className="mt-6 space-y-4 font-mono text-base md:text-lg leading-relaxed text-secondary-foreground">
               <p>
-                I'm Purbayan — a developer from Kolkata, India,
-                graduating in 2026. I like building things that work well and
-                look clean, whether that's a web app, a TCP server, or my Linux
-                desktop.
+                I'm Purbayan — a developer from Kolkata, India, graduating in 2026. I like building
+                things that work well and look clean, whether that's a web app, a TCP server, or my
+                Linux desktop.
               </p>
               <p>
-                I got into programming through curiosity about how things work
-                under the hood, and that hasn't really changed. I still pick
-                projects mostly based on what I'd learn from them.
+                I got into programming through curiosity about how things work under the hood, and
+                that hasn't really changed. I still pick projects mostly based on what I'd learn
+                from them.
               </p>
             </div>
           </div>
 
-           <div className="flex justify-center md:justify-end md:shrink-0">
+          <div className="flex justify-center md:justify-end md:shrink-0">
             <div className="size-40 md:size-48 rounded-lg border-2 border-primary overflow-hidden shadow-[0_0_20px_rgba(122,162,247,0.15)]">
               <img
                 src="/purbayan.png"
@@ -62,9 +61,7 @@ export default function AboutPage() {
             >
               <div className="flex items-center gap-3">
                 <area.icon className="size-5 text-primary shrink-0" />
-                <h3 className="font-mono font-semibold text-foreground">
-                  {area.title}
-                </h3>
+                <h3 className="font-mono font-semibold text-foreground">{area.title}</h3>
               </div>
               <ul className="mt-3 space-y-1.5 ml-8">
                 {area.points.map((point) => (

@@ -4,10 +4,7 @@ import remarkGfm from "remark-gfm"
 import { motion, AnimatePresence } from "motion/react"
 import { FileText, Bookmark as BookmarkIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
-import {
-  SidebarInset,
-  SidebarTrigger,
-} from "@/components/ui/sidebar"
+import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar"
 import {
   kebabToTitle,
   getSavedProgress,
@@ -53,9 +50,7 @@ function CategoryCard({
                 {f.label}
               </span>
               {progress > 0 && (
-                <span className="text-xs font-mono text-tokyo-green">
-                  {progress}%
-                </span>
+                <span className="text-xs font-mono text-tokyo-green">{progress}%</span>
               )}
             </button>
           )
@@ -96,12 +91,8 @@ function BookmarksSection({
             className="flex items-center gap-2 text-left group"
           >
             <BookmarkIcon className="size-3.5 text-tokyo-yellow" />
-            <span className="font-mono text-sm text-secondary-foreground">
-              {file.label}
-            </span>
-            <span className="text-xs text-muted-foreground font-mono">
-              {bookmark.headingText}
-            </span>
+            <span className="font-mono text-sm text-secondary-foreground">{file.label}</span>
+            <span className="text-xs text-muted-foreground font-mono">{bookmark.headingText}</span>
           </button>
         ))}
       </div>
@@ -137,9 +128,7 @@ function VaultDashboard({
           <span className="text-muted-foreground ml-1">documents</span>
         </div>
         <div>
-          <span className="text-tokyo-green">
-            {stats.totalWords.toLocaleString()}
-          </span>
+          <span className="text-tokyo-green">{stats.totalWords.toLocaleString()}</span>
           <span className="text-muted-foreground ml-1">words</span>
         </div>
         <div>
@@ -159,10 +148,7 @@ function VaultDashboard({
         ))}
       </div>
 
-      <BookmarksSection
-        vaultFiles={vaultFiles}
-        onSelectBookmark={onSelectBookmark}
-      />
+      <BookmarksSection vaultFiles={vaultFiles} onSelectBookmark={onSelectBookmark} />
     </div>
   )
 }
@@ -185,17 +171,14 @@ function TableOfContents({
       </p>
       <ul className="space-y-1">
         {entries.map((entry) => (
-          <li
-            key={entry.id}
-            style={{ paddingLeft: `${(entry.level - 1) * 12}px` }}
-          >
+          <li key={entry.id} style={{ paddingLeft: `${(entry.level - 1) * 12}px` }}>
             <button
               onClick={() => onClickEntry(entry.id)}
               className={cn(
                 "text-xs font-mono text-left w-full truncate transition-colors py-0.5",
                 activeId === entry.id
                   ? "text-primary"
-                  : "text-muted-foreground hover:text-foreground"
+                  : "text-muted-foreground hover:text-foreground",
               )}
             >
               {entry.text}
@@ -295,7 +278,7 @@ export function VaultContent({
           }
         }
       },
-      { rootMargin: "-10% 0px -80% 0px", threshold: 0 }
+      { rootMargin: "-10% 0px -80% 0px", threshold: 0 },
     )
 
     headingEls.forEach((el) => observer.observe(el))
@@ -390,7 +373,9 @@ export function VaultContent({
                 <span className="text-tokyo-yellow">{bookmarks.lastBookmark.headingText}</span>
                 <button
                   onClick={() => {
-                    document.getElementById(bookmarks.lastBookmark!.headingId)?.scrollIntoView({ behavior: "smooth" })
+                    document
+                      .getElementById(bookmarks.lastBookmark!.headingId)
+                      ?.scrollIntoView({ behavior: "smooth" })
                     bookmarks.setShowContinuePill(false)
                   }}
                   className="ml-auto text-primary hover:underline"
@@ -450,11 +435,7 @@ export function VaultContent({
           </AnimatePresence>
         </div>
         {showToc && active !== null && toc.length >= 4 && (
-          <TableOfContents
-            entries={toc}
-            activeId={activeTocId}
-            onClickEntry={scrollToHeading}
-          />
+          <TableOfContents entries={toc} activeId={activeTocId} onClickEntry={scrollToHeading} />
         )}
       </SidebarInset>
       <AnimatePresence>

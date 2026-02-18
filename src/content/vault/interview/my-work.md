@@ -1,6 +1,6 @@
 # Purbayan Pramanik: The Complete Interview Prep Reference
 
-Everything you need to recall before walking into any technical interview. Every project, every technology, every contribution, with the *why* behind each one.
+Everything you need to recall before walking into any technical interview. Every project, every technology, every contribution, with the _why_ behind each one.
 
 ---
 
@@ -11,6 +11,7 @@ Everything you need to recall before walking into any technical interview. Every
 **Location:** Kolkata, West Bengal, India
 
 **Links:**
+
 - GitHub: [PPRAMANIK62](https://github.com/PPRAMANIK62)
 - Portfolio: [purbayan-dev.pages.dev](https://purbayan-dev.pages.dev)
 - Email: purbayan.dev@gmail.com
@@ -32,15 +33,15 @@ For every technology listed here, you can point to a real project where you used
 
 ### Languages
 
-| Language | Why You Know It | Where You Used It |
-|----------|----------------|-------------------|
-| **TypeScript** | Your primary language. Type safety matters when you're building complex UIs and shared codebases. | Portfolio site, fiddle-factory (all 6 repos), Canvas Kit, harmony |
-| **Rust** | You wanted to understand memory management, ownership, and zero-cost abstractions. Rust forces you to think about what your code actually does. | 4at TCP chat server, seroost search engine |
-| **Go** | Clean concurrency model. You built the same TCP chat in Go to compare goroutines vs OS threads. | 4at (Go version), snippetbox, proglog, DSA practice |
-| **C** | The foundation. You wrote a real-time audio visualizer with a custom FFT library. No hand-holding from a runtime. | musializer (~670 lines, custom FFT, raylib) |
-| **JavaScript** | The web's lingua franca. You know it deeply because TypeScript is built on it. | All web projects, early work |
-| **Shell** | You daily-drive Fedora with Hyprland. You automated your entire desktop setup. | wayforged installer (14 phases, 22 configs) |
-| **Python** | Used for data pipelines and ML work. | distributed-log-processing-system, video-sentiment-model |
+| Language       | Why You Know It                                                                                                                                 | Where You Used It                                                 |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| **TypeScript** | Your primary language. Type safety matters when you're building complex UIs and shared codebases.                                               | Portfolio site, fiddle-factory (all 6 repos), Canvas Kit, harmony |
+| **Rust**       | You wanted to understand memory management, ownership, and zero-cost abstractions. Rust forces you to think about what your code actually does. | 4at TCP chat server, seroost search engine                        |
+| **Go**         | Clean concurrency model. You built the same TCP chat in Go to compare goroutines vs OS threads.                                                 | 4at (Go version), snippetbox, proglog, DSA practice               |
+| **C**          | The foundation. You wrote a real-time audio visualizer with a custom FFT library. No hand-holding from a runtime.                               | musializer (~670 lines, custom FFT, raylib)                       |
+| **JavaScript** | The web's lingua franca. You know it deeply because TypeScript is built on it.                                                                  | All web projects, early work                                      |
+| **Shell**      | You daily-drive Fedora with Hyprland. You automated your entire desktop setup.                                                                  | wayforged installer (14 phases, 22 configs)                       |
+| **Python**     | Used for data pipelines and ML work.                                                                                                            | distributed-log-processing-system, video-sentiment-model          |
 
 > **Interview Angle:** When asked "what's your strongest language," say TypeScript for production work, but mention Rust and C to show you understand what happens below the abstraction. Interviewers remember candidates who can talk about memory layout and syscalls.
 
@@ -67,7 +68,7 @@ State management in your portfolio (the `stores/` directory) and fiddle-factory 
 **React Router DOM v7**
 Routing in your portfolio. At fiddle-factory, you also worked with Remix's routing (which shares DNA with React Router). PR #222 replaced a `window.location.pathname` hack with Remix's `useLoaderData`.
 
-> **Interview Angle:** You can talk about the React ecosystem with nuance. You know *why* you pick each tool. Zustand over Redux? Less boilerplate, better DX. shadcn over a component library? Ownership of the code, customizable. Tailwind over CSS-in-JS? Build-time, no runtime cost.
+> **Interview Angle:** You can talk about the React ecosystem with nuance. You know _why_ you pick each tool. Zustand over Redux? Less boilerplate, better DX. shadcn over a component library? Ownership of the code, customizable. Tailwind over CSS-in-JS? Build-time, no runtime cost.
 
 ### Backend
 
@@ -103,24 +104,24 @@ Real-time frequency spectrum visualization. You read raw audio samples, apply FF
 
 ### Databases
 
-| Database | Context |
-|----------|---------|
-| **PostgreSQL** | Production database work |
-| **MongoDB** | Document store experience |
-| **Supabase** | Used at fiddle-factory (Postgres-backed BaaS) |
-| **Firebase** | Real-time database experience |
+| Database       | Context                                       |
+| -------------- | --------------------------------------------- |
+| **PostgreSQL** | Production database work                      |
+| **MongoDB**    | Document store experience                     |
+| **Supabase**   | Used at fiddle-factory (Postgres-backed BaaS) |
+| **Firebase**   | Real-time database experience                 |
 
 ### DevTools & Infrastructure
 
-| Tool | How You Use It |
-|------|---------------|
-| **Git** | Daily driver. 48+ PRs at fiddle-factory alone. You know rebasing, squashing, branch management in a team. |
-| **Docker** | Containerization for development and deployment |
-| **Linux** | Daily driver. Fedora with Hyprland (tiling Wayland compositor). You automated the entire setup with wayforged. |
-| **Zed / Neovim / VS Code** | You use multiple editors. Zed for speed, Neovim for terminal work, VS Code when needed. |
-| **Bun** | Fast JS runtime/bundler. Used in projects. |
-| **Vercel** | Deployment platform. Canvas Kit lives at canvas-kit.vercel.app. |
-| **Postman** | API testing and development |
+| Tool                       | How You Use It                                                                                                 |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| **Git**                    | Daily driver. 48+ PRs at fiddle-factory alone. You know rebasing, squashing, branch management in a team.      |
+| **Docker**                 | Containerization for development and deployment                                                                |
+| **Linux**                  | Daily driver. Fedora with Hyprland (tiling Wayland compositor). You automated the entire setup with wayforged. |
+| **Zed / Neovim / VS Code** | You use multiple editors. Zed for speed, Neovim for terminal work, VS Code when needed.                        |
+| **Bun**                    | Fast JS runtime/bundler. Used in projects.                                                                     |
+| **Vercel**                 | Deployment platform. Canvas Kit lives at canvas-kit.vercel.app.                                                |
+| **Postman**                | API testing and development                                                                                    |
 
 > **Interview Angle:** The Linux daily-driver detail matters. It signals you're comfortable in the terminal, you understand the OS, and you're not afraid of configuration. wayforged (your installer) proves it.
 
@@ -240,17 +241,17 @@ Added an email verification step before sending magic links. Security improvemen
 
 These aren't throwaway fixes. Each one required understanding the codebase deeply.
 
-| PR | What You Fixed |
-|----|---------------|
-| **#243** | Migrated toast notifications from react-toastify to sonner. Full library swap. |
-| **#189** | ESLint react-hooks cleanup. Fixed dependency arrays and hook usage patterns. |
-| **#191** | Double-submission prevention on chat and login forms. Added proper debouncing/disabling. |
+| PR       | What You Fixed                                                                                 |
+| -------- | ---------------------------------------------------------------------------------------------- |
+| **#243** | Migrated toast notifications from react-toastify to sonner. Full library swap.                 |
+| **#189** | ESLint react-hooks cleanup. Fixed dependency arrays and hook usage patterns.                   |
+| **#191** | Double-submission prevention on chat and login forms. Added proper debouncing/disabling.       |
 | **#222** | Replaced `window.location.pathname` hack with Remix's `useLoaderData`. Proper framework usage. |
-| **#196** | Z-index popover fix. Layering issues in complex UIs. |
+| **#196** | Z-index popover fix. Layering issues in complex UIs.                                           |
 | **#216** | Zoom control in preview iframes. Forwarded zoom gestures from the iframe to the tldraw canvas. |
-| **#265** | Delete project TypeError. Three separate bugs in one PR. |
-| **#274** | Auto-recreate sandbox on timeout. Restored 2-hour sandbox timeout handling that had broken. |
-| **#258** | Made gen-editor panel scrollable. Overflow issue. |
+| **#265** | Delete project TypeError. Three separate bugs in one PR.                                       |
+| **#274** | Auto-recreate sandbox on timeout. Restored 2-hour sandbox timeout handling that had broken.    |
+| **#258** | Made gen-editor panel scrollable. Overflow issue.                                              |
 
 > **Interview Angle:** PR #265 (three bugs in one PR) and PR #246/#259 (canvas loading race condition) are your best bug-fix stories. They show systematic debugging, not just "I changed a line."
 
@@ -259,18 +260,23 @@ These aren't throwaway fixes. Each one required understanding the codebase deepl
 ### Role 2: Software Engineer Intern (May 2025 to Aug 2025, Remote)
 
 #### Canvas Migration: react-flow to tldraw
+
 You ripped out the previous canvas implementation (react-flow) and replaced it with tldraw. This meant: removing old node components, building custom tldraw shapes, creating new tools, building preview components, and writing data conversion utilities to migrate existing canvas data.
 
 #### Cloud Sandbox Migration: StackBlitz WebContainers to e2b
+
 Migrated the cloud execution environment from StackBlitz's WebContainers (browser-based) to e2b (cloud-based sandboxes). You set up custom templates, API configuration, and sandbox session management. You also documented the new environment for the team.
 
 #### Figma-to-Code Plugin
+
 Built a codegen pipeline that takes Figma designs and generates code. Supports multi-frame export. Integrated tweakpane for a configuration UI within the plugin.
 
 #### User Onboarding Flow
+
 Built an interactive onboarding checklist with task tooltips and progress tracking. First-time user experience.
 
 #### "Make Real" Feature
+
 An API route that takes canvas drawings and sends them as chat attachments. The user draws something, and the AI interprets it. You built the API route, defined the response shapes, and handled the canvas-to-chat data flow.
 
 > **Interview Angle:** The internship shows growth. You started with migrations (learning the codebase) and progressed to building new features (Figma plugin, Make Real). The react-flow to tldraw migration is a great "I handled a major refactor" story.
@@ -288,6 +294,7 @@ You fixed a rendering bug in the candlestick chart when using `series.encode`. T
 Fixing tooltip behavior when charts are connected (linked interactions across multiple chart instances).
 
 ### fiddle-factory Ecosystem
+
 48+ PRs across 6 repositories, as detailed in Section 3.
 
 > **Interview Angle:** Contributing to a 65k-star Apache project is significant. You can talk about the process: reading the codebase, understanding the rendering pipeline, writing a fix that doesn't break other chart types, and going through code review with maintainers. This shows you can work in large, unfamiliar codebases.
@@ -340,6 +347,7 @@ Your developer portfolio. Tokyo Night theme. Has a terminal easter egg. State ma
 A deep technical writeup about building a retained-mode layer system on top of Canvas API's immediate-mode rendering.
 
 **What it covers:**
+
 - The fundamental tension between immediate-mode (Canvas API redraws everything each frame) and retained-mode (objects persist and can be manipulated individually)
 - Offscreen buffers for per-layer rendering
 - Compositing layers in the correct order
@@ -355,13 +363,17 @@ This isn't a tutorial. It's a technical deep-dive into an architectural problem 
 ## 7. What Makes This Profile Unique (Interview Talking Points)
 
 ### 1. Non-CS Background
+
 You're a Mechanical Engineering student who taught yourself everything. This isn't a weakness. It means you learn fast, you're genuinely curious, and you don't need a curriculum to pick up new skills. Every technology on your resume, you chose to learn.
 
 ### 2. Depth Across the Stack
+
 Frontend (React 19, Next.js 15), backend (Node.js, Go), systems (Rust, C), infrastructure (Shell, Docker, Linux). Most candidates are deep in one area. You're deep in several. And you can prove it with projects at each level.
 
 ### 3. From-Scratch Builder
+
 You didn't just use frameworks. You built things from first principles:
+
 - TCP server from raw sockets (no HTTP library)
 - Search engine without a search library (custom TF-IDF)
 - FFT from the math (Cooley-Tukey algorithm in C)
@@ -370,12 +382,15 @@ You didn't just use frameworks. You built things from first principles:
 This signals that you understand what frameworks do for you, because you've done it without them.
 
 ### 4. Real Production Experience
+
 48+ PRs at fiddle-factory across 6 repos. Canvas rendering, build pipelines, auth flows, Storybook infrastructure, performance optimization. You've worked in a real codebase with real users and real code review.
 
 ### 5. Open Source at Scale
+
 Contributing to Apache ECharts (65k stars) means you can navigate large codebases, understand complex rendering pipelines, and work through rigorous code review processes.
 
 ### 6. Technical Writer
+
 The Canvas architecture blog post shows you can explain complex ideas clearly. This matters in teams.
 
 > **Interview Angle (The 30-Second Pitch):**
@@ -383,4 +398,4 @@ The Canvas architecture blog post shows you can explain complex ideas clearly. T
 
 ---
 
-*Last updated: February 2026*
+_Last updated: February 2026_

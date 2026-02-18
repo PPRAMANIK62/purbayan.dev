@@ -28,9 +28,7 @@ export function useTerminalTabCompletion({
 
       if (firstSpace === -1) {
         const prefix = partial.toLowerCase()
-        const matches = Array.from(registry.keys()).filter((name) =>
-          name.startsWith(prefix),
-        )
+        const matches = Array.from(registry.keys()).filter((name) => name.startsWith(prefix))
 
         if (matches.length === 0) return
         if (matches.length === 1) {
@@ -47,8 +45,7 @@ export function useTerminalTabCompletion({
 
         if (pathPart === "") return
 
-        const showHidden =
-          pathPart.startsWith(".") || pathPart.includes("/.")
+        const showHidden = pathPart.startsWith(".") || pathPart.includes("/.")
 
         const lastSlashIndex = pathPart.lastIndexOf("/")
         let dirPath: string
@@ -67,9 +64,7 @@ export function useTerminalTabCompletion({
         if (!dirNode || dirNode.type !== "directory") return
 
         const children = listChildren(dirNode, showHidden)
-        const matches = children.filter((child) =>
-          child.name.startsWith(prefix),
-        )
+        const matches = children.filter((child) => child.name.startsWith(prefix))
 
         if (matches.length === 0) return
 
@@ -80,10 +75,7 @@ export function useTerminalTabCompletion({
             setInputValue(commandPart + completedName + suffix)
           } else {
             setInputValue(
-              commandPart +
-                pathPart.slice(0, lastSlashIndex + 1) +
-                completedName +
-                suffix,
+              commandPart + pathPart.slice(0, lastSlashIndex + 1) + completedName + suffix,
             )
           }
         } else {
@@ -92,17 +84,11 @@ export function useTerminalTabCompletion({
           if (lastSlashIndex === -1) {
             setInputValue(commandPart + common)
           } else {
-            setInputValue(
-              commandPart + pathPart.slice(0, lastSlashIndex + 1) + common,
-            )
+            setInputValue(commandPart + pathPart.slice(0, lastSlashIndex + 1) + common)
           }
           appendLines([
             {
-              text: matches
-                .map((m) =>
-                  m.type === "directory" ? m.name + "/" : m.name,
-                )
-                .join("  "),
+              text: matches.map((m) => (m.type === "directory" ? m.name + "/" : m.name)).join("  "),
               color: "info",
             },
           ])

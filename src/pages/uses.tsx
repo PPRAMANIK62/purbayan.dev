@@ -45,10 +45,7 @@ export default function UsesPage() {
               tool={
                 <>
                   Fedora + Hyprland{" "}
-                  <Link
-                    to="/projects/wayforged"
-                    className="text-primary hover:underline"
-                  >
+                  <Link to="/projects/wayforged" className="text-primary hover:underline">
                     via wayforged
                   </Link>
                 </>
@@ -70,15 +67,8 @@ export default function UsesPage() {
           <SectionHeading title="terminal" />
           <div className="mt-6 space-y-0.5">
             <UsesItem category="terminal" tool="Ghostty" />
-            <UsesItem
-              category="shell"
-              tool="Zsh + Oh My Zsh + plugins"
-            />
-            <UsesItem
-              category="font"
-              tool="Iosevka Mono"
-              note="the only usable font"
-            />
+            <UsesItem category="shell" tool="Zsh + Oh My Zsh + plugins" />
+            <UsesItem category="font" tool="Iosevka Mono" note="the only usable font" />
             <UsesItem category="multiplexer" tool="tmux" />
           </div>
         </section>
@@ -100,7 +90,11 @@ export default function UsesPage() {
         <section>
           <SectionHeading title="browsers" />
           <div className="mt-6 space-y-0.5">
-            <UsesItem category="everything" tool="Zen Browser" note="the browser Firefox should have been" />
+            <UsesItem
+              category="everything"
+              tool="Zen Browser"
+              note="the browser Firefox should have been"
+            />
             <UsesItem category="dev" tool="Helium" note="chromium without the Google" />
           </div>
         </section>
@@ -150,10 +144,7 @@ export default function UsesPage() {
           <SectionHeading title="dotfiles" />
           <p className="mt-6 font-mono text-base md:text-lg text-secondary-foreground leading-relaxed">
             All my configs live in{" "}
-            <Link
-              to="/projects/wayforged"
-              className="text-primary hover:underline"
-            >
+            <Link to="/projects/wayforged" className="text-primary hover:underline">
               wayforged
             </Link>{" "}
             — 22 config files, 14 installation phases, all Tokyo Night themed.

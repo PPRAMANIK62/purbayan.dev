@@ -1,5 +1,11 @@
 import { lazy, Suspense } from "react"
-import { createBrowserRouter, RouterProvider, isRouteErrorResponse, useRouteError, Link } from "react-router-dom"
+import {
+  createBrowserRouter,
+  RouterProvider,
+  isRouteErrorResponse,
+  useRouteError,
+  Link,
+} from "react-router-dom"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { Layout } from "@/components/layout"
 
@@ -29,7 +35,9 @@ function RouteError() {
       <p className="text-muted-foreground">
         <span className="text-red-400">error:</span> {message}
       </p>
-      <Link to="/" className="mt-4 text-primary hover:underline">→ go home</Link>
+      <Link to="/" className="mt-4 text-primary hover:underline">
+        → go home
+      </Link>
     </div>
   )
 }
