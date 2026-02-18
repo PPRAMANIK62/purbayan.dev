@@ -4,6 +4,9 @@ import { projects } from "@/data/projects"
 import { FadeUp } from "@/components/fade-up"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { SectionHeading } from "@/components/section-heading"
+import { PageContainer } from "@/components/page-container"
+import { BulletList } from "@/components/bullet-list"
 import { usePageMeta } from "@/hooks/use-page-meta"
 
 export default function ProjectPage() {
@@ -17,17 +20,17 @@ export default function ProjectPage() {
 
   if (!project) {
     return (
-      <div className="max-w-3xl mx-auto px-6 py-24 text-center">
+      <PageContainer className="text-center">
         <p className="text-muted-foreground font-mono">Project not found.</p>
         <Link to="/projects" className="text-primary font-mono hover:underline">
           → back to projects
         </Link>
-      </div>
+      </PageContainer>
     )
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-24">
+    <PageContainer>
       <div className="space-y-16">
         {/* Header */}
         <FadeUp>
@@ -79,10 +82,7 @@ export default function ProjectPage() {
         {/* The Problem */}
         <FadeUp delay={0.1}>
           <div>
-            <h2 className="text-2xl font-mono font-semibold flex items-baseline">
-              <span className="text-muted-foreground mr-2">&gt;</span>
-              the problem
-            </h2>
+            <SectionHeading title="the problem" />
             <p className="text-secondary-foreground leading-relaxed mt-4">
               {project.problem}
             </p>
@@ -92,10 +92,7 @@ export default function ProjectPage() {
         {/* The Solution */}
         <FadeUp delay={0.2}>
           <div>
-            <h2 className="text-2xl font-mono font-semibold flex items-baseline">
-              <span className="text-muted-foreground mr-2">&gt;</span>
-              the solution
-            </h2>
+            <SectionHeading title="the solution" />
             <p className="text-secondary-foreground leading-relaxed mt-4">
               {project.solution}
             </p>
@@ -105,52 +102,23 @@ export default function ProjectPage() {
         {/* Technical Details */}
         <FadeUp delay={0.3}>
           <div>
-            <h2 className="text-2xl font-mono font-semibold flex items-baseline">
-              <span className="text-muted-foreground mr-2">&gt;</span>
-              technical details
-            </h2>
-            <ul className="space-y-3 mt-4">
-              {project.technicalDetails.map((detail, i) => (
-                <li
-                  key={i}
-                  className="text-secondary-foreground leading-relaxed flex items-start"
-                >
-                  <span className="text-primary mr-2 mt-1">·</span>
-                  <span>{detail}</span>
-                </li>
-              ))}
-            </ul>
+            <SectionHeading title="technical details" />
+            <BulletList items={project.technicalDetails} />
           </div>
         </FadeUp>
 
         {/* Challenges */}
         <FadeUp delay={0.4}>
           <div>
-            <h2 className="text-2xl font-mono font-semibold flex items-baseline">
-              <span className="text-muted-foreground mr-2">&gt;</span>
-              challenges
-            </h2>
-            <ul className="space-y-3 mt-4">
-              {project.challenges.map((challenge, i) => (
-                <li
-                  key={i}
-                  className="text-secondary-foreground leading-relaxed flex items-start"
-                >
-                  <span className="text-primary mr-2 mt-1">·</span>
-                  <span>{challenge}</span>
-                </li>
-              ))}
-            </ul>
+            <SectionHeading title="challenges" />
+            <BulletList items={project.challenges} />
           </div>
         </FadeUp>
 
         {/* Demo Placeholder */}
         <FadeUp delay={0.5}>
           <div>
-            <h2 className="text-2xl font-mono font-semibold flex items-baseline">
-              <span className="text-muted-foreground mr-2">&gt;</span>
-              demo
-            </h2>
+            <SectionHeading title="demo" />
             <div className="rounded-lg border border-border/50 bg-card p-12 mt-4 text-center">
               <p className="text-muted-foreground font-mono text-sm">
                 Screenshots and demos coming soon.
@@ -169,6 +137,6 @@ export default function ProjectPage() {
           </Link>
         </FadeUp>
       </div>
-    </div>
+    </PageContainer>
   )
 }

@@ -79,4 +79,3 @@ function useKonamiCode(
 }
 
 export { useKonamiCode };
-export default useKonamiCode;

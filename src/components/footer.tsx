@@ -1,22 +1,23 @@
 import { Link } from "react-router-dom"
 import { Github, Linkedin, Mail, FileText } from "lucide-react"
+import { SOCIAL } from "@/data/social-links"
 
 const socialLinks = [
   {
-    label: "GitHub",
-    href: "https://github.com/PPRAMANIK62",
+    label: SOCIAL.github.label,
+    href: SOCIAL.github.url,
     icon: Github,
     internal: false,
   },
   {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/in/purbayan-pramanik-30586124b/",
+    label: SOCIAL.linkedin.label,
+    href: SOCIAL.linkedin.url,
     icon: Linkedin,
     internal: false,
   },
   {
-    label: "Email",
-    href: "mailto:purbayan.dev@gmail.com",
+    label: SOCIAL.email.label,
+    href: SOCIAL.email.url,
     icon: Mail,
     internal: false,
   },
@@ -69,7 +70,7 @@ export function Footer() {
           <p className="mt-1">
             Source on{" "}
             <a
-              href="https://github.com/PPRAMANIK62/portfolio"
+              href={SOCIAL.portfolio.url}
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-primary transition-colors duration-150 underline underline-offset-4 decoration-border"

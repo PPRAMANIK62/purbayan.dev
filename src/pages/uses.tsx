@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom"
 import { FadeUp } from "@/components/fade-up"
 import { UsesItem } from "@/components/uses-item"
+import { PageHeading, SectionHeading } from "@/components/section-heading"
+import { PageContainer } from "@/components/page-container"
 import { usePageMeta } from "@/hooks/use-page-meta"
 
 export default function UsesPage() {
@@ -10,13 +12,10 @@ export default function UsesPage() {
   })
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-24 space-y-16">
+    <PageContainer className="space-y-16">
       {/* Page Heading */}
       <FadeUp>
-        <h1 className="text-3xl font-mono font-bold flex items-baseline">
-          <span className="text-muted-foreground mr-2">&gt;</span>
-          uses
-        </h1>
+        <PageHeading title="uses" />
         <p className="mt-4 font-mono text-base md:text-lg text-secondary-foreground leading-relaxed">
           Tools, hardware, and software I use daily.
         </p>
@@ -25,10 +24,7 @@ export default function UsesPage() {
       {/* Hardware */}
       <FadeUp delay={0.1}>
         <section>
-          <h2 className="text-2xl font-mono font-semibold flex items-baseline">
-            <span className="text-muted-foreground mr-2">&gt;</span>
-            hardware
-          </h2>
+          <SectionHeading title="hardware" />
           <div className="mt-6">
             <UsesItem
               category="laptop"
@@ -42,10 +38,7 @@ export default function UsesPage() {
       {/* Desktop Environment */}
       <FadeUp delay={0.15}>
         <section>
-          <h2 className="text-2xl font-mono font-semibold flex items-baseline">
-            <span className="text-muted-foreground mr-2">&gt;</span>
-            desktop
-          </h2>
+          <SectionHeading title="desktop" />
           <div className="mt-6 space-y-0.5">
             <UsesItem
               category="os"
@@ -74,10 +67,7 @@ export default function UsesPage() {
       {/* Terminal & Shell */}
       <FadeUp delay={0.2}>
         <section>
-          <h2 className="text-2xl font-mono font-semibold flex items-baseline">
-            <span className="text-muted-foreground mr-2">&gt;</span>
-            terminal
-          </h2>
+          <SectionHeading title="terminal" />
           <div className="mt-6 space-y-0.5">
             <UsesItem category="terminal" tool="Ghostty" />
             <UsesItem
@@ -97,10 +87,7 @@ export default function UsesPage() {
       {/* Editors */}
       <FadeUp delay={0.25}>
         <section>
-          <h2 className="text-2xl font-mono font-semibold flex items-baseline">
-            <span className="text-muted-foreground mr-2">&gt;</span>
-            editors
-          </h2>
+          <SectionHeading title="editors" />
           <div className="mt-6 space-y-0.5">
             <UsesItem category="primary" tool="Zed" />
             <UsesItem category="trying" tool="Neovim (someday)" />
@@ -111,10 +98,7 @@ export default function UsesPage() {
       {/* Browsers */}
       <FadeUp delay={0.3}>
         <section>
-          <h2 className="text-2xl font-mono font-semibold flex items-baseline">
-            <span className="text-muted-foreground mr-2">&gt;</span>
-            browsers
-          </h2>
+          <SectionHeading title="browsers" />
           <div className="mt-6 space-y-0.5">
             <UsesItem category="everything" tool="Zen Browser" note="the browser Firefox should have been" />
             <UsesItem category="dev" tool="Helium" note="chromium without the Google" />
@@ -125,10 +109,7 @@ export default function UsesPage() {
       {/* Apps */}
       <FadeUp delay={0.35}>
         <section>
-          <h2 className="text-2xl font-mono font-semibold flex items-baseline">
-            <span className="text-muted-foreground mr-2">&gt;</span>
-            apps
-          </h2>
+          <SectionHeading title="apps" />
           <div className="mt-6 space-y-0.5">
             <UsesItem category="recording" tool="OBS Studio" note="streams and screen recordings" />
             <UsesItem category="notes" tool="Obsidian" note="second brain, markdown everything" />
@@ -139,10 +120,7 @@ export default function UsesPage() {
       {/* Dev Tools */}
       <FadeUp delay={0.4}>
         <section>
-          <h2 className="text-2xl font-mono font-semibold flex items-baseline">
-            <span className="text-muted-foreground mr-2">&gt;</span>
-            dev tools
-          </h2>
+          <SectionHeading title="dev tools" />
           <div className="mt-6 space-y-0.5">
             <UsesItem category="runtime" tool="Bun, Node.js, pnpm" />
             <UsesItem category="languages" tool="TypeScript, Rust, Go, C" />
@@ -154,10 +132,7 @@ export default function UsesPage() {
       {/* CLI Tools */}
       <FadeUp delay={0.45}>
         <section>
-          <h2 className="text-2xl font-mono font-semibold flex items-baseline">
-            <span className="text-muted-foreground mr-2">&gt;</span>
-            cli
-          </h2>
+          <SectionHeading title="cli" />
           <div className="mt-6 space-y-0.5">
             <UsesItem category="ls" tool="eza" note="ls but pretty" />
             <UsesItem category="cat" tool="bat" note="cat with wings" />
@@ -172,10 +147,7 @@ export default function UsesPage() {
       {/* Dotfiles */}
       <FadeUp delay={0.5}>
         <section>
-          <h2 className="text-2xl font-mono font-semibold flex items-baseline">
-            <span className="text-muted-foreground mr-2">&gt;</span>
-            dotfiles
-          </h2>
+          <SectionHeading title="dotfiles" />
           <p className="mt-6 font-mono text-base md:text-lg text-secondary-foreground leading-relaxed">
             All my configs live in{" "}
             <Link
@@ -206,6 +178,6 @@ export default function UsesPage() {
           </div>
         </section>
       </FadeUp>
-    </div>
+    </PageContainer>
   )
 }

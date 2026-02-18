@@ -1,4 +1,5 @@
 import type { OutputLine } from "../terminal-output"
+import type { TerminalState } from "@/stores/terminal-store"
 
 // ---------------------------------------------------------------------------
 // Types
@@ -12,8 +13,8 @@ export interface CommandContext {
   addToHistory: (cmd: string) => void
   soundEnabled: boolean
   toggleSound: () => void
-  terminalTheme: string
-  setTheme: (theme: string) => void
+  terminalTheme: TerminalState["terminalTheme"]
+  setTheme: (theme: TerminalState["terminalTheme"]) => void
   snakeHighScore: number
   updateSnakeHighScore: (score: number) => void
 }

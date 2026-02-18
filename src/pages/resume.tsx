@@ -1,6 +1,7 @@
 import { Download } from "lucide-react"
 import { FadeUp } from "@/components/fade-up"
 import { Button } from "@/components/ui/button"
+import { PageHeading } from "@/components/section-heading"
 import { usePageMeta } from "@/hooks/use-page-meta"
 
 export default function ResumePage() {
@@ -15,10 +16,7 @@ export default function ResumePage() {
       {/* Header — takes natural size */}
       <FadeUp>
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-mono font-bold flex items-baseline">
-            <span className="text-muted-foreground mr-2">&gt;</span>
-            resume
-          </h1>
+          <PageHeading title="resume" />
           <Button variant="outline" asChild className="hidden md:inline-flex">
             <a href="/resume/resume.pdf" download className="font-mono">
               <Download className="size-4" />

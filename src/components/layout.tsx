@@ -8,6 +8,7 @@ import { TerminalOverlay } from "@/components/terminal/terminal-overlay"
 import { CrtGlitch } from "@/components/terminal/crt-glitch"
 import { ErrorBoundary } from "@/components/error-boundary"
 import { useTerminalStore } from "@/stores/terminal-store"
+import { useShallow } from "zustand/react/shallow"
 import { useKonamiCode } from "@/hooks/use-konami-code"
 
 const knownRoutes = [
@@ -25,9 +26,9 @@ export function Layout() {
   const isKnownRoute = knownRoutes.some((pattern) =>
     matchPath(pattern, location.pathname),
   )
-  const openTerminal = useTerminalStore((s) => s.openTerminal)
-  const unlockKonami = useTerminalStore((s) => s.unlockKonami)
-  const konamiUnlocked = useTerminalStore((s) => s.konamiUnlocked)
+  const { openTerminal, unlockKonami, konamiUnlocked } = useTerminalStore(
+    useShallow((s) => ({ openTerminal: s.openTerminal, unlockKonami: s.unlockKonami, konamiUnlocked: s.konamiUnlocked }))
+  )
   const [glitchTrigger, setGlitchTrigger] = useState(false)
 
   useKonamiCode(() => {

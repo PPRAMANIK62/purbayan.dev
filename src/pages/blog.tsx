@@ -2,6 +2,8 @@ import { Link } from "react-router-dom"
 import { blogPosts } from "@/data/blog"
 import { FadeUp } from "@/components/fade-up"
 import { Badge } from "@/components/ui/badge"
+import { PageHeading } from "@/components/section-heading"
+import { PageContainer } from "@/components/page-container"
 import { usePageMeta } from "@/hooks/use-page-meta"
 
 export default function BlogPage() {
@@ -12,13 +14,10 @@ export default function BlogPage() {
   })
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-24 space-y-16">
+    <PageContainer className="space-y-16">
       {/* Page Heading */}
       <FadeUp>
-        <h1 className="text-3xl font-mono font-bold flex items-baseline">
-          <span className="text-muted-foreground mr-2">&gt;</span>
-          blog
-        </h1>
+        <PageHeading title="blog" />
         <p className="mt-4 font-mono text-base md:text-lg text-secondary-foreground leading-relaxed">
           Writing about TypeScript, Rust, systems programming,
           and whatever else I'm thinking about.
@@ -86,6 +85,6 @@ export default function BlogPage() {
           </section>
         </FadeUp>
       )}
-    </div>
+    </PageContainer>
   )
 }

@@ -390,10 +390,14 @@ function findCommand(args: string[], ctx: CommandContext): CommandResult {
 }
 
 // ---------------------------------------------------------------------------
-// head
+// head / tail shared helper
 // ---------------------------------------------------------------------------
 
-function headCommand(args: string[], ctx: CommandContext): CommandResult {
+function sliceFileCommand(
+  name: "head" | "tail",
+  args: string[],
+  ctx: CommandContext,
+): CommandResult {
   let numLines = 10
   let filePath: string | undefined
 
@@ -408,24 +412,32 @@ function headCommand(args: string[], ctx: CommandContext): CommandResult {
   }
 
   if (!filePath) {
-    return { lines: [{ text: "head: missing operand", color: "error" }] }
+    return { lines: [{ text: `${name}: missing operand`, color: "error" }] }
   }
 
   const node = resolveFileArg(ctx.cwd, filePath)
 
   if (!node) {
-    return { lines: [{ text: `head: ${filePath}: No such file or directory`, color: "error" }] }
+    return { lines: [{ text: `${name}: ${filePath}: No such file or directory`, color: "error" }] }
   }
 
   if (isDirectory(node)) {
-    return { lines: [{ text: `head: ${filePath}: Is a directory`, color: "error" }] }
+    return { lines: [{ text: `${name}: ${filePath}: Is a directory`, color: "error" }] }
   }
 
   const content = node.content ?? ""
   const contentLines = content.split("\n")
-  const sliced = contentLines.slice(0, numLines)
+  const sliced = name === "head" ? contentLines.slice(0, numLines) : contentLines.slice(-numLines)
 
   return { lines: sliced.map((l: string) => ({ text: l, color: "default" as const })) }
+}
+
+// ---------------------------------------------------------------------------
+// head
+// ---------------------------------------------------------------------------
+
+function headCommand(args: string[], ctx: CommandContext): CommandResult {
+  return sliceFileCommand("head", args, ctx)
 }
 
 // ---------------------------------------------------------------------------
@@ -433,38 +445,7 @@ function headCommand(args: string[], ctx: CommandContext): CommandResult {
 // ---------------------------------------------------------------------------
 
 function tailCommand(args: string[], ctx: CommandContext): CommandResult {
-  let numLines = 10
-  let filePath: string | undefined
-
-  for (let i = 0; i < args.length; i++) {
-    if (args[i] === "-n" && i + 1 < args.length) {
-      numLines = parseInt(args[i + 1], 10)
-      if (isNaN(numLines) || numLines < 0) numLines = 10
-      i++
-    } else if (!args[i].startsWith("-")) {
-      filePath = args[i]
-    }
-  }
-
-  if (!filePath) {
-    return { lines: [{ text: "tail: missing operand", color: "error" }] }
-  }
-
-  const node = resolveFileArg(ctx.cwd, filePath)
-
-  if (!node) {
-    return { lines: [{ text: `tail: ${filePath}: No such file or directory`, color: "error" }] }
-  }
-
-  if (isDirectory(node)) {
-    return { lines: [{ text: `tail: ${filePath}: Is a directory`, color: "error" }] }
-  }
-
-  const content = node.content ?? ""
-  const contentLines = content.split("\n")
-  const sliced = contentLines.slice(-numLines)
-
-  return { lines: sliced.map((l: string) => ({ text: l, color: "default" as const })) }
+  return sliceFileCommand("tail", args, ctx)
 }
 
 // ---------------------------------------------------------------------------

@@ -202,4 +202,3 @@ export function useTerminalSounds(): TerminalSounds {
   return soundsRef.current
 }
 
-export default useTerminalSounds

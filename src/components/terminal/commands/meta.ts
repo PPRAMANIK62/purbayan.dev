@@ -7,7 +7,7 @@ import {
 import type { OutputLine } from "../terminal-output"
 import { resolvePath, getNode, isFile } from "../filesystem/index"
 import { ROOT } from "../filesystem/contents"
-import { useTerminalStore } from "@/stores/terminal-store"
+import { useTerminalStore, type TerminalState } from "@/stores/terminal-store"
 
 // ---------------------------------------------------------------------------
 // Category mapping for help command
@@ -186,7 +186,7 @@ function nanoCommand(_args: string[], _ctx: CommandContext): CommandResult {
 // theme
 // ---------------------------------------------------------------------------
 
-const VALID_THEMES = ["default", "amber", "green", "cyan"]
+const VALID_THEMES: readonly TerminalState["terminalTheme"][] = ["default", "amber", "green", "cyan"]
 
 function themeCommand(args: string[], ctx: CommandContext): CommandResult {
   if (args.length === 0) {
@@ -206,7 +206,7 @@ function themeCommand(args: string[], ctx: CommandContext): CommandResult {
     return { lines }
   }
 
-  const name = args[0]
+  const name = args[0] as TerminalState["terminalTheme"]
   if (VALID_THEMES.includes(name)) {
     ctx.setTheme(name)
     return {

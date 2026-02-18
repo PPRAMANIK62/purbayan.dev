@@ -23,12 +23,29 @@ function NavLink({
   active,
   children,
   onClick,
+  variant = "desktop",
 }: {
   to: string
   active: boolean
   children: React.ReactNode
   onClick?: () => void
+  variant?: "desktop" | "mobile"
 }) {
+  if (variant === "mobile") {
+    return (
+      <Link
+        to={to}
+        onClick={onClick}
+        className={cn(
+          "block py-3 font-mono text-lg transition-colors duration-150",
+          active ? "text-primary" : "text-muted-foreground hover:text-foreground",
+        )}
+      >
+        {children}
+      </Link>
+    )
+  }
+
   return (
     <Link
       to={to}
@@ -47,31 +64,6 @@ function NavLink({
             : "scale-x-0 bg-foreground group-hover:scale-x-100",
         )}
       />
-    </Link>
-  )
-}
-
-function MobileNavLink({
-  to,
-  active,
-  children,
-  onClick,
-}: {
-  to: string
-  active: boolean
-  children: React.ReactNode
-  onClick?: () => void
-}) {
-  return (
-    <Link
-      to={to}
-      onClick={onClick}
-      className={cn(
-        "block py-3 font-mono text-lg transition-colors duration-150",
-        active ? "text-primary" : "text-muted-foreground hover:text-foreground",
-      )}
-    >
-      {children}
     </Link>
   )
 }
@@ -141,14 +133,15 @@ export function Navbar() {
           </SheetHeader>
           <nav className="flex flex-col px-2 pt-4">
             {navLinks.map((link) => (
-              <MobileNavLink
+              <NavLink
                 key={link.path}
                 to={link.path}
                 active={location.pathname === link.path}
                 onClick={() => setMobileOpen(false)}
+                variant="mobile"
               >
                 {link.label}
-              </MobileNavLink>
+              </NavLink>
             ))}
             <div className="mt-4 border-t border-border/50 pt-4">
               <button

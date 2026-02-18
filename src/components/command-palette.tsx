@@ -22,6 +22,8 @@ import {
   CommandSeparator,
 } from "@/components/ui/command"
 import { blogPosts } from "@/data/blog"
+import { projects as projectsData } from "@/data/projects"
+import { SOCIAL } from "@/data/social-links"
 
 interface CommandPaletteProps {
   open: boolean
@@ -36,30 +38,15 @@ const pages = [
   { label: "Resume", icon: FileText, path: "/resume" },
 ] as const
 
-const projects = [
-  { label: "wayforged", path: "/projects/wayforged" },
-  { label: "canvas-kit", path: "/projects/canvas-kit" },
-  { label: "4at", path: "/projects/4at" },
-  { label: "seroost", path: "/projects/seroost" },
-  { label: "musializer", path: "/projects/musializer" },
-] as const
+const projects = projectsData.map((p) => ({
+  label: p.title,
+  path: `/projects/${p.slug}`,
+}))
 
 const links = [
-  {
-    label: "GitHub",
-    icon: Github,
-    href: "https://github.com/PPRAMANIK62",
-  },
-  {
-    label: "LinkedIn",
-    icon: Linkedin,
-    href: "https://www.linkedin.com/in/purbayan-pramanik-30586124b/",
-  },
-  {
-    label: "Email",
-    icon: Mail,
-    href: "mailto:purbayan.dev@gmail.com",
-  },
+  { label: SOCIAL.github.label, icon: Github, href: SOCIAL.github.url },
+  { label: SOCIAL.linkedin.label, icon: Linkedin, href: SOCIAL.linkedin.url },
+  { label: SOCIAL.email.label, icon: Mail, href: SOCIAL.email.url },
 ] as const
 
 export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {

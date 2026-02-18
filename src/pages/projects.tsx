@@ -3,6 +3,8 @@ import { Github } from "lucide-react"
 import { projects } from "@/data/projects"
 import { FadeUp } from "@/components/fade-up"
 import { Badge } from "@/components/ui/badge"
+import { PageHeading } from "@/components/section-heading"
+import { PageContainer } from "@/components/page-container"
 import { usePageMeta } from "@/hooks/use-page-meta"
 
 export default function ProjectsPage() {
@@ -13,12 +15,9 @@ export default function ProjectsPage() {
   })
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-24">
+    <PageContainer maxWidth="6xl">
       <FadeUp>
-        <h1 className="font-mono font-bold text-3xl flex items-baseline">
-          <span className="text-muted-foreground mr-2">&gt;</span>
-          projects
-        </h1>
+        <PageHeading title="projects" />
       </FadeUp>
 
       <FadeUp delay={0.1}>
@@ -82,6 +81,6 @@ export default function ProjectsPage() {
           </FadeUp>
         ))}
       </div>
-    </div>
+    </PageContainer>
   )
 }

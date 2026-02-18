@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react"
-import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import { createBrowserRouter, RouterProvider, isRouteErrorResponse, useRouteError, Link } from "react-router-dom"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { Layout } from "@/components/layout"
 
@@ -16,9 +16,28 @@ import NotFoundPage from "@/pages/not-found"
 const TerminalPage = lazy(() => import("@/pages/terminal"))
 const VaultPage = lazy(() => import("@/pages/vault"))
 
+function RouteError() {
+  const error = useRouteError()
+  const message = isRouteErrorResponse(error)
+    ? `${error.status} — ${error.statusText}`
+    : error instanceof Error
+      ? error.message
+      : "Unknown error"
+
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center font-mono text-sm px-6">
+      <p className="text-muted-foreground">
+        <span className="text-red-400">error:</span> {message}
+      </p>
+      <Link to="/" className="mt-4 text-primary hover:underline">→ go home</Link>
+    </div>
+  )
+}
+
 const router = createBrowserRouter([
   {
     element: <Layout />,
+    errorElement: <RouteError />,
     children: [
       { path: "/", element: <HomePage /> },
       { path: "/about", element: <AboutPage /> },
@@ -33,6 +52,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/terminal",
+    errorElement: <RouteError />,
     element: (
       <Suspense fallback={null}>
         <TerminalPage />
@@ -41,6 +61,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/vault",
+    errorElement: <RouteError />,
     element: (
       <Suspense fallback={null}>
         <VaultPage />

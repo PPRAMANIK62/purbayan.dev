@@ -1,83 +1,9 @@
-import {
-  Globe,
-  Cpu,
-  Terminal,
-  Github,
-  Linkedin,
-  Mail,
-  FileText,
-} from "lucide-react"
 import { FadeUp } from "@/components/fade-up"
 import { ContactLink } from "@/components/contact-link"
+import { PageHeading, SectionHeading } from "@/components/section-heading"
+import { PageContainer } from "@/components/page-container"
 import { usePageMeta } from "@/hooks/use-page-meta"
-
-const skillAreas = [
-  {
-    icon: Globe,
-    title: "Web Development",
-    points: [
-      "TypeScript, React, Next.js",
-      "Building interactive UIs, component architecture",
-      "shadcn/ui ecosystem contributions (fiddle-factory PRs)",
-    ],
-  },
-  {
-    icon: Cpu,
-    title: "Systems Programming",
-    points: [
-      "Rust, C, Go",
-      "TCP networking, audio processing, search algorithms",
-      '"Understanding how things work under the hood"',
-    ],
-  },
-  {
-    icon: Terminal,
-    title: "Linux & Tooling",
-    points: [
-      "Fedora + Hyprland (via wayforged)",
-      "Shell scripting, dotfiles, TUI tools",
-      "Tokyo Night everywhere, Iosevka everything",
-    ],
-  },
-] as const
-
-const contactLinks = [
-  {
-    label: "GitHub",
-    href: "https://github.com/PPRAMANIK62",
-    display: "PPRAMANIK62",
-    icon: Github,
-    external: true,
-  },
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/in/purbayan-pramanik-30586124b/",
-    display: "purbayan-pramanik",
-    icon: Linkedin,
-    external: true,
-  },
-  {
-    label: "Email",
-    href: "mailto:purbayan.dev@gmail.com",
-    display: "purbayan.dev@gmail.com",
-    icon: Mail,
-    external: false,
-  },
-  {
-    label: "Resume",
-    href: "/resume",
-    display: "view resume",
-    icon: FileText,
-    external: false,
-  },
-] as const
-
-const beyondCode = [
-  "Making my desktop look exactly right (and then changing it again)",
-  "Minimalist setups — fewer things, better things",
-  "Reading about how systems are designed (not just software)",
-  "Zed over VS Code — why run two browsers on one machine?",
-] as const
+import { skillAreas, contactLinks, beyondCode } from "@/data/about"
 
 export default function AboutPage() {
   usePageMeta({
@@ -87,15 +13,12 @@ export default function AboutPage() {
   })
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-24 space-y-16">
+    <PageContainer className="space-y-16">
       {/* Section 1 + 2: Opening Paragraph + Photo */}
       <FadeUp>
         <div className="flex flex-col-reverse md:flex-row md:items-start md:gap-12">
           <div className="flex-1 mt-8 md:mt-0">
-            <h1 className="text-3xl font-mono font-bold flex items-baseline">
-              <span className="text-muted-foreground mr-2">&gt;</span>
-              about
-            </h1>
+            <PageHeading title="about" />
 
             <div className="mt-6 space-y-4 font-mono text-base md:text-lg leading-relaxed text-secondary-foreground">
               <p>
@@ -117,6 +40,9 @@ export default function AboutPage() {
               <img
                 src="/purbayan.png"
                 alt="Purbayan Pramanik"
+                loading="lazy"
+                width={192}
+                height={192}
                 className="size-full object-cover"
               />
             </div>
@@ -126,10 +52,7 @@ export default function AboutPage() {
 
       {/* Section 3: What I Do */}
       <FadeUp delay={0.1}>
-        <h2 className="text-2xl font-mono font-semibold flex items-baseline">
-          <span className="text-muted-foreground mr-2">&gt;</span>
-          what I do
-        </h2>
+        <SectionHeading title="what I do" />
 
         <div className="grid grid-cols-1 gap-4 mt-6">
           {skillAreas.map((area) => (
@@ -160,10 +83,7 @@ export default function AboutPage() {
 
       {/* Section 4: Beyond Code */}
       <FadeUp delay={0.2}>
-        <h2 className="text-2xl font-mono font-semibold flex items-baseline">
-          <span className="text-muted-foreground mr-2">&gt;</span>
-          beyond code
-        </h2>
+        <SectionHeading title="beyond code" />
 
         <ul className="mt-6 space-y-2">
           {beyondCode.map((item) => (
@@ -180,10 +100,7 @@ export default function AboutPage() {
 
       {/* Section 5: Contact Links */}
       <FadeUp delay={0.3}>
-        <h2 className="text-2xl font-mono font-semibold flex items-baseline">
-          <span className="text-muted-foreground mr-2">&gt;</span>
-          get in touch
-        </h2>
+        <SectionHeading title="get in touch" />
 
         <div className="mt-6 space-y-1">
           {contactLinks.map((link) => (
@@ -223,6 +140,6 @@ export default function AboutPage() {
           .
         </p>
       </FadeUp>
-    </div>
+    </PageContainer>
   )
 }
