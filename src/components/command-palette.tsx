@@ -7,6 +7,7 @@ import {
   Github,
   Home,
   Linkedin,
+  Lock,
   Mail,
   SearchX,
   User,
@@ -36,6 +37,7 @@ const pages = [
   { label: "Uses", icon: Wrench, path: "/uses" },
   { label: "About", icon: User, path: "/about" },
   { label: "Resume", icon: FileText, path: "/resume" },
+  { label: "Vault", icon: Lock, path: "/vault" },
 ] as const
 
 const projects = projectsData.map((p) => ({

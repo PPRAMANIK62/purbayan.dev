@@ -3,11 +3,18 @@ import { motion, AnimatePresence } from "motion/react"
 import { Lock } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { hashPassword } from "@/lib/vault-utils"
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 
 const EXPECTED_HASH = "d714f4049edd6ea4291f2adf7ca5527ec025aaa588b34d4d87533e81f0295bd3"
 export const SESSION_KEY = "vault-unlocked"
 
-export function PasswordGate({ onUnlock }: { onUnlock: () => void }) {
+interface PasswordGateProps {
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  onUnlock: () => void
+}
+
+export function PasswordGate({ open, onOpenChange, onUnlock }: PasswordGateProps) {
   const [password, setPassword] = useState("")
   const [error, setError] = useState(false)
   const [checking, setChecking] = useState(false)
@@ -23,6 +30,7 @@ export function PasswordGate({ onUnlock }: { onUnlock: () => void }) {
       if (hashed === EXPECTED_HASH) {
         sessionStorage.setItem(SESSION_KEY, "true")
         onUnlock()
+        onOpenChange(false)
       } else {
         setError(true)
         setPassword("")
@@ -30,17 +38,13 @@ export function PasswordGate({ onUnlock }: { onUnlock: () => void }) {
       }
       setChecking(false)
     },
-    [password, checking, onUnlock],
+    [password, checking, onUnlock, onOpenChange],
   )
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className="w-full max-w-sm"
-      >
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent showCloseButton={false} className="max-w-sm">
+        <DialogTitle className="sr-only">Unlock Vault</DialogTitle>
         <form onSubmit={handleSubmit} className="flex flex-col items-center gap-6">
           <motion.div
             animate={error ? { x: [0, -8, 8, -6, 6, -3, 3, 0] } : {}}
@@ -87,7 +91,7 @@ export function PasswordGate({ onUnlock }: { onUnlock: () => void }) {
             this is a private space
           </p>
         </form>
-      </motion.div>
-    </div>
+      </DialogContent>
+    </Dialog>
   )
 }
