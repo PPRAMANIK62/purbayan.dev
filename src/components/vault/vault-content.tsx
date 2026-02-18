@@ -1,4 +1,5 @@
 import { useState, useEffect, type ComponentPropsWithoutRef, type RefObject } from "react"
+import { useNavigate } from "react-router-dom"
 import Markdown from "react-markdown"
 import remarkGfm from "remark-gfm"
 import { motion, AnimatePresence } from "motion/react"
@@ -226,7 +227,6 @@ function MetadataBar({
 
 interface VaultContentProps {
   active: string | null
-  setActive: (key: string | null) => void
   activeFile: VaultFile | null
   contentRef: RefObject<HTMLDivElement | null>
   topBarRef: RefObject<HTMLDivElement | null>
@@ -243,7 +243,6 @@ interface VaultContentProps {
 
 export function VaultContent({
   active,
-  setActive,
   activeFile,
   contentRef,
   topBarRef,
@@ -257,6 +256,7 @@ export function VaultContent({
   showShortcutHelp,
   setShowShortcutHelp,
 }: VaultContentProps) {
+  const navigate = useNavigate()
   const [activeTocId, setActiveTocId] = useState<string | null>(null)
   const [showToc, setShowToc] = useState(true)
 
@@ -304,14 +304,14 @@ export function VaultContent({
         case "n": {
           if (!active) break
           const idx = fileKeys.indexOf(active)
-          if (idx < fileKeys.length - 1) setActive(fileKeys[idx + 1])
+          if (idx < fileKeys.length - 1) navigate(`/vault/${fileKeys[idx + 1]}`)
           break
         }
 
         case "p": {
           if (!active) break
           const idx = fileKeys.indexOf(active)
-          if (idx > 0) setActive(fileKeys[idx - 1])
+          if (idx > 0) navigate(`/vault/${fileKeys[idx - 1]}`)
           break
         }
 
@@ -327,7 +327,7 @@ export function VaultContent({
           break
 
         case "Escape":
-          setActive(null)
+          navigate("/vault")
           break
 
         case "/":
@@ -338,7 +338,7 @@ export function VaultContent({
 
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [active, fileKeys, bookmarks.toggleBookmark, contentRef, setActive])
+  }, [active, fileKeys, bookmarks.toggleBookmark, contentRef, navigate])
 
   function scrollToHeading(id: string) {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })
@@ -403,7 +403,7 @@ export function VaultContent({
                 <VaultDashboard
                   groupedFiles={groupedFiles}
                   stats={vaultStats}
-                  onSelectFile={setActive}
+                  onSelectFile={(key) => navigate(`/vault/${key}`)}
                   onSelectBookmark={bookmarks.handleBookmarkNavigation}
                 />
               </motion.div>

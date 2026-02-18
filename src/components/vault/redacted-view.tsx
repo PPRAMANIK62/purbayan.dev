@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useRef, useEffect, useCallback } from "react"
 import Markdown from "react-markdown"
 import remarkGfm from "remark-gfm"
 import { motion, AnimatePresence } from "motion/react"
@@ -24,11 +24,11 @@ function RedactedCategoryCard({
   onSelectFile: (key: string) => void
 }) {
   return (
-    <div className="border border-border rounded-lg p-4 bg-muted/20">
-      <h3 className="font-mono font-semibold text-sm uppercase tracking-wider text-primary mb-3">
+    <div className="border border-border rounded-lg p-5 bg-muted/20">
+      <h3 className="font-mono font-semibold text-base uppercase tracking-wider text-primary mb-3">
         {kebabToTitle(category)}
       </h3>
-      <p className="text-xs text-muted-foreground font-mono mb-3">
+      <p className="text-sm text-muted-foreground font-mono mb-3">
         {files.length} {files.length === 1 ? "file" : "files"}
       </p>
       <div className="space-y-2">
@@ -40,8 +40,8 @@ function RedactedCategoryCard({
               onClick={() => onSelectFile(key)}
               className="w-full flex items-center gap-2 text-left group"
             >
-              <FileText className="size-3.5 text-muted-foreground" />
-              <span className="font-mono text-sm text-secondary-foreground group-hover:text-primary transition-colors flex-1">
+              <FileText className="size-4 text-muted-foreground" />
+              <span className="font-mono text-base text-secondary-foreground group-hover:text-primary transition-colors flex-1">
                 {f.label}
               </span>
             </button>
@@ -155,6 +155,26 @@ function RedactedDocumentView({
 
 export function RedactedView({ unlocked, onRequestUnlock, onReadFile }: RedactedViewProps) {
   const [selectedFile, setSelectedFile] = useState<string | null>(null)
+  const prevUnlocked = useRef(unlocked)
+
+  // Auto-transition to reader when unlocked while viewing a file
+  useEffect(() => {
+    if (unlocked && !prevUnlocked.current && selectedFile) {
+      onReadFile(selectedFile)
+    }
+    prevUnlocked.current = unlocked
+  }, [unlocked, selectedFile, onReadFile])
+
+  const handleSelectFile = useCallback(
+    (key: string) => {
+      if (unlocked) {
+        onReadFile(key)
+      } else {
+        setSelectedFile(key)
+      }
+    },
+    [unlocked, onReadFile],
+  )
 
   const activeFile = selectedFile
     ? (Object.values(groupedFiles)
@@ -172,7 +192,7 @@ export function RedactedView({ unlocked, onRequestUnlock, onReadFile }: Redacted
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3, ease: easing }}
         >
-          <FileListView onSelectFile={setSelectedFile} />
+          <FileListView onSelectFile={handleSelectFile} />
         </motion.div>
       ) : (
         <motion.div

@@ -2,6 +2,7 @@ import { Children, isValidElement, type ComponentPropsWithoutRef } from "react"
 import { Bookmark as BookmarkIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { slugify, extractTextFromChildren, type Bookmark } from "@/lib/vault-utils"
+import { CodeBlock } from "@/components/blog/code-block"
 
 function BookmarkButton({
   headingId,
@@ -222,14 +223,11 @@ export function mdComponents(
         </li>
       )
     },
-    code: ({ children, className, ...props }: ComponentPropsWithoutRef<"code">) => {
-      const isBlock = /language-(\w+)/.test(className || "")
-      if (isBlock) {
-        return (
-          <code className={cn("font-mono text-sm text-secondary-foreground", className)} {...props}>
-            {children}
-          </code>
-        )
+    code: ({ className, children, ...props }: ComponentPropsWithoutRef<"code">) => {
+      const match = /language-(\w+)/.exec(className || "")
+      if (match) {
+        const code = extractTextFromChildren(children)
+        return <CodeBlock language={match[1]} code={code} />
       }
       return (
         <code
@@ -240,14 +238,7 @@ export function mdComponents(
         </code>
       )
     },
-    pre: ({ children, ...props }: ComponentPropsWithoutRef<"pre">) => (
-      <pre
-        className="bg-muted/50 border border-border/50 border-l-2 border-l-primary rounded-lg p-4 overflow-x-auto my-6"
-        {...props}
-      >
-        {children}
-      </pre>
-    ),
+    pre: ({ children }: ComponentPropsWithoutRef<"pre">) => <div className="my-6">{children}</div>,
     table: ({ children, ...props }: ComponentPropsWithoutRef<"table">) => (
       <div className="overflow-x-auto my-6 rounded-lg border border-border">
         <table className="w-full text-sm font-mono" {...props}>

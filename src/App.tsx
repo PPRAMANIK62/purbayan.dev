@@ -68,7 +68,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/vault",
+    path: "/vault/*",
     errorElement: <RouteError />,
     element: (
       <Suspense fallback={null}>

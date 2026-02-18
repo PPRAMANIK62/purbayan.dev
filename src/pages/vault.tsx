@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef, useMemo } from "react"
+import { useState, useEffect, useRef, useMemo, useCallback } from "react"
+import { useParams, useNavigate } from "react-router-dom"
 import { motion, AnimatePresence } from "motion/react"
 import { Lock, LockOpen } from "lucide-react"
 import { SidebarProvider } from "@/components/ui/sidebar"
@@ -9,6 +10,7 @@ import { VaultModeSwitcher } from "@/components/vault/vault-mode-switcher"
 import { mdComponents } from "@/components/vault/markdown-components"
 import { RedactedView } from "@/components/vault/redacted-view"
 import { TerminalCatalog } from "@/components/vault/terminal-catalog"
+import { VaultDemoPrompt, VaultDemoView } from "@/components/vault/vault-demo"
 import { useVaultBookmarks } from "@/hooks/use-vault-bookmarks"
 import { useVaultProgress } from "@/hooks/use-vault-progress"
 import { vaultFiles, groupedFiles, extractToc, computeFileStats } from "@/lib/vault-utils"
@@ -16,7 +18,22 @@ import { vaultFiles, groupedFiles, extractToc, computeFileStats } from "@/lib/va
 export type ViewMode = "redacted" | "terminal"
 
 function VaultViewer() {
-  const [active, setActive] = useState<string | null>(null)
+  const params = useParams()
+  const navigate = useNavigate()
+  const splat = params["*"]
+  const active = splat ? splat : null
+
+  const setActive = useCallback(
+    (key: string | null) => {
+      if (key === null) {
+        navigate("/vault")
+      } else {
+        navigate(`/vault/${key}`)
+      }
+    },
+    [navigate],
+  )
+
   const contentRef = useRef<HTMLDivElement>(null)
   const [showShortcutHelp, setShowShortcutHelp] = useState(false)
 
@@ -60,7 +77,6 @@ function VaultViewer() {
     <SidebarProvider className="h-dvh">
       <VaultSidebar
         active={active}
-        setActive={setActive}
         groupedFiles={groupedFiles}
         activeBarRef={progress.activeBarRef}
         showShortcutHelp={showShortcutHelp}
@@ -68,7 +84,6 @@ function VaultViewer() {
       />
       <VaultContent
         active={active}
-        setActive={setActive}
         activeFile={activeFile}
         contentRef={contentRef}
         topBarRef={progress.topBarRef}
@@ -87,9 +102,12 @@ function VaultViewer() {
 }
 
 export default function VaultPage() {
+  const params = useParams()
+  const splat = params["*"]
+  const isDemo = splat === "demo"
+
   const [unlocked, setUnlocked] = useState(() => sessionStorage.getItem(SESSION_KEY) === "true")
   const [viewMode, setViewMode] = useState<ViewMode>("redacted")
-  const [reading, setReading] = useState<string | null>(null)
   const [showUnlockModal, setShowUnlockModal] = useState(false)
 
   useEffect(() => {
@@ -113,7 +131,7 @@ export default function VaultPage() {
 
   return (
     <AnimatePresence mode="wait">
-      {unlocked && reading !== null ? (
+      {unlocked ? (
         <motion.div
           key="viewer"
           initial={{ opacity: 0 }}
@@ -137,12 +155,12 @@ export default function VaultPage() {
               <h1 className="text-4xl font-mono font-bold mb-2">
                 <span className="text-primary">&gt;</span> Vault
               </h1>
-              <p className="text-muted-foreground font-mono text-sm">
+              <p className="text-muted-foreground font-mono text-base">
                 Personal knowledge base. Roadmaps, interview prep, project notes.
               </p>
             </div>
 
-            <div className="flex gap-6 mb-8 font-mono text-sm">
+            <div className="flex gap-6 mb-8 font-mono text-base">
               <div>
                 <span className="text-tokyo-cyan">{vaultStats.totalDocs}</span>
                 <span className="text-muted-foreground ml-1">documents</span>
@@ -173,38 +191,50 @@ export default function VaultPage() {
               </button>
             </div>
 
-            <AnimatePresence mode="wait">
-              {viewMode === "redacted" && (
-                <motion.div
-                  key="redacted"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-                >
-                  <RedactedView
-                    unlocked={unlocked}
-                    onRequestUnlock={onRequestUnlock}
-                    onReadFile={(fileKey) => setReading(fileKey)}
-                  />
-                </motion.div>
-              )}
-              {viewMode === "terminal" && (
-                <motion.div
-                  key="terminal"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-                >
-                  <TerminalCatalog
-                    unlocked={unlocked}
-                    onRequestUnlock={onRequestUnlock}
-                    onReadFile={(fileKey) => setReading(fileKey)}
-                  />
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {isDemo ? (
+              <VaultDemoView />
+            ) : (
+              <>
+                <div className="min-h-[300px]">
+                  <AnimatePresence mode="wait">
+                    {viewMode === "redacted" && (
+                      <motion.div
+                        key="redacted"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+                      >
+                        <RedactedView
+                          unlocked={unlocked}
+                          onRequestUnlock={onRequestUnlock}
+                          onReadFile={() => {}}
+                        />
+                      </motion.div>
+                    )}
+                    {viewMode === "terminal" && (
+                      <motion.div
+                        key="terminal"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+                      >
+                        <TerminalCatalog
+                          unlocked={unlocked}
+                          onRequestUnlock={onRequestUnlock}
+                          onReadFile={() => {}}
+                        />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                <div className="mt-10">
+                  <VaultDemoPrompt />
+                </div>
+              </>
+            )}
           </div>
 
           <PasswordGate

@@ -1,4 +1,5 @@
 import type { Dispatch, RefObject, SetStateAction } from "react"
+import { useNavigate } from "react-router-dom"
 import { FileText, Home } from "lucide-react"
 import {
   Sidebar,
@@ -14,7 +15,6 @@ import { kebabToTitle, getSavedProgress, type VaultFile } from "@/lib/vault-util
 
 interface VaultSidebarProps {
   active: string | null
-  setActive: (key: string | null) => void
   groupedFiles: Record<string, VaultFile[]>
   activeBarRef: RefObject<HTMLDivElement | null>
   showShortcutHelp: boolean
@@ -23,11 +23,12 @@ interface VaultSidebarProps {
 
 export function VaultSidebar({
   active,
-  setActive,
   groupedFiles,
   activeBarRef,
   setShowShortcutHelp,
 }: VaultSidebarProps) {
+  const navigate = useNavigate()
+
   return (
     <Sidebar>
       <SidebarContent>
@@ -36,7 +37,7 @@ export function VaultSidebar({
             <SidebarMenuItem>
               <SidebarMenuButton
                 isActive={active === null}
-                onClick={() => setActive(null)}
+                onClick={() => navigate("/vault")}
                 className="font-mono"
               >
                 <Home className="size-4" />
@@ -52,27 +53,30 @@ export function VaultSidebar({
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {files.map((f) => (
-                  <SidebarMenuItem key={`${f.category}/${f.slug}`}>
-                    <SidebarMenuButton
-                      isActive={active === `${f.category}/${f.slug}`}
-                      onClick={() => setActive(`${f.category}/${f.slug}`)}
-                      className="font-mono"
-                    >
-                      <FileText className="size-4" />
-                      <span>{f.label}</span>
-                    </SidebarMenuButton>
-                    <div className="mx-2 mb-1 h-0.5 bg-muted rounded-full overflow-hidden">
-                      <div
-                        ref={active === `${f.category}/${f.slug}` ? activeBarRef : undefined}
-                        className="h-full bg-tokyo-green transition-[width] duration-300"
-                        style={{
-                          width: `${getSavedProgress(f.category, f.slug)}%`,
-                        }}
-                      />
-                    </div>
-                  </SidebarMenuItem>
-                ))}
+                {files.map((f) => {
+                  const key = `${f.category}/${f.slug}`
+                  return (
+                    <SidebarMenuItem key={key}>
+                      <SidebarMenuButton
+                        isActive={active === key}
+                        onClick={() => navigate(`/vault/${key}`)}
+                        className="font-mono"
+                      >
+                        <FileText className="size-4" />
+                        <span>{f.label}</span>
+                      </SidebarMenuButton>
+                      <div className="mx-2 mb-1 h-0.5 bg-muted rounded-full overflow-hidden">
+                        <div
+                          ref={active === key ? activeBarRef : undefined}
+                          className="h-full bg-tokyo-green transition-[width] duration-300"
+                          style={{
+                            width: `${getSavedProgress(f.category, f.slug)}%`,
+                          }}
+                        />
+                      </div>
+                    </SidebarMenuItem>
+                  )
+                })}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
