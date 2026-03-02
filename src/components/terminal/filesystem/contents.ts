@@ -715,37 +715,51 @@ static void fft_analyze(float *samples, size_t n, float *output) {
 const RESUME_TXT = `═══════════════════════════════════════════════
            PURBAYAN PRAMANIK
 ═══════════════════════════════════════════════
-  Kolkata, India | Graduating 2026
+  Kolkata, India | Graduating April 2026
   purbayan.dev@gmail.com
   github.com/PPRAMANIK62
   linkedin.com/in/purbayan-pramanik-30586124b
 ───────────────────────────────────────────────
 
+SUMMARY
+  Full-Stack Software Engineer. 49+ merged PRs
+  across 5 repos at fiddle-factory. Builds
+  canvas rendering, chat, auth, and CI/CD
+  pipelines. Personal projects in Rust, Go,
+  and C. Apache ECharts contributor (65k+).
+
+EXPERIENCE
+  fiddle-factory — Contractor (Dec 2025–Now)
+    49+ PRs: canvas, chat, auth, build infra
+    Storybook for 56 UI primitives (6k+ lines)
+    PKCE auth, non-blocking chat, ESLint fixes
+
+  fiddle-factory — Intern (May–Aug 2025)
+    Migrated canvas: react-flow → tldraw
+    Migrated sandbox: StackBlitz → e2b
+    Built "make real" AI feature (2.5k+ lines)
+
 SKILLS
-  Languages    Rust, C, Go, TypeScript, Shell
-  Web          React, Next.js, Tailwind CSS
-  Systems      TCP networking, FFT/DSP, search
-  Tools        Linux, Hyprland, Git, Docker
-  Editors      Zed, Neovim
+  Languages    TypeScript, JS, Rust, Go, C
+  Frameworks   React 19, Next.js, Tailwind CSS
+  Databases    PostgreSQL, MongoDB, Supabase
+  Tools        Git, Docker, Linux, Storybook
 
 PROJECTS
-  wayforged    Shell TUI installer for Fedora
-               Hyprland dev environments
-  Canvas Kit   Drawing app — Next.js, layers,
-               keyboard shortcuts, PNG export
+  Canvas Kit   Drawing app — Next.js 15, React
+               19, layers, tools, PNG export
   4at          TCP chat server in Rust & Go,
                rate limiting, auth, ban system
   seroost      TF-IDF search engine in Rust,
                HTTP server with web frontend
-  musializer   Real-time FFT audio visualizer
-               in C with raylib (~670 LOC)
 
 OPEN SOURCE
   Apache ECharts (65k+ stars) — contributor
   shadcn ecosystem (fiddle-factory) — PRs
 
 EDUCATION
-  B.Tech — graduating 2026
+  B.Tech Mechanical Engineering
+  NIT Durgapur — Expected April 2026
 
 ───────────────────────────────────────────────
   "I pick projects mostly based on what I'd

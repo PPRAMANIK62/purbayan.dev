@@ -1,8 +1,15 @@
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import { Copy, Check } from "lucide-react"
+import { tokenizeRust, tokenizeToml } from "@/lib/syntax-highlighter"
 
 export function CodeBlock({ language, code }: { language: string; code: string }) {
   const [copied, setCopied] = useState(false)
+
+  const tokens = useMemo(() => {
+    if (language === "rust" || language === "rs") return tokenizeRust(code)
+    if (language === "toml") return tokenizeToml(code)
+    return null
+  }, [code, language])
 
   function handleCopy() {
     navigator.clipboard.writeText(code)
@@ -26,7 +33,17 @@ export function CodeBlock({ language, code }: { language: string; code: string }
         </button>
       </div>
       <pre className="p-4 overflow-x-auto">
-        <code className="font-mono text-sm text-secondary-foreground">{code}</code>
+        <code className="font-mono text-sm">
+          {tokens ? (
+            tokens.map((t, i) => (
+              <span key={i} className={t.className || undefined}>
+                {t.text}
+              </span>
+            ))
+          ) : (
+            <span className="text-secondary-foreground">{code}</span>
+          )}
+        </code>
       </pre>
     </div>
   )

@@ -5,45 +5,17 @@
 % License : MIT
 %------------------------
 
-\documentclass[letterpaper, 11pt]{article}
+\documentclass[letterpaper, 10pt]{article}
 
 \usepackage{latexsym}
-\usepackage[empty]{fullpage}
 \usepackage{titlesec}
-\usepackage{marvosym}
 \usepackage[usenames, dvipsnames]{color}
 \usepackage{verbatim}
 \usepackage{enumitem}
 \usepackage[hidelinks]{hyperref}
 \usepackage[english]{babel}
 \usepackage{tabularx}
-\usepackage{fontawesome5}
-\usepackage{multicol}
-\usepackage{graphicx}
-\setlength{\multicolsep}{-3.0pt}
-\setlength{\columnsep}{-1pt}
 \input{glyphtounicode}
-
-\RequirePackage{tikz}
-\RequirePackage{xcolor}
-\RequirePackage{fontawesome}
-\usepackage{tikz}
-\usetikzlibrary{svg.path}
-
-\definecolor{cvblue}{HTML}{0E5484}
-\definecolor{black}{HTML}{130810}
-\definecolor{darkcolor}{HTML}{0F4539}
-\definecolor{cvgreen}{HTML}{3BD80D}
-\definecolor{taggreen}{HTML}{00E278}
-\definecolor{SlateGrey}{HTML}{2E2E2E}
-\definecolor{LightGrey}{HTML}{666666}
-\colorlet{name}{black}
-\colorlet{tagline}{darkcolor}
-\colorlet{heading}{darkcolor}
-\colorlet{headingrule}{cvblue}
-\colorlet{accent}{darkcolor}
-\colorlet{emphasis}{SlateGrey}
-\colorlet{body}{LightGrey}
 
 %----------FONT OPTIONS----------
 % sans-serif
@@ -56,12 +28,12 @@
 % \usepackage{CormorantGaramond}
 % \usepackage{charter}
 
-% Adjust margins
-\addtolength{\oddsidemargin}{-0.6in}
-\addtolength{\evensidemargin}{-0.5in}
-\addtolength{\textwidth}{1.19in}
-\addtolength{\topmargin}{-.7in}
-\addtolength{\textheight}{1.4in}
+\usepackage[top=0.4in, bottom=0.3in, left=0.45in, right=0.45in]{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
 
 \urlstyle{same}
 
@@ -81,7 +53,7 @@
 
 %-------------------------
 % Custom commands
-\newcommand{\resumeItem}[1]{ \item\small{ {#1 \vspace{-2pt}} } }
+\newcommand{\resumeItem}[1]{ \item\small{ {#1 \vspace{-3pt}} } }
 
 \newcommand{\classesList}[4]{ \item\small{ {#1 #2 #3 #4 \vspace{-2pt}} } }
 
@@ -89,10 +61,10 @@
 \vspace{-2pt}
 \item
 \begin{tabular*}{1.0\textwidth}[t]{l@{\extracolsep{\fill}}r}
-  \textbf{\large#1} & \textbf{\small #2} \\
-  \textit{\large#3} & \textit{\small #4} \\
+  \textbf{#1} & \textbf{\small #2} \\
+  \textit{\small#3} & \textit{\small #4} \\
 \end{tabular*}
-\vspace{-7pt}
+\vspace{-5pt}
 }
 
 \newcommand{\resumeSubSubheading}[2]{ \item
@@ -117,7 +89,8 @@
 
 \newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.0in, label={}]}
 \newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
-\newcommand{\resumeItemListStart}{\begin{itemize}\vspace{-5pt}}
+\newcommand{\resumeItemListStart}{\begin{itemize}
+\vspace{-3pt}}
 \newcommand{\resumeItemListEnd}{\end{itemize}
 \vspace{-5pt}}
 
@@ -134,94 +107,74 @@
     \vspace{1pt}
     Kolkata, West Bengal \\
     \vspace{1pt}
-    \small
-    \href{mailto:purbayan.dev@gmail.com}{\raisebox{-0.2\height}{\faEnvelope}\  \underline{Gmail}}
-    ~
-    \href{https://www.linkedin.com/in/purbayan-pramanik-30586124b/}{\raisebox{-0.2\height}{\faLinkedinSquare}\ \underline{Linkedin}}
-    ~
-    \href{https://github.com/PPRAMANIK62}{\raisebox{-0.2\height}{\faGithub}\ \underline{GitHub}}
-    ~
-    \href{https://x.com/ppramanik62}{\raisebox{-0.2\height}{\faTwitter}\ \underline{X}}
-    ~
-    \href{https://purbayan-dev.pages.dev}{\raisebox{-0.2\height}{\faGlobe}\ \underline{Portfolio}}
+    \small Email: \href{mailto:purbayan.dev@gmail.com}{purbayan.dev@gmail.com} $|$
+    LinkedIn:
+    \href{https://www.linkedin.com/in/purbayan-pramanik-30586124b/}{linkedin.com/in/purbayan-pramanik-30586124b}
+    $|$ GitHub: \href{https://github.com/PPRAMANIK62}{github.com/PPRAMANIK62} $|$
+    Portfolio: \href{https://purbayan-dev.pages.dev}{purbayan-dev.pages.dev}
   \end{center}
-  \vspace{0.5mm}
+  \vspace{-2pt}
 
-  %-----------EDUCATION-----------
-  \section{EDUCATION}
-  \resumeSubHeadingListStart \resumeSubheading {National Institute Of Technology Durgapur}{2022 -- 2026}
-  {B.Tech - Mechanical Engineering}{Durgapur, West Bengal} \resumeSubHeadingListEnd
+  %-----------SUMMARY-----------
+  \section{SUMMARY}
+  \vspace{-1pt}
+  \small{Full-Stack Software Engineer with production experience shipping 49+ merged PRs across 5 repositories---building canvas rendering systems, real-time chat features, auth flows, and CI/CD pipelines. Personally curious about systems programming with projects in Rust, Go, and C. Contributor to Apache ECharts (65k+ stars). Seeking Full-Stack Engineer roles.}
+  \vspace{-8pt}
+
+  %-----------EXPERIENCE-----------
+  \section{EXPERIENCE}
+  \resumeSubHeadingListStart \resumeSubheading {\href{https://fiddle.is}{fiddle-factory}}{Dec 2025 -- Present}
+  {\underline{Software Engineer (Contractor)}}{Remote} \resumeItemListStart \resumeItem{\normalsize{Shipped 49+ merged PRs across 5 repositories spanning canvas rendering, real-time chat, auth systems, and build infrastructure for a tldraw-based AI component design tool.}}
+  \resumeItem{\normalsize{Built drag-and-drop component placement, theme/mode switching, and visual component grid; fixed canvas loading race condition that blocked all first-time user activations.}}
+  \resumeItem{\normalsize{Integrated Storybook across 4 repositories with stories for all 56 UI primitives (6,000+ lines); built MutationObserver-based readiness detection enabling automated screenshot pipelines.}}
+  \resumeItem{\normalsize{Implemented PKCE auth flow and role-based access control; restructured chat to non-blocking message send; migrated toast system and resolved ESLint violations across 23 files.}}
+  \resumeItemListEnd \resumeSubheading {\href{https://fiddle.is}{fiddle-factory}}{May 2025 -- Aug 2025}
+  {\underline{Software Engineer Intern}}{Remote} \resumeItemListStart \resumeItem{\normalsize{Migrated canvas system from react-flow to tldraw---built custom shapes, tools, preview components, and data conversion utilities across 84 files.}}
+  \resumeItem{\normalsize{Migrated cloud sandbox from StackBlitz WebContainers to e2b---configured custom templates, API integration, and sandbox session lifecycle management.}}
+  \resumeItem{\normalsize{Built the ``make real'' AI feature (2,500+ lines) integrating canvas drawings as chat attachments, plus interactive onboarding flow with progress tracking.}}
+  \resumeItemListEnd \resumeSubHeadingListEnd
+  \vspace{-14pt}
 
   %-----------TECHNICAL SKILLS-----------
   \section{TECHNICAL SKILLS}
   \begin{itemize}[leftmargin=0.15in, label={}]
-    \small{\item{ \textbf{\normalsize{Skills:}}{ \normalsize{Full Stack Development, Systems Programming, Open Source, Linux Customization}} \\ \textbf{\normalsize{Languages:}}{ \normalsize{TypeScript, Rust, C, Go, JavaScript, Shell, Python}} \\ \textbf{\normalsize{Web Technologies:}}{ \normalsize{React, Next.js, Tailwind CSS, Node.js, Express.js, HTML, CSS, ShadCN-UI, Framer Motion}} \\ \textbf{\normalsize{Systems \& Low-Level:}}{ \normalsize{TCP Networking, FFT/DSP, TF-IDF Search Algorithms, Concurrency, Audio Processing}} \\ \textbf{\normalsize{Developer Tools:}}{ \normalsize{Git, Docker, Linux, Hyprland, Zed, Neovim, VS Code, GitHub, Postman, Vercel, Bun}} \\ \textbf{\normalsize{Databases:}}{ \normalsize{PostgreSQL, MongoDB, Supabase, Firebase}} \\ }}
+    \small{\item{ \textbf{\normalsize{Languages:}}{ \normalsize{TypeScript, JavaScript, Rust, Go, C, Python, Shell}} \\ \textbf{\normalsize{Frameworks:}}{ \normalsize{React 19, Next.js 15, Node.js, Express.js, Tailwind CSS 4, Remix}} \\ \textbf{\normalsize{Libraries \& Tools:}}{ \normalsize{shadcn/ui, Radix UI, Framer Motion, Zustand, Storybook, tldraw}} \\ \textbf{\normalsize{Databases:}}{ \normalsize{PostgreSQL, MongoDB, Supabase, Firebase}} \\ \textbf{\normalsize{DevOps \& Tooling:}}{ \normalsize{Git, Docker, GitHub Actions, CI/CD, Linux, Bun, Vercel}} \\ \textbf{\normalsize{Concepts:}}{ \normalsize{REST APIs, OAuth/PKCE, WebSockets, Component Architecture, Performance Optimization}} \\ }}
   \end{itemize}
   \vspace{-15pt}
 
   %-----------PROJECTS-----------
   \section{PROJECTS}
   \vspace{-5pt}
-  \resumeSubHeadingListStart \resumeProjectHeading {\href{https://github.com/PPRAMANIK62/wayforged}{\textbf{\large{\underline{wayforged}}} \href{https://github.com/PPRAMANIK62/wayforged}{\raisebox{-0.1\height}{\faExternalLink} }} $|$ \large{\underline{Shell, TUI, charmbracelet/gum, Hyprland, Linux}}}{2025}\\
-  \resumeItemListStart \resumeItem{\normalsize{TUI-based installer for a complete Fedora Hyprland development environment, powered by charmbracelet/gum.}}
-  \resumeItem{\normalsize{14 installation phases covering 22 config files with three install modes (full, minimal, custom).}}
-  \resumeItem{\normalsize{Idempotent design with error recovery — retry, skip, or view logs on any phase failure.}}
+  \resumeSubHeadingListStart \resumeProjectHeading
+  {\href{https://canvas-kit.vercel.app}{\textbf{\underline{Canvas Kit}}} \href{https://github.com/PPRAMANIK62/canvas-kit}{} $|$ \underline{TypeScript, Next.js 15, React 19, Tailwind CSS, Canvas API}}{2025}\\
+  \resumeItemListStart \resumeItem{\normalsize{Lightweight drawing application with layer system, multiple tools (Brush, Eraser, Rectangle, Circle), keyboard shortcuts, and PNG export.}}
+  \resumeItem{\normalsize{Built with Next.js 15 and React 19 using Canvas API with offscreen buffers for per-layer rendering; deployed on Vercel.}}
   \resumeItemListEnd
-  \vspace{-20pt}
+  \vspace{-13pt}
   \resumeProjectHeading
-  {\href{https://canvas-kit.vercel.app}{\textbf{\large{\underline{Canvas Kit}}} \href{https://github.com/PPRAMANIK62/canvas-kit}{\raisebox{-0.1\height}{\faExternalLink} }} $|$ \large{\underline{TypeScript, Next.js 15, React 19, Tailwind CSS, Canvas API}}}{2025}\\
-  \resumeItemListStart \resumeItem{\normalsize{Lightweight drawing application with multiple tools (Brush, Eraser, Rectangle, Circle) and keyboard shortcuts.}}
-  \resumeItem{\normalsize{Layer system with reordering, visibility toggles, color palette, opacity controls, and PNG export.}}
-  \resumeItem{\normalsize{Built with Next.js 15 and React 19, deployed on Vercel.}}
+  {\href{https://github.com/PPRAMANIK62/4at}{\textbf{\underline{4at}}} $|$ \underline{Rust, Go, TCP, Concurrency}}{2025}\\
+  \resumeItemListStart \resumeItem{\normalsize{Multi-user TCP chat server built from raw sockets---dual implementation in Rust and Go comparing OS threads vs green threads.}}
+  \resumeItem{\normalsize{Token-based authentication, rate limiting, ban system, and broadcast messaging with near-zero dependencies.}}
   \resumeItemListEnd
-  \vspace{-20pt}
-  \resumeProjectHeading {\href{https://github.com/PPRAMANIK62/4at}{\textbf{\large{\underline{4at}}} \href{https://github.com/PPRAMANIK62/4at}{\raisebox{-0.1\height}{\faExternalLink} }} $|$ \large{\underline{Rust, Go, TCP, Concurrency}}}{2025}\\
-  \resumeItemListStart \resumeItem{\normalsize{Multi-user TCP chat server built from raw sockets — no frameworks. Dual implementation in Rust and Go.}}
-  \resumeItem{\normalsize{Token-based authentication, rate limiting, ban system, and broadcast messaging.}}
-  \resumeItem{\normalsize{Compares OS threads (Rust std::thread) vs green threads (Go goroutines) for concurrent connections.}}
-  \resumeItemListEnd
-  \vspace{-20pt}
+  \vspace{-13pt}
   \resumeProjectHeading
-  {\href{https://github.com/PPRAMANIK62/seroost}{\textbf{\large{\underline{seroost}}} \href{https://github.com/PPRAMANIK62/seroost}{\raisebox{-0.1\height}{\faExternalLink} }} $|$ \large{\underline{Rust, TF-IDF, HTTP, JavaScript}}}{2025}\\
-  \resumeItemListStart \resumeItem{\normalsize{Local search engine that indexes documents using TF-IDF, ranks by relevance, and serves results over HTTP.}}
-  \resumeItem{\normalsize{Custom implementation — no search library. Tokenization, inverted index, TF-IDF scoring from scratch.}}
-  \resumeItem{\normalsize{Full-stack: Rust backend with only 3 external crates, JavaScript/HTML web frontend.}}
-  \resumeItemListEnd
-  \vspace{-20pt}
-  \resumeProjectHeading {\href{https://github.com/PPRAMANIK62/musializer}{\textbf{\large{\underline{musializer}}} \href{https://github.com/PPRAMANIK62/musializer}{\raisebox{-0.1\height}{\faExternalLink} }} $|$ \large{\underline{C, FFT, raylib, DSP}}}{2025}\\
-  \resumeItemListStart \resumeItem{\normalsize{Real-time audio frequency spectrum visualizer using custom FFT implementation (\textasciitilde670 lines of C).}}
-  \resumeItem{\normalsize{Header-only FFT library with 256 frequency bins at 44,100 Hz sample rate, O(N log N) complexity.}}
-  \resumeItem{\normalsize{Single external dependency (raylib). Visualizes audio decomposition into frequency components in real time.}}
+  {\href{https://github.com/PPRAMANIK62/seroost}{\textbf{\underline{seroost}}} $|$ \underline{Rust, TF-IDF, HTTP, JavaScript}}{2025}\\
+  \resumeItemListStart \resumeItem{\normalsize{Local search engine indexing documents using custom TF-IDF implementation---tokenization, inverted index, and scoring from scratch.}}
+  \resumeItem{\normalsize{Full-stack: Rust backend with only 3 external crates serving results over HTTP to a JavaScript/HTML frontend.}}
   \resumeItemListEnd \resumeSubHeadingListEnd
-  \vspace{-12pt}
+  \vspace{-14pt}
 
   %-----------OPEN SOURCE-----------
   \section{OPEN SOURCE}
-  \resumeSubHeadingListStart \resumeItemListStart \resumeItem{\normalsize{Contributor to \textbf{Apache ECharts} (65,000+ stars) — the largest open source charting library.}}
-  \resumeItem{\normalsize{Contributed to the \textbf{shadcn ecosystem} through \textbf{fiddle-factory} — component library PRs.}}
+  \resumeSubHeadingListStart \resumeItemListStart \resumeItem{\normalsize{Contributor to \textbf{Apache ECharts} (65,000+ stars)---fixed candlestick rendering bug with series.encode mapping (PR merged).}}
+  \resumeItem{\normalsize{Contributed to the \textbf{shadcn ecosystem} through \textbf{fiddle-factory}---component library PRs across multiple repositories.}}
   \resumeItemListEnd \resumeSubHeadingListEnd
-  \vspace{-12pt}
+  \vspace{-14pt}
 
-  %-----------INTERNSHIP-----------
-  \section{INTERNSHIP}
+  %-----------EDUCATION-----------
+  \section{EDUCATION}
   \resumeSubHeadingListStart \resumeSubheading
-  {fiddle-factory \href{https://github.com/fiddle-factory}{\raisebox{-0.1\height}{\faExternalLink} }}{Dec 2025 -- Ongoing}
-  {\underline{Software Engineer (Contractor)}}{Remote} \resumeItemListStart
-  \resumeItem{\normalsize{Worked on the canvas rendering system — added theme/mode switching, auto-pan, visual component grid, and element inspector; helped fix canvas loading bugs for new users.}}
-  \resumeItem{\normalsize{Added chat features including slash command menu, clear chat, Claude health checks, and helped improve message send performance and clipboard handling.}}
-  \resumeItem{\normalsize{Helped set up Storybook across 4 repos (fiddle, shadcn-ui, eleven-labs-ui, design-engineer) — wrote stories for UI primitives and added MutationObserver-based content readiness detection.}}
-  \resumeItem{\normalsize{Worked on build pipeline — integrated Storycap-based screenshot system, post-commit build triggers, and ripgrep-powered search.}}
-  \resumeItem{\normalsize{Helped add access control with allowlist, user types, template restrictions, and PKCE auth flow for the dashboard.}}
-  \resumeItem{\normalsize{Fixed 15+ bugs and DX issues — toast migration (react-toastify to sonner), eslint react-hooks cleanup, double-submission prevention, and loading state improvements.}}
-  \resumeItemListEnd \resumeSubHeadingListEnd
-  \vspace{-12pt}
-
-  \resumeSubHeadingListStart \resumeSubheading {fiddle-factory \href{https://github.com/fiddle-factory}{\raisebox{-0.1\height}{\faExternalLink} }}{May 2025 -- Aug 2025}
-  {\underline{Software Engineer Intern}}{Remote} \resumeItemListStart \resumeItem{\normalsize{Migrated the canvas system from react-flow to tldraw — removed previous node implementation and added custom shapes, tools, preview components, and data conversion utilities.}}
-  \resumeItem{\normalsize{Migrated the cloud sandbox from StackBlitz WebContainers to e2b — set up custom templates, API config, sandbox session management, and documented the environment.}}
-  \resumeItem{\normalsize{Worked on the Figma-to-code plugin — helped set up the codegen pipeline, multi-frame export, and tweakpane UI integration.}}
-  \resumeItem{\normalsize{Helped build the user onboarding flow with interactive checklist, task tooltips, and progress tracking.}}
-  \resumeItem{\normalsize{Contributed to the "make real" feature — added API route, response shapes, and integrated canvas drawings as chat attachments.}}
-  \resumeItemListEnd \resumeSubHeadingListEnd
-  \vspace{-12pt}
+  {National Institute Of Technology Durgapur}{2022 -- 2026 (Expected April 2026)}
+  {B.Tech - Mechanical Engineering}{Durgapur, West Bengal}
+  \resumeSubHeadingListEnd
 \end{document}
