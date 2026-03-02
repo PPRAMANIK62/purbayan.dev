@@ -1,6 +1,11 @@
 import { useState, useMemo } from "react"
 import { Copy, Check } from "lucide-react"
-import { tokenizeRust, tokenizeToml } from "@/lib/syntax-highlighter"
+import {
+  tokenizeRust,
+  tokenizeToml,
+  tokenizeJavaScript,
+  tokenizeTypeScript,
+} from "@/lib/syntax-highlighter"
 
 export function CodeBlock({ language, code }: { language: string; code: string }) {
   const [copied, setCopied] = useState(false)
@@ -8,6 +13,10 @@ export function CodeBlock({ language, code }: { language: string; code: string }
   const tokens = useMemo(() => {
     if (language === "rust" || language === "rs") return tokenizeRust(code)
     if (language === "toml") return tokenizeToml(code)
+    if (language === "javascript" || language === "js" || language === "jsx")
+      return tokenizeJavaScript(code)
+    if (language === "typescript" || language === "ts" || language === "tsx")
+      return tokenizeTypeScript(code)
     return null
   }, [code, language])
 

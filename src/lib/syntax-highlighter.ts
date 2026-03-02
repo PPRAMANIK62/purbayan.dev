@@ -914,3 +914,622 @@ export function tokenizeToml(code: string): Token[] {
 
   return tokens
 }
+
+// ── JavaScript / TypeScript tokenizer ──
+
+const JS_KEYWORDS = new Set([
+  "const",
+  "let",
+  "var",
+  "function",
+  "return",
+  "if",
+  "else",
+  "for",
+  "while",
+  "do",
+  "switch",
+  "case",
+  "break",
+  "continue",
+  "class",
+  "extends",
+  "new",
+  "typeof",
+  "instanceof",
+  "in",
+  "of",
+  "throw",
+  "try",
+  "catch",
+  "finally",
+  "import",
+  "export",
+  "from",
+  "default",
+  "async",
+  "await",
+  "yield",
+  "delete",
+  "void",
+  "static",
+  "get",
+  "set",
+])
+
+const TS_EXTRA_KEYWORDS = new Set([
+  "type",
+  "interface",
+  "enum",
+  "namespace",
+  "declare",
+  "readonly",
+  "abstract",
+  "implements",
+  "keyof",
+  "infer",
+  "never",
+  "unknown",
+  "any",
+  "as",
+  "is",
+  "asserts",
+  "satisfies",
+  "override",
+  "accessor",
+])
+
+const JS_BUILTIN_TYPES = new Set([
+  "Array",
+  "Map",
+  "Set",
+  "WeakMap",
+  "WeakSet",
+  "Promise",
+  "Date",
+  "RegExp",
+  "Error",
+  "TypeError",
+  "RangeError",
+  "SyntaxError",
+  "ReferenceError",
+  "Object",
+  "Function",
+  "Symbol",
+  "BigInt",
+  "Number",
+  "String",
+  "Boolean",
+  "Int8Array",
+  "Uint8Array",
+  "Int16Array",
+  "Uint16Array",
+  "Int32Array",
+  "Uint32Array",
+  "Float32Array",
+  "Float64Array",
+  "ArrayBuffer",
+  "SharedArrayBuffer",
+  "DataView",
+  "JSON",
+  "Math",
+  "Intl",
+  "console",
+  "globalThis",
+  "Proxy",
+  "Reflect",
+  "Iterator",
+  "Generator",
+  "AsyncGenerator",
+  "ReadableStream",
+  "WritableStream",
+  "Response",
+  "Request",
+  "Headers",
+  "URL",
+  "URLSearchParams",
+  "AbortController",
+  "FormData",
+  "Blob",
+  "File",
+  "Event",
+  "EventTarget",
+  "HTMLElement",
+  "Document",
+  "Window",
+  "Node",
+  "Element",
+  "NodeList",
+  "MutationObserver",
+  "IntersectionObserver",
+  "ResizeObserver",
+  "Record",
+  "Partial",
+  "Required",
+  "Readonly",
+  "Pick",
+  "Omit",
+  "Exclude",
+  "Extract",
+  "NonNullable",
+  "ReturnType",
+  "Parameters",
+  "InstanceType",
+  "Awaited",
+])
+
+const JS_SPECIAL_VALUES = new Set(["true", "false", "null", "undefined", "NaN", "Infinity"])
+
+/**
+ * Tokenize JavaScript or TypeScript source code into highlighted spans.
+ * Character-by-character scanner matching the Rust tokenizer pattern.
+ * Handles: keywords, types, functions, strings (single/double/template),
+ * numbers, comments, regex literals, decorators, arrow functions, operators.
+ */
+function tokenizeJS(code: string, typescript: boolean): Token[] {
+  const tokens: Token[] = []
+  let pos = 0
+  const len = code.length
+  let prevKeyword = ""
+  // Track last meaningful token kind for regex vs division disambiguation
+  let lastTokenKind: "operator" | "identifier" | "number" | "close" | "other" | "" = ""
+
+  function push(text: string, className: string) {
+    tokens.push({ text, className })
+  }
+
+  function isKeyword(word: string): boolean {
+    if (JS_KEYWORDS.has(word)) return true
+    if (typescript && TS_EXTRA_KEYWORDS.has(word)) return true
+    return false
+  }
+
+  while (pos < len) {
+    const c = code[pos]
+
+    // ── Whitespace ──
+    if (c === " " || c === "\t" || c === "\n" || c === "\r") {
+      const start = pos
+      while (
+        pos < len &&
+        (code[pos] === " " || code[pos] === "\t" || code[pos] === "\n" || code[pos] === "\r")
+      ) {
+        pos++
+      }
+      push(code.slice(start, pos), "")
+      continue
+    }
+
+    // ── Line comment ──
+    if (c === "/" && pos + 1 < len && code[pos + 1] === "/") {
+      const start = pos
+      while (pos < len && code[pos] !== "\n") pos++
+      push(code.slice(start, pos), "text-muted-foreground italic")
+      lastTokenKind = "other"
+      continue
+    }
+
+    // ── Block comment ──
+    if (c === "/" && pos + 1 < len && code[pos + 1] === "*") {
+      const start = pos
+      pos += 2
+      while (pos < len) {
+        if (code[pos] === "*" && pos + 1 < len && code[pos + 1] === "/") {
+          pos += 2
+          break
+        }
+        pos++
+      }
+      push(code.slice(start, pos), "text-muted-foreground italic")
+      lastTokenKind = "other"
+      continue
+    }
+
+    // ── Regex literal ──
+    // A '/' is a regex when preceded by an operator, keyword, or start of expression
+    if (
+      c === "/" &&
+      lastTokenKind !== "identifier" &&
+      lastTokenKind !== "number" &&
+      lastTokenKind !== "close"
+    ) {
+      const start = pos
+      pos++ // skip opening /
+      let inCharClass = false
+      while (pos < len && (code[pos] !== "/" || inCharClass) && code[pos] !== "\n") {
+        if (code[pos] === "\\") {
+          pos++ // skip escape
+        } else if (code[pos] === "[") {
+          inCharClass = true
+        } else if (code[pos] === "]") {
+          inCharClass = false
+        }
+        pos++
+      }
+      if (pos < len && code[pos] === "/") {
+        pos++ // skip closing /
+        // Consume flags: g, i, m, s, u, v, y, d
+        while (pos < len && isAlpha(code[pos])) pos++
+      }
+      push(code.slice(start, pos), "text-tokyo-green")
+      lastTokenKind = "other"
+      continue
+    }
+
+    // ── Decorator: @identifier ──
+    if (c === "@" && pos + 1 < len && isAlpha(code[pos + 1])) {
+      const start = pos
+      pos++ // skip @
+      while (pos < len && (isAlphaNum(code[pos]) || code[pos] === ".")) pos++
+      push(code.slice(start, pos), "text-tokyo-yellow")
+      lastTokenKind = "other"
+      continue
+    }
+
+    // ── Template literal ──
+    if (c === "`") {
+      pos++ // skip opening `
+      let segStart = pos
+      // Push the opening backtick
+      push("`", "text-tokyo-green")
+      while (pos < len && code[pos] !== "`") {
+        if (code[pos] === "\\" && pos + 1 < len) {
+          pos += 2 // skip escape sequence
+          continue
+        }
+        if (code[pos] === "$" && pos + 1 < len && code[pos + 1] === "{") {
+          // Push string content before ${
+          if (pos > segStart) {
+            push(code.slice(segStart, pos), "text-tokyo-green")
+          }
+          push("${", "text-secondary-foreground")
+          pos += 2 // skip ${
+          // Tokenize interpolation content — track brace depth
+          let braceDepth = 1
+          while (pos < len && braceDepth > 0) {
+            if (code[pos] === "{") {
+              braceDepth++
+              push("{", "text-secondary-foreground")
+              pos++
+            } else if (code[pos] === "}") {
+              braceDepth--
+              if (braceDepth === 0) {
+                push("}", "text-secondary-foreground")
+                pos++
+                break
+              }
+              push("}", "text-secondary-foreground")
+              pos++
+            } else {
+              // Recursively tokenize a single token inside interpolation
+              // For simplicity, consume identifiers, numbers, strings, operators
+              const ic = code[pos]
+              if (ic === " " || ic === "\t" || ic === "\n" || ic === "\r") {
+                const ws = pos
+                while (
+                  pos < len &&
+                  (code[pos] === " " ||
+                    code[pos] === "\t" ||
+                    code[pos] === "\n" ||
+                    code[pos] === "\r")
+                ) {
+                  pos++
+                }
+                push(code.slice(ws, pos), "")
+              } else if (isAlpha(ic)) {
+                const iStart = pos
+                while (pos < len && isAlphaNum(code[pos])) pos++
+                const iWord = code.slice(iStart, pos)
+                if (isKeyword(iWord)) {
+                  push(iWord, "text-tokyo-magenta")
+                } else if (JS_SPECIAL_VALUES.has(iWord)) {
+                  push(iWord, "text-tokyo-orange")
+                } else if (iWord === "this" || iWord === "super") {
+                  push(iWord, "text-tokyo-red")
+                } else {
+                  // Check for function call
+                  let ila = pos
+                  while (ila < len && code[ila] === " ") ila++
+                  if (ila < len && code[ila] === "(") {
+                    push(iWord, "text-primary")
+                  } else if (iWord[0] >= "A" && iWord[0] <= "Z") {
+                    push(iWord, "text-tokyo-cyan")
+                  } else {
+                    push(iWord, "")
+                  }
+                }
+              } else if (isDigit(ic)) {
+                const nStart = pos
+                while (pos < len && (isAlphaNum(code[pos]) || code[pos] === ".")) pos++
+                push(code.slice(nStart, pos), "text-tokyo-orange")
+              } else if (ic === "'" || ic === '"') {
+                const sStart = pos
+                const q = ic
+                pos++
+                while (pos < len && code[pos] !== q && code[pos] !== "\n") {
+                  if (code[pos] === "\\") pos++
+                  pos++
+                }
+                if (pos < len && code[pos] === q) pos++
+                push(code.slice(sStart, pos), "text-tokyo-green")
+              } else {
+                push(ic, "text-secondary-foreground")
+                pos++
+              }
+            }
+          }
+          segStart = pos
+          continue
+        }
+        pos++
+      }
+      // Push remaining string content before closing `
+      if (pos > segStart) {
+        push(code.slice(segStart, pos), "text-tokyo-green")
+      }
+      if (pos < len) {
+        push("`", "text-tokyo-green")
+        pos++ // skip closing `
+      }
+      lastTokenKind = "other"
+      continue
+    }
+
+    // ── String literal (double-quoted) ──
+    if (c === '"') {
+      const start = pos
+      pos++ // skip opening "
+      while (pos < len && code[pos] !== '"' && code[pos] !== "\n") {
+        if (code[pos] === "\\") pos++ // skip escape
+        pos++
+      }
+      if (pos < len && code[pos] === '"') pos++ // skip closing "
+      push(code.slice(start, pos), "text-tokyo-green")
+      lastTokenKind = "other"
+      continue
+    }
+
+    // ── String literal (single-quoted) ──
+    if (c === "'") {
+      const start = pos
+      pos++ // skip opening '
+      while (pos < len && code[pos] !== "'" && code[pos] !== "\n") {
+        if (code[pos] === "\\") pos++ // skip escape
+        pos++
+      }
+      if (pos < len && code[pos] === "'") pos++ // skip closing '
+      push(code.slice(start, pos), "text-tokyo-green")
+      lastTokenKind = "other"
+      continue
+    }
+
+    // ── Numbers ──
+    if (isDigit(c) || (c === "." && pos + 1 < len && isDigit(code[pos + 1]))) {
+      const start = pos
+      if (c === "0" && pos + 1 < len) {
+        const next = code[pos + 1]
+        if (next === "x" || next === "X") {
+          pos += 2
+          while (pos < len && /[0-9a-fA-F_]/.test(code[pos])) pos++
+        } else if (next === "b" || next === "B") {
+          pos += 2
+          while (pos < len && /[01_]/.test(code[pos])) pos++
+        } else if (next === "o" || next === "O") {
+          pos += 2
+          while (pos < len && /[0-7_]/.test(code[pos])) pos++
+        } else {
+          while (pos < len && (isDigit(code[pos]) || code[pos] === "_")) pos++
+          if (pos < len && code[pos] === "." && pos + 1 < len && isDigit(code[pos + 1])) {
+            pos++
+            while (pos < len && (isDigit(code[pos]) || code[pos] === "_")) pos++
+          }
+          if (pos < len && (code[pos] === "e" || code[pos] === "E")) {
+            pos++
+            if (pos < len && (code[pos] === "+" || code[pos] === "-")) pos++
+            while (pos < len && (isDigit(code[pos]) || code[pos] === "_")) pos++
+          }
+        }
+      } else if (c === ".") {
+        // .5 style number
+        pos++
+        while (pos < len && (isDigit(code[pos]) || code[pos] === "_")) pos++
+        if (pos < len && (code[pos] === "e" || code[pos] === "E")) {
+          pos++
+          if (pos < len && (code[pos] === "+" || code[pos] === "-")) pos++
+          while (pos < len && (isDigit(code[pos]) || code[pos] === "_")) pos++
+        }
+      } else {
+        while (pos < len && (isDigit(code[pos]) || code[pos] === "_")) pos++
+        if (pos < len && code[pos] === "." && pos + 1 < len && isDigit(code[pos + 1])) {
+          pos++
+          while (pos < len && (isDigit(code[pos]) || code[pos] === "_")) pos++
+        }
+        if (pos < len && (code[pos] === "e" || code[pos] === "E")) {
+          pos++
+          if (pos < len && (code[pos] === "+" || code[pos] === "-")) pos++
+          while (pos < len && (isDigit(code[pos]) || code[pos] === "_")) pos++
+        }
+      }
+      // BigInt suffix: 123n
+      if (pos < len && code[pos] === "n" && (pos + 1 >= len || !isAlphaNum(code[pos + 1]))) {
+        pos++
+      }
+      push(code.slice(start, pos), "text-tokyo-orange")
+      lastTokenKind = "number"
+      continue
+    }
+
+    // ── Identifiers, keywords, types, functions ──
+    if (isAlpha(c)) {
+      const start = pos
+      while (pos < len && isAlphaNum(code[pos])) pos++
+      const word = code.slice(start, pos)
+
+      // this / super → red
+      if (word === "this" || word === "super") {
+        push(word, "text-tokyo-red")
+        prevKeyword = ""
+        lastTokenKind = "identifier"
+        continue
+      }
+
+      // Special values → orange
+      if (JS_SPECIAL_VALUES.has(word)) {
+        push(word, "text-tokyo-orange")
+        prevKeyword = ""
+        lastTokenKind = "identifier"
+        continue
+      }
+
+      // Keywords → magenta
+      if (isKeyword(word)) {
+        push(word, "text-tokyo-magenta")
+        prevKeyword = word
+        lastTokenKind = "operator" // keywords act like operators for regex disambiguation
+        continue
+      }
+
+      // Function name after `function` keyword
+      if (prevKeyword === "function") {
+        push(word, "text-primary")
+        prevKeyword = ""
+        lastTokenKind = "identifier"
+        continue
+      }
+
+      // Type name after class/extends/interface/type/enum/implements keywords
+      if (
+        prevKeyword === "class" ||
+        prevKeyword === "extends" ||
+        prevKeyword === "interface" ||
+        prevKeyword === "type" ||
+        prevKeyword === "enum" ||
+        prevKeyword === "implements"
+      ) {
+        push(word, "text-tokyo-cyan")
+        prevKeyword = ""
+        lastTokenKind = "identifier"
+        continue
+      }
+
+      // Known built-in types → cyan
+      if (JS_BUILTIN_TYPES.has(word)) {
+        push(word, "text-tokyo-cyan")
+        prevKeyword = ""
+        lastTokenKind = "identifier"
+        continue
+      }
+
+      // Function call: identifier followed by (
+      let la = pos
+      while (la < len && code[la] === " ") la++
+      if (la < len && code[la] === "(") {
+        push(word, "text-primary")
+        prevKeyword = ""
+        lastTokenKind = "identifier"
+        continue
+      }
+
+      // PascalCase → likely a type
+      if (word[0] >= "A" && word[0] <= "Z") {
+        push(word, "text-tokyo-cyan")
+        prevKeyword = ""
+        lastTokenKind = "identifier"
+        continue
+      }
+
+      // Plain identifier
+      push(word, "")
+      prevKeyword = ""
+      lastTokenKind = "identifier"
+      continue
+    }
+
+    // ── Three-character operators ──
+    if (pos + 2 < len) {
+      const three = code.slice(pos, pos + 3)
+      if (
+        three === "===" ||
+        three === "!==" ||
+        three === "..." ||
+        three === ">>>" ||
+        three === "**=" ||
+        three === "<<=" ||
+        three === ">>=" ||
+        three === "&&=" ||
+        three === "||=" ||
+        three === "??="
+      ) {
+        push(three, "text-secondary-foreground")
+        pos += 3
+        lastTokenKind = "operator"
+        continue
+      }
+    }
+
+    // ── Two-character operators ──
+    if (pos + 1 < len) {
+      const two = code.slice(pos, pos + 2)
+      if (
+        two === "=>" ||
+        two === "==" ||
+        two === "!=" ||
+        two === "<=" ||
+        two === ">=" ||
+        two === "&&" ||
+        two === "||" ||
+        two === "??" ||
+        two === "?." ||
+        two === "**" ||
+        two === "++" ||
+        two === "--" ||
+        two === "+=" ||
+        two === "-=" ||
+        two === "*=" ||
+        two === "/=" ||
+        two === "%=" ||
+        two === "&=" ||
+        two === "|=" ||
+        two === "^=" ||
+        two === "<<" ||
+        two === ">>"
+      ) {
+        push(two, "text-secondary-foreground")
+        pos += 2
+        lastTokenKind = "operator"
+        continue
+      }
+    }
+
+    // ── Closing brackets/parens → track for regex disambiguation ──
+    if (c === ")" || c === "]" || c === "}") {
+      push(c, "text-secondary-foreground")
+      pos++
+      lastTokenKind = "close"
+      continue
+    }
+
+    // ── Single-character operators & punctuation ──
+    if ("({[<>;,.:=+-*/%&|^!?@~".includes(c)) {
+      push(c, "text-secondary-foreground")
+      pos++
+      lastTokenKind = "operator"
+      continue
+    }
+
+    // ── Fallback ──
+    push(c, "")
+    pos++
+    lastTokenKind = "other"
+  }
+
+  return tokens
+}
+
+export function tokenizeJavaScript(code: string): Token[] {
+  return tokenizeJS(code, false)
+}
+
+export function tokenizeTypeScript(code: string): Token[] {
+  return tokenizeJS(code, true)
+}
