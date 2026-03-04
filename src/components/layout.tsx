@@ -11,7 +11,16 @@ import { useTerminalStore } from "@/stores/terminal-store"
 import { useShallow } from "zustand/react/shallow"
 import { useKonamiCode } from "@/hooks/use-konami-code"
 
-const knownRoutes = ["/", "/about", "/projects", "/projects/:slug", "/uses", "/blog", "/blog/:slug"]
+const knownRoutes = [
+  "/",
+  "/about",
+  "/projects",
+  "/projects/:slug",
+  "/experience",
+  "/uses",
+  "/blog",
+  "/blog/:slug",
+]
 
 export function Layout() {
   const location = useLocation()

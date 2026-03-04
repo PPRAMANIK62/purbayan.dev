@@ -9,6 +9,7 @@ import { CommandPalette } from "@/components/command-palette"
 const navLinks = [
   { label: "projects", path: "/projects" },
   { label: "blog", path: "/blog" },
+  { label: "experience", path: "/experience" },
   { label: "uses", path: "/uses" },
   { label: "about", path: "/about" },
   { label: "vault", path: "/vault" },

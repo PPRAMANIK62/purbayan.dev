@@ -54,8 +54,11 @@ export default function HomePage() {
             transition={{ duration: 0.4, ease: EASE_OUT }}
             className="flex items-center gap-6 mt-8"
           >
+            <Link to="/experience" className="text-primary font-mono hover:underline">
+              → experience
+            </Link>
             <Link to="/projects" className="text-primary font-mono hover:underline">
-              → view projects
+              → projects
             </Link>
             <a
               href={SOCIAL.github.url}
@@ -95,6 +98,24 @@ export default function HomePage() {
             </FadeUp>
           ))}
         </div>
+      </section>
+
+      {/* Experience Teaser */}
+      <section className="max-w-3xl mx-auto px-6 py-24">
+        <FadeUp>
+          <SectionHeading title="experience" />
+          <p className="text-lg text-secondary-foreground leading-relaxed mt-6">
+            Currently building full-stack features at fiddle-factory — from canvas rendering and
+            real-time chat to authentication infrastructure. Previously interned there, shipping
+            platform migrations and an AI feature.
+          </p>
+          <Link
+            to="/experience"
+            className="text-primary font-mono hover:underline mt-4 inline-block"
+          >
+            → view experience
+          </Link>
+        </FadeUp>
       </section>
 
       {/* About Teaser */}

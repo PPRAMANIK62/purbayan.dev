@@ -127,7 +127,7 @@ export default function AboutPage() {
           </a>{" "}
           (65k+ stars) and the shadcn ecosystem through{" "}
           <a
-            href="https://github.com/fiddle-factory/"
+            href="https://fiddle.is"
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary hover:underline"

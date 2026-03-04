@@ -1,6 +1,7 @@
 import { useEffect, useCallback } from "react"
 import { useNavigate } from "react-router-dom"
 import {
+  Briefcase,
   Code,
   FileText,
   FolderOpen,
@@ -34,6 +35,7 @@ interface CommandPaletteProps {
 const pages = [
   { label: "Home", icon: Home, path: "/" },
   { label: "Projects", icon: FolderOpen, path: "/projects" },
+  { label: "Experience", icon: Briefcase, path: "/experience" },
   { label: "Uses", icon: Wrench, path: "/uses" },
   { label: "About", icon: User, path: "/about" },
   { label: "Resume", icon: FileText, path: "/resume" },

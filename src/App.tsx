@@ -14,6 +14,7 @@ import AboutPage from "@/pages/about"
 import ProjectsPage from "@/pages/projects"
 import ProjectPage from "@/pages/project"
 import UsesPage from "@/pages/uses"
+import ExperiencePage from "@/pages/experience"
 import ResumePage from "@/pages/resume"
 import BlogPage from "@/pages/blog"
 import BlogPostPage from "@/pages/blog-post"
@@ -52,6 +53,7 @@ const router = createBrowserRouter([
       { path: "/projects", element: <ProjectsPage /> },
       { path: "/projects/:slug", element: <ProjectPage /> },
       { path: "/uses", element: <UsesPage /> },
+      { path: "/experience", element: <ExperiencePage /> },
       { path: "/resume", element: <ResumePage /> },
       { path: "/blog", element: <BlogPage /> },
       { path: "/blog/:slug", element: <BlogPostPage /> },
