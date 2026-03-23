@@ -92,82 +92,70 @@ I'd also have documented the e2b sandbox lifecycle more thoroughly. The 2-hour t
 
 ---
 
-## wayforged
+## mdt
 
 ### What It Is
 
-A TUI-based installer for setting up a complete Fedora Hyprland development environment. You run one script and it configures everything: window manager, terminal, shell, fonts, editors, languages, services.
+A fast, terminal-based markdown viewer and editor built with Rust. Point it at a directory and you get a file tree, a fully rendered markdown preview with syntax highlighting, a built-in vim-style editor, and a live split-pane preview that updates as you type. Published on crates.io as `mdtui`.
 
 ### Rapid-Fire Details
 
-| Detail        | Value                          |
-| ------------- | ------------------------------ |
-| Language      | Shell (95.6%), CSS (4.4%)      |
-| TUI Framework | charmbracelet/gum              |
-| Phases        | 14 installation phases         |
-| Config Files  | 22 managed configs             |
-| Modes         | Full, Minimal, Custom          |
-| Design        | Idempotent with error recovery |
+| Detail              | Value                                                 |
+| ------------------- | ----------------------------------------------------- |
+| Language            | Rust 89.4%, MDX 4.9%, Astro 2.7%                      |
+| TUI Framework       | ratatui                                               |
+| Syntax Highlighting | syntect                                               |
+| Install             | `cargo install mdtui`                                 |
+| Docs                | https://mdt.purbayan.me                               |
+| Design              | Dirty-flag rendering, file watching, advisory locking |
 
 ### Architecture
 
-Entry point is `install.sh`, which sources a `lib/` directory containing presentation helpers, logging, error handling, and utilities. The actual work happens in `phases/`, which contains 14 scripts that run in dependency order:
+The application is a terminal UI built with ratatui. Key components:
 
-1. Repositories (DNF repos, RPM Fusion)
-2. Hyprland (compositor, config, waybar, wofi)
-3. Tokyo Night (GTK theme, icons, cursors)
-4. Nerd Fonts (Iosevka, JetBrains Mono)
-5. Ghostty (terminal emulator)
-6. Zsh (oh-my-zsh, plugins, .zshrc)
-7. CLI Tools (bat, eza, fd, ripgrep, fzf, etc.)
-8. Node.js (fnm, LTS install)
-9. Editors (Neovim, VS Code)
-10. Git (config, GPG, SSH keys)
-11. Apps (Firefox, Spotify, Discord)
-12. Languages (Rust, Go, Python)
-13. Services (Docker, Bluetooth, etc.)
-14. Finalize (cleanup, summary)
-
-Each phase is self-contained but assumes earlier phases have run. The `lib/` layer provides `gum`-powered UI: spinners, confirmations, multi-select menus, styled output.
+- **File browser** — collapsible tree with directory navigation, search/filter, fuzzy finder, and CRUD operations (create, delete, rename, move files/dirs)
+- **Markdown renderer** — custom renderer handling H1-H6 headings, bold/italic/strikethrough, inline code, fenced code blocks with syntax highlighting (syntect), tables with box-drawing borders, task lists, nested blockquotes, horizontal rules, and a link picker overlay
+- **Editor** — vim-style keybindings with insert/normal modes, dirty-file tracking, save/quit/force-quit commands, and reload from disk
+- **Live preview** — real-time split-pane (horizontal or vertical) with debounced rendering and parallel scrolling
 
 ### Technical Decisions & Why
 
-**Shell over Python/Ansible.** The target audience is developers setting up a fresh Fedora install. Shell is guaranteed to be there. Python might not be installed yet. Ansible is overkill for a single-machine setup. The tradeoff: shell scripting is painful for complex logic, error handling is manual, and testing is basically "run it and see."
+**Rust over Go/Python.** A terminal UI that renders markdown in real-time needs to be fast. Rust gives zero-cost abstractions, no GC pauses, and excellent terminal library support via ratatui. The tradeoff: longer compile times and more upfront complexity, but the result is a snappy experience even on large files.
 
-**charmbracelet/gum for TUI.** gum gives you styled prompts, spinners, confirmations, and multi-select menus as simple CLI commands. No curses library, no complex TUI framework. Just `gum choose "Option A" "Option B"` and you get a beautiful selector. The tradeoff: it's an external dependency that needs to be installed early in the process.
+**Custom markdown renderer.** Instead of shelling out to an external tool, the renderer is built in. This allows tight integration with the TUI — scrolling, heading navigation, width-aware wrapping, and live preview all work seamlessly. The tradeoff: building a full markdown renderer is a lot of work, but it gives complete control over the output.
 
-**14 discrete phases.** Each phase is a separate script file. This makes it easy to re-run a single phase if it fails, skip phases you don't need, and reason about what each phase does. The alternative was one monolithic script, which would be unmaintainable.
+**Dirty-flag rendering.** The UI only redraws when something actually changes. This keeps CPU usage near zero when idle and makes the editor responsive during fast typing. Combined with debounced rendering in live preview mode, it stays smooth.
 
-**Three modes.** Full installs everything. Minimal installs just the essentials (Hyprland, terminal, shell, fonts). Custom lets you pick phases with a gum multi-select. This covers the spectrum from "I want everything" to "I just need Hyprland and Ghostty."
+**Advisory file locking.** Prevents multiple mdt instances from editing the same file simultaneously. This avoids data loss from concurrent writes without being overly restrictive.
+
+**Pre-warmed syntax highlighting.** Syntax highlighting themes are loaded on a background thread at startup, so the first code block renders instantly instead of causing a visible delay.
 
 ### Problems Faced & How Overcome
 
-**Making shell scripts idempotent.** If a user runs the installer twice, it shouldn't break anything or duplicate work. For package installs, `dnf install` is naturally idempotent (it skips already-installed packages). For config files, I check if the file exists and diff it against the expected content before overwriting. For git clones, I check if the directory exists. For services, I check `systemctl is-enabled` before enabling. Every operation has a "is this already done?" check.
+**Width-aware text wrapping.** Paragraphs, headings, blockquotes, and list items all need to wrap correctly at the terminal width, with proper indentation for continuation lines. Nested blockquotes and lists make this especially tricky — each nesting level reduces the available width. Solved with a recursive layout engine that tracks available width at each nesting level.
 
-**Phase ordering dependencies.** Phase 7 (CLI Tools) needs Phase 1 (Repositories) to have added the correct repos. Phase 8 (Node.js) needs Phase 7 to have installed `curl`. Phase 12 (Languages) needs Phase 1 for some package sources. I solved this with explicit dependency documentation in each phase script's header comment, and the main installer enforces the order. In custom mode, if you select Phase 8, it automatically includes Phase 1 and Phase 7.
+**Live preview performance.** Updating the rendered preview on every keystroke would be too expensive for large files. Debounced rendering waits for a brief pause in typing before re-rendering, keeping the editor responsive. Parallel scrolling between editor and preview panes required careful coordination to avoid feedback loops.
 
-**gum TUI styling across terminal sizes.** gum's multi-select and input prompts can overflow on narrow terminals. I added terminal width detection and adjust the prompt layout accordingly. On very narrow terminals (< 80 cols), I fall back to simpler prompts.
+**Terminal compatibility.** Different terminals handle colors, mouse events, and Unicode differently. `NO_COLOR` support, terminal background color detection (to prevent transparency bleed), and panic-safe terminal teardown ensure mdt works reliably across environments.
 
-**Detecting already-installed packages without breaking re-runs.** `rpm -q package-name` for RPM packages, `which binary-name` for standalone binaries, checking `$HOME/.config/` for config-based tools. Each detection method is different, so I built a `lib/utils.sh` with helper functions like `is_installed()`, `is_service_running()`, `config_exists()`.
+**Code block and table truncation.** On narrow terminals, code blocks and tables can't just wrap — they'd become unreadable. Instead, they're truncated with a visual indicator, preserving readability at the cost of showing less content.
 
 ### What I'd Do Differently
 
-I'd add a `--dry-run` mode that shows what would be installed without doing it. Users want to preview before committing to a 30-minute install.
+I'd add configurable keybindings from the start. Vim-style is opinionated and not everyone wants it. A config file for key mappings would make it more accessible.
 
-I'd also add a rollback mechanism. Right now, if Phase 8 fails, Phases 1-7 are already applied. A rollback log that tracks every change would let users undo a partial install.
-
-Testing is the big gap. Shell scripts are hard to test, but I could have used `bats` (Bash Automated Testing System) for unit tests on the utility functions.
+I'd also add a plugin system for custom markdown extensions, so users could add their own rendering for things like math blocks or diagrams.
 
 ### Anticipated Q&A
 
-**Q: Why shell scripting instead of something like Ansible or Nix?**
-**A:** Ansible requires Python and a YAML learning curve. Nix is powerful but has a steep learning curve and doesn't map well to "install these Fedora packages and copy these config files." Shell is universally available on a fresh Fedora install, and the operations I'm doing (dnf install, cp, ln -s, systemctl enable) are all native shell commands. The tradeoff is maintainability, but I mitigated that with a clean lib/phases architecture.
+**Q: Why build a markdown viewer when tools like glow exist?**
+**A:** glow is a viewer only — no editing, no file tree, no live preview. mdt is a complete workflow tool: browse files, preview markdown, edit with vim keybindings, and see changes in real time. It replaces the need to switch between a file manager, a viewer, and an editor.
 
-**Q: How do you handle failures mid-install?**
-**A:** Each phase has error recovery built in. If a command fails, the user gets three options via gum: retry, skip, or log-and-continue. Critical failures (like no internet) abort the whole install with a clear message. Non-critical failures (like a font download timing out) can be skipped and retried later by re-running just that phase. Every action is logged to `~/.wayforged/install.log` with timestamps.
+**Q: How does the syntax highlighting work?**
+**A:** Fenced code blocks are detected during markdown parsing. The language identifier (e.g., ```rust) is passed to syntect, which tokenizes the code and applies theme colors. Themes are pre-loaded on a background thread at startup so the first render is instant. The highlighted output is then rendered within box-drawing borders in the terminal.
 
-**Q: How did you make it idempotent?**
-**A:** Every operation checks its precondition first. Package installs use `rpm -q` to check if already installed. Config file copies check if the target exists and compare checksums. Service enables check `systemctl is-enabled`. Git clones check if the directory exists. If the precondition is met, the operation is skipped with a "already done" message. This means you can run the installer 10 times and get the same result as running it once.
+**Q: How do you handle large files?**
+**A:** There's a configurable `--max-file-size` flag (default 5 MB) to prevent accidentally opening huge files. For files within the limit, dirty-flag rendering ensures only visible portions are processed. The file watcher uses advisory locking to prevent conflicts when files change on disk.
 
 **Q: What's the hardest part of maintaining a shell-based installer?**
 **A:** Package names change, repos move, download URLs break. Fedora updates twice a year, and each release can change package names or deprecate repos. I pin versions where possible and use variables for URLs so they're easy to update. The other hard part is error handling. Shell doesn't have try/catch. You use `set -e` for fail-fast, trap for cleanup, and explicit `|| handle_error` patterns. It's verbose but it works.

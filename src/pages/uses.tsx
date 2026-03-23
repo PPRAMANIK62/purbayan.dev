@@ -40,17 +40,7 @@ export default function UsesPage() {
         <section>
           <SectionHeading title="desktop" />
           <div className="mt-6 space-y-0.5">
-            <UsesItem
-              category="os"
-              tool={
-                <>
-                  Fedora + Hyprland{" "}
-                  <Link to="/projects/wayforged" className="text-primary hover:underline">
-                    via wayforged
-                  </Link>
-                </>
-              }
-            />
+            <UsesItem category="os" tool="Fedora + Hyprland" />
             <UsesItem category="bar" tool="Waybar" />
             <UsesItem category="launcher" tool="Rofi" />
             <UsesItem category="notifications" tool="SwayNC" />
@@ -143,22 +133,18 @@ export default function UsesPage() {
         <section>
           <SectionHeading title="dotfiles" />
           <p className="mt-6 font-mono text-base md:text-lg text-secondary-foreground leading-relaxed">
-            All my configs live in{" "}
-            <Link to="/projects/wayforged" className="text-primary hover:underline">
-              wayforged
-            </Link>{" "}
-            — 22 config files, 14 installation phases, all Tokyo Night themed.
+            All my configs are managed through dotfiles — Tokyo Night themed across 22 config files.
           </p>
           <div className="mt-4 flex flex-wrap items-center gap-4">
             <Link
-              to="/projects/wayforged"
+              to="/projects/mdt"
               className="inline-flex items-center gap-2 font-mono text-primary hover:underline"
             >
               <span>&rarr;</span>
-              <span>view wayforged</span>
+              <span>view mdt</span>
             </Link>
             <a
-              href="https://github.com/PPRAMANIK62/wayforged"
+              href="https://github.com/PPRAMANIK62/mdt"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 font-mono text-muted-foreground hover:text-foreground transition-colors duration-150"

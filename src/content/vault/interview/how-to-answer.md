@@ -80,7 +80,7 @@ No sugarcoating. Here's where you stand.
 - Stack: TypeScript, React 19, Next.js 15, Rust, C, Go, Tailwind, Zustand, PostgreSQL
 - Experience: fiddle-factory (8 months, intern then contractor, 48+ PRs across 6 repos)
 - Open Source: Apache ECharts (merged PR in a 65k-star project)
-- Projects: 5 major builds (wayforged, Canvas Kit, 4at, seroost, musializer) plus portfolio and others
+- Projects: 5 major builds (mdt, Canvas Kit, 4at, seroost, musializer) plus portfolio and others
 
 ### Quality-by-Quality Assessment
 

@@ -24,7 +24,7 @@ export const skillAreas = [
     icon: Terminal,
     title: "Linux & Tooling",
     points: [
-      "Fedora + Hyprland (via wayforged)",
+      "Fedora + Hyprland",
       "Shell scripting, dotfiles, TUI tools",
       "Tokyo Night everywhere, Iosevka everything",
     ],

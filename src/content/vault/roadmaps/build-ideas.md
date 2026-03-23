@@ -70,7 +70,7 @@ Like `delta` but more visual, maybe with inline comments.
 - Rust TUI app — extends your 4at and seroost narrative
 - Developer tools get stars if they solve a real pain point
 - Demonstrates Rust, TUI development, and git internals
-- You already know charmbracelet/gum from wayforged
+- You already know Rust TUI development from mdt
 
 **Tech:** Rust, ratatui, tree-sitter (for syntax highlighting), git2-rs
 
@@ -192,7 +192,7 @@ deploying to Vercel, and recording a demo GIF is much higher than
 starting a new project. Specifically:
 
 1. Deploy ad-my-brand-insights to Vercel (30 min)
-2. Record a GIF of wayforged's TUI in action (20 min)
+2. Record a GIF of mdt's TUI in action (20 min)
 3. Record a demo video of musializer (10 min)
 4. Add screenshots to snippetbox README (15 min)
 

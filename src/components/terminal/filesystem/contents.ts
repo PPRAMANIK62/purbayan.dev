@@ -353,79 +353,74 @@ style = "#9ece6a"
 // Project READMEs and code files
 // ---------------------------------------------------------------------------
 
-const WAYFORGED_README = `# wayforged
+const MDT_README = `# mdt
 
-> TUI installer for a complete Fedora Hyprland dev environment
+> Fast, terminal-based markdown viewer and editor built with Rust
 
-A TUI-based installer powered by charmbracelet/gum that recreates a
-complete Fedora Hyprland development environment. 14 installation phases,
-22 config files, three install modes, and Tokyo Night theming everywhere.
+Point mdt at a directory and you get a file tree, a fully rendered
+markdown preview, a built-in editor with vim-style keybindings, and
+a live split-pane preview that updates as you type.
 
 ## Tech
-- **Language:** Shell 95.6%, CSS 4.4%
-- **License:** MIT
-- **Only dependency:** charmbracelet/gum (auto-installed)
+- **Language:** Rust 89.4%, MDX 4.9%, Astro 2.7%
+- **Install:** cargo install mdtui
+- **Docs:** https://mdt.purbayan.me
 
-## Architecture
-\`install.sh\` entry point delegates to \`lib/\` (presentation, logging,
-errors, utils) and \`phases/\` (14 scripts covering everything from
-Hyprland to Zsh plugins).
+## Features
+- Collapsible file tree with search/filter and fuzzy finder
+- Markdown preview with syntax highlighting (via syntect)
+- Tables, task lists, blockquotes, code blocks with box-drawing borders
+- Built-in vim-style editor with insert/normal modes
+- Live split-pane preview (horizontal/vertical)
+- File watching with auto-reload
+- Mouse support, width-aware wrapping, NO_COLOR support
 
-## 14 Installation Phases
-Repositories > Hyprland & Wayland > Tokyo Night Theme > Nerd Fonts >
-Ghostty Terminal > Zsh & Oh My Zsh > CLI Tools > Node.js > Editors >
-Git Configuration > Applications > Languages > System Services > Finalize
+## Keybindings
+- j/k: scroll, gg/G: top/bottom, Space+e: toggle file tree
+- i/e: enter edit mode, Esc: exit, :w save, :q quit
+- Space+p: toggle live preview, Space+s: swap split orientation
+- /: search, n/N: next/prev match
 
-## Key Features
-- Three modes: full, minimal, custom
-- Error recovery with retry/skip/log viewing on any phase failure
-- Idempotent design — run it twice and nothing breaks
-
-https://github.com/PPRAMANIK62/wayforged
+https://github.com/PPRAMANIK62/mdt
 `
 
-const WAYFORGED_INSTALL = `#!/bin/bash
-# wayforged installer — simulated output
+const MDT_USAGE = `# mdt usage — simulated output
 
-echo "╔══════════════════════════════════════╗"
-echo "║         wayforged installer          ║"
-echo "║    Fedora Hyprland Dev Environment   ║"
-echo "╚══════════════════════════════════════╝"
-echo ""
-echo "Select install mode:"
-echo "  [1] Full     — everything, kitchen sink included"
-echo "  [2] Minimal  — essentials only"
-echo "  [3] Custom   — pick your phases"
-echo ""
-echo "▸ Running Phase  1/14: Repositories........... ✓"
-echo "▸ Running Phase  2/14: Hyprland & Wayland..... ✓"
-echo "▸ Running Phase  3/14: Tokyo Night Theme...... ✓"
-echo "▸ Running Phase  4/14: Nerd Fonts............. ✓"
-echo "▸ Running Phase  5/14: Ghostty Terminal....... ✓"
-echo "▸ Running Phase  6/14: Zsh & Oh My Zsh....... ✓"
-echo "▸ Running Phase  7/14: CLI Tools.............. ✓"
-echo "▸ Running Phase  8/14: Node.js Ecosystem...... ✓"
-echo "▸ Running Phase  9/14: Editors................ ✓"
-echo "▸ Running Phase 10/14: Git Configuration...... ✓"
+$ mdt ~/notes
+
+╔══════════════════════════════════════╗
+║              mdt v0.1                ║
+║   terminal markdown viewer/editor   ║
+╚══════════════════════════════════════╝
+
+┌─ File Tree ──────┬─ Preview ─────────────────────┐
+│ ▼ notes/         │ # Getting Started             │
+│   ├─ README.md   │                               │
+│   ├─ todo.md     │ Welcome to **mdt** — a fast,  │
+│   ├─ ideas.md    │ terminal-based markdown viewer │
+│   └─ ▼ drafts/   │ and editor built with Rust.   │
+│     └─ wip.md    │                               │
+│                  │ ## Features                    │
+│                  │ - File tree navigation         │
+│                  │ - Syntax highlighted preview   │
+│                  │ - Vim-style editor             │
 echo "▸ Running Phase 11/14: Applications........... ✓"
 echo "▸ Running Phase 12/14: Languages.............. ✓"
 echo "▸ Running Phase 13/14: System Services........ ✓"
-echo "▸ Running Phase 14/14: Finalize............... ✓"
-echo ""
-echo "✨ Installation complete. Reboot to enter Hyprland."
+│                  │ - Live split-pane preview     │
+└──────────────────┴───────────────────────────────┘
+
+Press Space+e to toggle file tree, i to edit, Space+p for live preview
 `
 
-const WAYFORGED_ENV = `# .env — wayforged configuration
+const MDT_CONFIG = `# mdt configuration — simulated
 #
-# nice try. secrets aren't stored in .env files.
-# ...or are they?
+# mdt reads from the terminal environment.
+# NO_COLOR=1 disables colors.
+# --max-file-size <bytes> limits file size (default: 5 MB).
 #
-# DATABASE_URL=postgresql://localhost:5432/nope
-# AWS_SECRET_KEY=lol-you-wish
-# GITHUB_TOKEN=ghp_not_a_real_token_nice_try_though
-#
-# Hint: some things are hidden better than others.
-# Try looking where nobody looks.
+# Keybindings are vim-style and not yet configurable.
+# See https://mdt.purbayan.me for full documentation.
 `
 
 const CANVAS_KIT_README = `# Canvas Kit
@@ -789,7 +784,7 @@ What I Do
     "Understanding how things work under the hood"
 
   Linux & Tooling
-    Fedora + Hyprland (via wayforged)
+    Fedora + Hyprland
     Shell scripting, dotfiles, TUI tools
     Tokyo Night everywhere, Iosevka everything
 
@@ -894,8 +889,8 @@ OPTIONS
         search algorithms (seroost). Nearly zero dependencies.
 
     --linux
-        Fedora + Hyprland. Created wayforged — a TUI installer that
-        configures 22 dotfiles across 14 phases. Tokyo Night everywhere.
+        Fedora + Hyprland. Built mdt — a fast, terminal-based markdown
+        viewer and editor in Rust. Tokyo Night everywhere.
 
     --open-source
         Contributor to Apache ECharts (65k+ stars) and the shadcn
@@ -999,10 +994,10 @@ export const ROOT: FSNode = dir("/", [
         dir("starship", [file("starship.toml", STARSHIP_TOML)]),
       ]),
       dir("projects", [
-        dir("wayforged", [
-          file("README.md", WAYFORGED_README),
-          file("install.sh", WAYFORGED_INSTALL, { executable: true }),
-          file(".env", WAYFORGED_ENV),
+        dir("mdt", [
+          file("README.md", MDT_README),
+          file("usage.sh", MDT_USAGE, { executable: true }),
+          file("config.md", MDT_CONFIG),
         ]),
         dir("canvas-kit", [
           file("README.md", CANVAS_KIT_README),

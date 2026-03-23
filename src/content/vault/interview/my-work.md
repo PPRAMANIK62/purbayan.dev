@@ -40,7 +40,7 @@ For every technology listed here, you can point to a real project where you used
 | **Go**         | Clean concurrency model. You built the same TCP chat in Go to compare goroutines vs OS threads.                                                 | 4at (Go version), snippetbox, proglog, DSA practice               |
 | **C**          | The foundation. You wrote a real-time audio visualizer with a custom FFT library. No hand-holding from a runtime.                               | musializer (~670 lines, custom FFT, raylib)                       |
 | **JavaScript** | The web's lingua franca. You know it deeply because TypeScript is built on it.                                                                  | All web projects, early work                                      |
-| **Shell**      | You daily-drive Fedora with Hyprland. You automated your entire desktop setup.                                                                  | wayforged installer (14 phases, 22 configs)                       |
+| **Shell**      | You daily-drive Fedora with Hyprland. Comfortable with scripting and dotfiles.                                                                  | Dotfile management, shell scripts                                 |
 | **Python**     | Used for data pipelines and ML work.                                                                                                            | distributed-log-processing-system, video-sentiment-model          |
 
 > **Interview Angle:** When asked "what's your strongest language," say TypeScript for production work, but mention Rust and C to show you understand what happens below the abstraction. Interviewers remember candidates who can talk about memory layout and syscalls.
@@ -113,17 +113,17 @@ Real-time frequency spectrum visualization. You read raw audio samples, apply FF
 
 ### DevTools & Infrastructure
 
-| Tool                       | How You Use It                                                                                                 |
-| -------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| **Git**                    | Daily driver. 48+ PRs at fiddle-factory alone. You know rebasing, squashing, branch management in a team.      |
-| **Docker**                 | Containerization for development and deployment                                                                |
-| **Linux**                  | Daily driver. Fedora with Hyprland (tiling Wayland compositor). You automated the entire setup with wayforged. |
-| **Zed / Neovim / VS Code** | You use multiple editors. Zed for speed, Neovim for terminal work, VS Code when needed.                        |
-| **Bun**                    | Fast JS runtime/bundler. Used in projects.                                                                     |
-| **Vercel**                 | Deployment platform. Canvas Kit lives at canvas-kit.vercel.app.                                                |
-| **Postman**                | API testing and development                                                                                    |
+| Tool                       | How You Use It                                                                                                         |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| **Git**                    | Daily driver. 48+ PRs at fiddle-factory alone. You know rebasing, squashing, branch management in a team.              |
+| **Docker**                 | Containerization for development and deployment                                                                        |
+| **Linux**                  | Daily driver. Fedora with Hyprland (tiling Wayland compositor). Built mdt — a terminal markdown viewer/editor in Rust. |
+| **Zed / Neovim / VS Code** | You use multiple editors. Zed for speed, Neovim for terminal work, VS Code when needed.                                |
+| **Bun**                    | Fast JS runtime/bundler. Used in projects.                                                                             |
+| **Vercel**                 | Deployment platform. Canvas Kit lives at canvas-kit.vercel.app.                                                        |
+| **Postman**                | API testing and development                                                                                            |
 
-> **Interview Angle:** The Linux daily-driver detail matters. It signals you're comfortable in the terminal, you understand the OS, and you're not afraid of configuration. wayforged (your installer) proves it.
+> **Interview Angle:** The Linux daily-driver detail matters. It signals you're comfortable in the terminal, you understand the OS, and you're not afraid of configuration. mdt (your markdown viewer/editor) proves it.
 
 ---
 
@@ -303,8 +303,8 @@ Fixing tooltip behavior when charts are connected (linked interactions across mu
 
 ## 5. Personal Projects (Quick Recall)
 
-**wayforged** | Shell
-TUI-based Fedora Hyprland installer. 14 installation phases, 22 configuration files, fully idempotent (run it twice, same result). You automated your entire Linux desktop setup.
+**mdt** | Rust
+Fast, terminal-based markdown viewer and editor. File tree, rendered preview with syntax highlighting, vim-style editor, live split-pane preview. Published on crates.io as mdtui.
 
 **Canvas Kit** | Next.js 15, React 19, Canvas API | [canvas-kit.vercel.app](https://canvas-kit.vercel.app)
 Drawing app with a layer system. You wrote a technical blog post about building retained-mode layers on top of Canvas API's immediate-mode rendering. This project has depth.
