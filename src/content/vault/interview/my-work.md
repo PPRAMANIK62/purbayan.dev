@@ -13,9 +13,9 @@ Everything you need to recall before walking into any technical interview. Every
 **Links:**
 
 - GitHub: [PPRAMANIK62](https://github.com/PPRAMANIK62)
-- Portfolio: [purbayan-dev.pages.dev](https://purbayan-dev.pages.dev)
+- Portfolio: [purbayan.me](https://purbayan.me)
 - Email: purbayan.dev@gmail.com
-- LinkedIn: [Profile](https://linkedin.com/in/purbayan-pramanik)
+- LinkedIn: [Profile](https://linkedin.com/in/ppramanik62)
 
 ### Your Story
 
@@ -333,7 +333,7 @@ Distributed log system. You understand distributed systems concepts.
 **ad-my-brand-insights** | TypeScript
 Analytics dashboard for digital marketing. Data visualization and business logic.
 
-**portfolio (purbayan.dev)** | React 19, Vite, Zustand
+**portfolio (purbayan.me)** | React 19, Vite, Zustand
 Your developer portfolio. Tokyo Night theme. Has a terminal easter egg. State managed with Zustand stores.
 
 > **Interview Angle:** Don't list all projects. Pick 2-3 based on the role. Systems role? Lead with 4at and musializer. Frontend role? Lead with Canvas Kit and the fiddle-factory work. Full-stack? Lead with fiddle-factory and seroost.

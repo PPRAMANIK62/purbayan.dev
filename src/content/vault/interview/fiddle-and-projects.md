@@ -585,7 +585,7 @@ A marketing analytics dashboard that visualizes brand performance metrics and ca
 
 ---
 
-## portfolio (purbayan.dev)
+## portfolio (purbayan.me)
 
 ### What It Is
 
@@ -599,7 +599,7 @@ My personal developer portfolio site. Tokyo Night themed, monospace everything, 
 | Theme      | Tokyo Night                                                        |
 | Font       | Iosevka Mono                                                       |
 | Easter Egg | Terminal with tab completion                                       |
-| Live       | purbayan.dev                                                       |
+| Live       | purbayan.me                                                        |
 
 ### Architecture
 

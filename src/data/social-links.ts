@@ -5,9 +5,9 @@ export const SOCIAL = {
     display: "PPRAMANIK62",
   },
   linkedin: {
-    url: "https://www.linkedin.com/in/purbayan-pramanik-30586124b/",
+    url: "https://linkedin.com/in/ppramanik62",
     label: "LinkedIn",
-    display: "purbayan-pramanik",
+    display: "ppramanik62",
   },
   email: {
     url: "mailto:purbayan.dev@gmail.com",

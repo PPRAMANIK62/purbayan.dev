@@ -205,7 +205,7 @@ function neofetchCommand(_args: string[], _ctx: CommandContext): CommandResult {
     "purbayan@portfolio",
     "──────────────────",
     "OS: PurbayanOS 1.0 (Tokyo Night)",
-    "Host: portfolio.purbayan.dev",
+    "Host: portfolio.purbayan.me",
     "Kernel: React 19.2.0",
     "Uptime: since 2026",
     "Shell: TypeScript 5.9",

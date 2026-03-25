@@ -713,7 +713,7 @@ const RESUME_TXT = `════════════════════
   Kolkata, India | Graduating April 2026
   purbayan.dev@gmail.com
   github.com/PPRAMANIK62
-  linkedin.com/in/purbayan-pramanik-30586124b
+  linkedin.com/in/ppramanik62
 ───────────────────────────────────────────────
 
 SUMMARY
@@ -836,7 +836,7 @@ ID=purbayanOS
 ID_LIKE=fedora
 VERSION_ID=2026.02
 PRETTY_NAME="PurbayanOS 2026.02 (Tokyo Night)"
-HOME_URL="https://purbayan.dev"
+HOME_URL="https://purbayan.me"
 BUG_REPORT_URL="https://github.com/PPRAMANIK62"
 VARIANT="Hyprland Desktop"
 VARIANT_ID=hyprland

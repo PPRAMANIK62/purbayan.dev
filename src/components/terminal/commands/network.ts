@@ -131,7 +131,7 @@ function pingCommand(args: string[], _ctx: CommandContext): CommandResult {
 
 function curlCommand(args: string[], _ctx: CommandContext): CommandResult {
   if (args.length === 0) {
-    return { lines: [{ text: "curl: try 'curl purbayan.dev'", color: "muted" }] }
+    return { lines: [{ text: "curl: try 'curl purbayan.me'", color: "muted" }] }
   }
 
   const url = args[0]
@@ -143,7 +143,7 @@ function curlCommand(args: string[], _ctx: CommandContext): CommandResult {
       { text: "  <head><title>Purbayan Pramanik</title></head>" },
       { text: "  <body>" },
       { text: "    ╔═══════════════════════════════════╗" },
-      { text: "    ║   purbayan.dev                    ║" },
+      { text: "    ║   purbayan.me                     ║" },
       { text: "    ║   Developer from Kolkata, India   ║" },
       { text: "    ║   Rust · TypeScript · C · Go      ║" },
       { text: "    ╚═══════════════════════════════════╝" },
