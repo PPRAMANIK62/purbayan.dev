@@ -87,14 +87,44 @@ Move all existing files into `apps/web`. Then delete:
 
 - Astro with content collections
 - Shiki (built-in) for syntax highlighting with Tokyo Night theme
-- Tailwind CSS v4 for styling consistency
+- Tailwind CSS v4 via `@tailwindcss/vite` (Astro uses Vite under the hood)
 - `@fontsource/iosevka` for the mono font
+
+**Content Collections:**
+
+The existing markdown files have no frontmatter. Add minimal frontmatter to each file:
+
+```yaml
+---
+title: "Interview Prep"
+---
+```
+
+Content collection schema in `src/content.config.ts`:
+
+```ts
+import { defineCollection, z } from "astro:content"
+import { glob } from "astro/loaders"
+
+const vault = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/vault" }),
+  schema: z.object({
+    title: z.string(),
+  }),
+})
+
+export const collections = { vault }
+```
+
+Category is derived from the file path (the subdirectory name: `interview/`, `roadmaps/`). Title comes from frontmatter.
 
 **Pages:**
 
-1. **Index** (`/`) — lists all documents grouped by category (interview, roadmaps). Each entry links to its document page. Shows document title and category. Minimal, clean layout.
+1. **Index** (`/`) — lists all documents grouped by category (derived from file path). Each entry shows its frontmatter title and links to its document page. Minimal, clean layout.
 
-2. **Document** (`/[category]/[slug]`) — renders the markdown document. Auto-generated TOC from headings. File metadata (word count, reading time). Shiki-highlighted code blocks.
+2. **Document** (`/[category]/[slug]`) — renders the markdown document with Shiki-highlighted code blocks. File metadata (word count, reading time) computed from the raw content at build time.
+
+3. **Category index** (`/[category]/`) — not implemented. Navigating to `/interview/` returns 404. All navigation goes through the root index.
 
 **Layout:**
 
@@ -115,9 +145,12 @@ Move all existing files into `apps/web`. Then delete:
 
 ## Deployment
 
-- `apps/web` deploys to `<domain>` (Vercel project, root directory: `apps/web`)
-- `apps/vault` deploys to `vault.<domain>` (separate Vercel project, root directory: `apps/vault`)
-- Both share the same git repo
+Two separate Vercel projects linked to the same git repo:
+
+- **Web:** root directory `apps/web`, build command `bun run build`, install command `cd ../.. && bun install`
+- **Vault:** root directory `apps/vault`, build command `bun run build`, install command `cd ../.. && bun install`
+
+The `cd ../.. && bun install` is needed because Bun workspaces resolves dependencies from the monorepo root.
 
 ## Workspace Config
 
@@ -132,3 +165,15 @@ Root `package.json`:
 ```
 
 Each app has its own `package.json` with its own dependencies and scripts. No shared packages needed — the two apps have no code overlap.
+
+## Root-Level Tooling
+
+- `husky` + `lint-staged` stay at the root level and apply to the entire repo
+- `oxlint` and `oxfmt` work on file globs, so they apply to both apps without config changes
+- The root `package.json` gets convenience scripts: `"dev:web": "bun --filter web dev"`, `"dev:vault": "bun --filter vault dev"`, `"build:web": "bun --filter web build"`, `"build:vault": "bun --filter vault build"`
+
+## Dependencies Note
+
+- `zustand` stays in `apps/web` — still used by the terminal store
+- `react-markdown` and `remark-gfm` are removed from `apps/web`
+- `husky`, `lint-staged`, `oxlint`, `oxfmt` remain as root devDependencies
