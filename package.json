@@ -9,7 +9,7 @@
     "dev:vault": "bun --filter vault dev",
     "build:web": "bun --filter web build",
     "build:vault": "bun --filter vault build",
-    "prepare": "husky || true"
+    "prepare": "husky"
   },
   "devDependencies": {
     "husky": "^9.1.7",
