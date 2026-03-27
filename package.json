@@ -29,5 +29,6 @@
     "*.{json,jsonc,css,md}": [
       "oxfmt"
     ]
-  }
+  },
+  "packageManager": "bun@1.3.3"
 }
