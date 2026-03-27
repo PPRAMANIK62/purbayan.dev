@@ -1,0 +1,38 @@
+---
+import "../styles/global.css"
+
+interface Props {
+  title: string
+}
+
+const { title } = Astro.props
+const portfolioUrl = "https://purbayan.me"
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} — Vault</title>
+  </head>
+  <body class="min-h-dvh">
+    <header class="border-b border-border/50 px-6 md:px-8 py-4">
+      <div class="max-w-3xl mx-auto flex items-center justify-between">
+        <a href="/" class="font-bold text-lg text-fg hover:text-cyan transition-colors">
+          <span class="text-cyan">&gt;</span> Vault
+        </a>
+        <a
+          href={portfolioUrl}
+          class="text-sm text-muted hover:text-fg transition-colors"
+        >
+          ← portfolio
+        </a>
+      </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 md:px-8 py-10 md:py-14">
+      <slot />
+    </main>
+  </body>
+</html>

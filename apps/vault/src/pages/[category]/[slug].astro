@@ -1,0 +1,46 @@
+---
+import { getCollection, render } from "astro:content"
+import VaultLayout from "../../layouts/VaultLayout.astro"
+
+export async function getStaticPaths() {
+  const docs = await getCollection("vault")
+  return docs.map(doc => {
+    const parts = doc.id.split("/")
+    const category = parts[0]
+    const slug = parts.slice(1).join("/")
+    return {
+      params: { category, slug },
+      props: { doc },
+    }
+  })
+}
+
+const { doc } = Astro.props
+const { Content } = await render(doc)
+
+const wordCount = doc.body ? doc.body.split(/\s+/).filter(Boolean).length : 0
+const readingTime = Math.ceil(wordCount / 200)
+---
+
+<VaultLayout title={doc.data.title}>
+  <div class="mb-6">
+    <a
+      href="/"
+      class="text-sm text-muted hover:text-cyan transition-colors"
+    >
+      ← back
+    </a>
+  </div>
+
+  <div class="flex flex-wrap items-center gap-x-2 text-sm text-muted mb-8 pb-4 border-b border-border/50">
+    <span>{doc.data.title}</span>
+    <span>·</span>
+    <span>~{wordCount.toLocaleString()} words</span>
+    <span>·</span>
+    <span>{readingTime} min read</span>
+  </div>
+
+  <article class="prose">
+    <Content />
+  </article>
+</VaultLayout>

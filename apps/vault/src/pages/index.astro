@@ -1,0 +1,58 @@
+---
+import { getCollection } from "astro:content"
+import VaultLayout from "../layouts/VaultLayout.astro"
+
+const allDocs = await getCollection("vault")
+
+// Group by category (derived from id: "interview/interview-prep" → "interview")
+const grouped: Record<string, typeof allDocs> = {}
+for (const doc of allDocs) {
+  const category = doc.id.includes("/") ? doc.id.split("/")[0] : "uncategorized"
+  if (!grouped[category]) grouped[category] = []
+  grouped[category].push(doc)
+}
+
+// Sort categories and docs within each category
+const sortedCategories = Object.keys(grouped).sort()
+for (const cat of sortedCategories) {
+  grouped[cat].sort((a, b) => a.data.title.localeCompare(b.data.title))
+}
+
+function kebabToTitle(s: string): string {
+  return s.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")
+}
+
+const totalDocs = allDocs.length
+---
+
+<VaultLayout title="Index">
+  <div class="mb-10">
+    <p class="text-muted text-sm">
+      Personal knowledge base. Roadmaps, interview prep, project notes.
+    </p>
+    <p class="text-muted text-sm mt-2">
+      <span class="text-cyan">{totalDocs}</span> documents
+    </p>
+  </div>
+
+  {sortedCategories.map(category => (
+    <section class="mb-10">
+      <h2 class="text-sm uppercase tracking-wider text-magenta font-semibold mb-4">
+        {kebabToTitle(category)}
+      </h2>
+      <div class="space-y-2">
+        {grouped[category].map(doc => {
+          const slug = doc.id.includes("/") ? doc.id.split("/").slice(1).join("/") : doc.id
+          return (
+            <a
+              href={`/${category}/${slug}`}
+              class="block py-2 px-3 -mx-3 rounded-lg text-fg hover:bg-surface transition-colors group"
+            >
+              <span class="group-hover:text-cyan transition-colors">{doc.data.title}</span>
+            </a>
+          )
+        })}
+      </div>
+    </section>
+  ))}
+</VaultLayout>
