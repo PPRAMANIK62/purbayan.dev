@@ -4,7 +4,6 @@ import VaultLayout from "../layouts/VaultLayout.astro"
 
 const allDocs = await getCollection("vault")
 
-// Group by category (derived from id: "interview/interview-prep" → "interview")
 const grouped: Record<string, typeof allDocs> = {}
 for (const doc of allDocs) {
   const category = doc.id.includes("/") ? doc.id.split("/")[0] : "uncategorized"
@@ -12,7 +11,6 @@ for (const doc of allDocs) {
   grouped[category].push(doc)
 }
 
-// Sort categories and docs within each category
 const sortedCategories = Object.keys(grouped).sort()
 for (const cat of sortedCategories) {
   grouped[cat].sort((a, b) => a.data.title.localeCompare(b.data.title))
@@ -22,37 +20,132 @@ function kebabToTitle(s: string): string {
   return s.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")
 }
 
+function getWordCount(body: string | undefined): number {
+  return body ? body.split(/\s+/).filter(Boolean).length : 0
+}
+
+function getReadingTime(words: number): number {
+  return Math.max(1, Math.ceil(words / 200))
+}
+
 const totalDocs = allDocs.length
+const totalWords = allDocs.reduce((sum, doc) => sum + getWordCount(doc.body), 0)
+
+let entryIndex = 0
 ---
 
 <VaultLayout title="Index">
-  <div class="mb-10">
-    <p class="text-muted text-sm">
-      Personal knowledge base. Roadmaps, interview prep, project notes.
+  <!-- Hero -->
+  <div class="mb-12 vault-fade" style="--i:0">
+    <div class="flex items-center gap-3 mb-4">
+      <div class="h-px flex-1 bg-gradient-to-r from-cyan/40 to-transparent"></div>
+    </div>
+
+    <p class="text-muted text-sm leading-relaxed max-w-md">
+      Personal knowledge base — roadmaps, interview prep, project notes.
     </p>
-    <p class="text-muted text-sm mt-2">
-      <span class="text-cyan">{totalDocs}</span> documents
-    </p>
+
+    <div class="flex items-center gap-4 mt-4 text-xs text-muted">
+      <span class="flex items-center gap-1.5">
+        <span class="inline-block size-1.5 rounded-full bg-green animate-pulse"></span>
+        <span class="text-cyan">{totalDocs}</span> documents
+      </span>
+      <span class="text-border">|</span>
+      <span>
+        <span class="text-cyan">{totalWords.toLocaleString()}</span> words
+      </span>
+      <span class="text-border">|</span>
+      <span>
+        <span class="text-cyan">{sortedCategories.length}</span> categories
+      </span>
+    </div>
+
+    <div class="flex items-center gap-3 mt-4">
+      <div class="h-px flex-1 bg-gradient-to-r from-border to-transparent"></div>
+    </div>
   </div>
 
-  {sortedCategories.map(category => (
-    <section class="mb-10">
-      <h2 class="text-sm uppercase tracking-wider text-magenta font-semibold mb-4">
-        {kebabToTitle(category)}
-      </h2>
-      <div class="space-y-2">
-        {grouped[category].map(doc => {
+  <!-- Categories -->
+  {sortedCategories.map((category, catIdx) => (
+    <section class="mb-10 vault-fade" style={`--i:${catIdx + 1}`}>
+      <div class="flex items-center gap-3 mb-4">
+        <h2 class="text-xs uppercase tracking-[0.2em] text-magenta font-semibold shrink-0">
+          {kebabToTitle(category)}
+        </h2>
+        <span class="text-xs text-muted/60">({grouped[category].length})</span>
+        <div class="h-px flex-1 bg-gradient-to-r from-magenta/20 to-transparent"></div>
+      </div>
+
+      <div class="grid gap-2">
+        {grouped[category].map((doc) => {
           const slug = doc.id.includes("/") ? doc.id.split("/").slice(1).join("/") : doc.id
+          const words = getWordCount(doc.body)
+          const time = getReadingTime(words)
+          const idx = entryIndex++
           return (
             <a
               href={`/${category}/${slug}`}
-              class="block py-2 px-3 -mx-3 rounded-lg text-fg hover:bg-surface transition-colors group"
+              class="vault-entry vault-fade group"
+              style={`--i:${idx + sortedCategories.length + 1}`}
             >
-              <span class="group-hover:text-cyan transition-colors">{doc.data.title}</span>
+              <div class="flex items-center justify-between gap-4">
+                <div class="flex items-center gap-3 min-w-0">
+                  <span class="text-muted/40 text-xs font-mono shrink-0 group-hover:text-cyan/60 transition-colors">
+                    {String(idx + 1).padStart(2, "0")}
+                  </span>
+                  <span class="text-fg group-hover:text-cyan transition-colors truncate">
+                    {doc.data.title}
+                  </span>
+                </div>
+                <div class="flex items-center gap-3 text-xs text-muted/50 shrink-0">
+                  <span>{words.toLocaleString()} w</span>
+                  <span class="text-border/50">·</span>
+                  <span>{time} min</span>
+                  <span class="text-cyan/0 group-hover:text-cyan/60 transition-colors ml-1">→</span>
+                </div>
+              </div>
             </a>
           )
         })}
       </div>
     </section>
   ))}
+
+  <!-- EOF -->
+  <div class="vault-fade mt-8 pt-6 border-t border-border/30" style={`--i:${entryIndex + sortedCategories.length + 2}`}>
+    <p class="text-xs text-muted/30 text-center tracking-widest">EOF</p>
+  </div>
 </VaultLayout>
+
+<style>
+  .vault-entry {
+    display: block;
+    padding: 0.625rem 0.75rem;
+    margin-left: -0.75rem;
+    margin-right: -0.75rem;
+    border-radius: 0.5rem;
+    border-left: 2px solid transparent;
+    transition: all 150ms ease;
+  }
+
+  .vault-entry:hover {
+    background-color: color-mix(in srgb, var(--color-surface) 70%, transparent);
+    border-left-color: var(--color-cyan);
+  }
+
+  .vault-fade {
+    animation: vaultFadeIn 0.4s ease both;
+    animation-delay: calc(var(--i, 0) * 60ms);
+  }
+
+  @keyframes vaultFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
