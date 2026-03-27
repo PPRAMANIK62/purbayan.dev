@@ -1,3 +1,7 @@
+---
+title: "How to Answer"
+---
+
 # How to Answer: A Strategic Interview Guide
 
 Written from the interviewer's chair first, then flipped to yours. Know what they want before you walk in.

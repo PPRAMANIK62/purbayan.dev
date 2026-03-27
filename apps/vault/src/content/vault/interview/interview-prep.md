@@ -1,3 +1,7 @@
+---
+title: "Interview Prep"
+---
+
 # Full-Stack Interview Preparation Guide (2025-2026)
 
 _Tailored for Purbayan Pramanik. TypeScript, React 19, Next.js 15, Rust, Go, C, systems programming, Zustand, Tailwind, Supabase/PostgreSQL._

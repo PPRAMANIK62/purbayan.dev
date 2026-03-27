@@ -1,3 +1,7 @@
+---
+title: "Build Ideas"
+---
+
 # New Project Ideas — What to Build to Fill the Gaps
 
 ## ⏳ The Problem

@@ -1,3 +1,7 @@
+---
+title: "Projects Deep Dive"
+---
+
 # Projects Deep Dive: Interview-Ready Reference
 
 Everything here is written in first person so you can practice saying it out loud.

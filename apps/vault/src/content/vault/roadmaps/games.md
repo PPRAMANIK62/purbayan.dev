@@ -1,3 +1,7 @@
+---
+title: "Game Development"
+---
+
 # Multiplayer Game Development — Learning Path
 
 ## ✅ Why This Section Exists

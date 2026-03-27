@@ -1,3 +1,7 @@
+---
+title: "Web3 Development"
+---
+
 # Web3 / Blockchain Development — Learning Path
 
 This learning path is tailored for systems-level developers comfortable with low-level programming (Rust, C) who want to enter the blockchain and decentralized application space. The Web3 ecosystem is heavily Rust-native, making it a natural fit for developers who already think in terms of memory layouts, concurrency primitives, and protocol design.

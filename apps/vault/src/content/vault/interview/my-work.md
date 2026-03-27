@@ -1,3 +1,7 @@
+---
+title: "My Work"
+---
+
 # Purbayan Pramanik: The Complete Interview Prep Reference
 
 Everything you need to recall before walking into any technical interview. Every project, every technology, every contribution, with the _why_ behind each one.
