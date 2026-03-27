@@ -12,7 +12,6 @@ const navLinks = [
   { label: "experience", path: "/experience" },
   { label: "uses", path: "/uses" },
   { label: "about", path: "/about" },
-  { label: "vault", path: "/vault" },
 ] as const
 
 function NavLink({

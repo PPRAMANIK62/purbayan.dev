@@ -21,7 +21,6 @@ import BlogPostPage from "@/pages/blog-post"
 import NotFoundPage from "@/pages/not-found"
 
 const TerminalPage = lazy(() => import("@/pages/terminal"))
-const VaultPage = lazy(() => import("@/pages/vault"))
 
 function RouteError() {
   const error = useRouteError()
@@ -66,15 +65,6 @@ const router = createBrowserRouter([
     element: (
       <Suspense fallback={null}>
         <TerminalPage />
-      </Suspense>
-    ),
-  },
-  {
-    path: "/vault/*",
-    errorElement: <RouteError />,
-    element: (
-      <Suspense fallback={null}>
-        <VaultPage />
       </Suspense>
     ),
   },
