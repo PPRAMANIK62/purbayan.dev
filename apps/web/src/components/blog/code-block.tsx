@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react"
 import { Copy, Check } from "lucide-react"
 import {
+  tokenizeC,
   tokenizeRust,
   tokenizeToml,
   tokenizeJavaScript,
@@ -11,6 +12,7 @@ export function CodeBlock({ language, code }: { language: string; code: string }
   const [copied, setCopied] = useState(false)
 
   const tokens = useMemo(() => {
+    if (language === "c" || language === "h") return tokenizeC(code)
     if (language === "rust" || language === "rs") return tokenizeRust(code)
     if (language === "toml") return tokenizeToml(code)
     if (language === "javascript" || language === "js" || language === "jsx")

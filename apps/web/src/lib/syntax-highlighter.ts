@@ -485,6 +485,285 @@ export function tokenizeRust(code: string): Token[] {
   return tokens
 }
 
+const C_KEYWORDS = new Set([
+  "auto",
+  "break",
+  "case",
+  "const",
+  "continue",
+  "default",
+  "do",
+  "else",
+  "enum",
+  "extern",
+  "for",
+  "goto",
+  "if",
+  "inline",
+  "register",
+  "restrict",
+  "return",
+  "sizeof",
+  "static",
+  "struct",
+  "switch",
+  "typedef",
+  "union",
+  "volatile",
+  "while",
+  "_Alignas",
+  "_Alignof",
+  "_Atomic",
+  "_Bool",
+  "_Complex",
+  "_Generic",
+  "_Imaginary",
+  "_Noreturn",
+  "_Static_assert",
+  "_Thread_local",
+])
+
+const C_BUILTIN_TYPES = new Set([
+  "char",
+  "double",
+  "float",
+  "int",
+  "long",
+  "short",
+  "signed",
+  "unsigned",
+  "void",
+  "size_t",
+  "ptrdiff_t",
+  "intptr_t",
+  "uintptr_t",
+  "int8_t",
+  "int16_t",
+  "int32_t",
+  "int64_t",
+  "uint8_t",
+  "uint16_t",
+  "uint32_t",
+  "uint64_t",
+  "FILE",
+])
+
+const C_CONSTANTS = new Set(["NULL", "true", "false", "EOF"])
+
+export function tokenizeC(code: string): Token[] {
+  const tokens: Token[] = []
+  let pos = 0
+  const len = code.length
+  let lineStart = true
+  let prevKeyword = ""
+
+  function push(text: string, className: string) {
+    tokens.push({ text, className })
+  }
+
+  function parseStringLike(quote: string) {
+    const start = pos
+    pos++
+    while (pos < len && code[pos] !== quote && code[pos] !== "\n") {
+      if (code[pos] === "\\") pos++
+      pos++
+    }
+    if (pos < len && code[pos] === quote) pos++
+    push(code.slice(start, pos), "text-tokyo-green")
+    lineStart = false
+  }
+
+  function parseNumber() {
+    const start = pos
+
+    if (code[pos] === "0" && pos + 1 < len) {
+      const next = code[pos + 1]
+      if (next === "x" || next === "X") {
+        pos += 2
+        while (pos < len && /[0-9a-fA-F]/.test(code[pos])) pos++
+      } else if (next === "b" || next === "B") {
+        pos += 2
+        while (pos < len && /[01]/.test(code[pos])) pos++
+      } else {
+        while (pos < len && isDigit(code[pos])) pos++
+      }
+    } else {
+      while (pos < len && isDigit(code[pos])) pos++
+      if (pos < len && code[pos] === "." && pos + 1 < len && isDigit(code[pos + 1])) {
+        pos++
+        while (pos < len && isDigit(code[pos])) pos++
+      }
+      if (pos < len && (code[pos] === "e" || code[pos] === "E")) {
+        pos++
+        if (pos < len && (code[pos] === "+" || code[pos] === "-")) pos++
+        while (pos < len && isDigit(code[pos])) pos++
+      }
+    }
+
+    while (pos < len && /[uUlLfF]/.test(code[pos])) pos++
+
+    push(code.slice(start, pos), "text-tokyo-orange")
+    lineStart = false
+  }
+
+  while (pos < len) {
+    const c = code[pos]
+
+    if (c === "\n" || c === "\r") {
+      const start = pos
+      if (c === "\r" && pos + 1 < len && code[pos + 1] === "\n") pos += 2
+      else pos++
+      push(code.slice(start, pos), "")
+      lineStart = true
+      prevKeyword = ""
+      continue
+    }
+
+    if (c === " " || c === "\t") {
+      const start = pos
+      while (pos < len && (code[pos] === " " || code[pos] === "\t")) pos++
+      push(code.slice(start, pos), "")
+      continue
+    }
+
+    if (lineStart && c === "#") {
+      const start = pos
+      while (pos < len && code[pos] !== "\n") {
+        if (code[pos] === "\\" && pos + 1 < len) pos++
+        pos++
+      }
+      push(code.slice(start, pos), "text-tokyo-yellow")
+      lineStart = false
+      continue
+    }
+
+    if (c === "/" && pos + 1 < len && code[pos + 1] === "/") {
+      const start = pos
+      while (pos < len && code[pos] !== "\n") pos++
+      push(code.slice(start, pos), "text-muted-foreground italic")
+      continue
+    }
+
+    if (c === "/" && pos + 1 < len && code[pos + 1] === "*") {
+      const start = pos
+      pos += 2
+      while (pos + 1 < len && !(code[pos] === "*" && code[pos + 1] === "/")) pos++
+      if (pos + 1 < len) pos += 2
+      push(code.slice(start, pos), "text-muted-foreground italic")
+      lineStart = false
+      continue
+    }
+
+    if (c === '"' || c === "'") {
+      parseStringLike(c)
+      continue
+    }
+
+    if (isDigit(c)) {
+      parseNumber()
+      continue
+    }
+
+    if (isAlpha(c)) {
+      const start = pos
+      while (pos < len && isAlphaNum(code[pos])) pos++
+      const word = code.slice(start, pos)
+
+      if (C_CONSTANTS.has(word)) {
+        push(word, "text-tokyo-orange")
+        prevKeyword = ""
+        lineStart = false
+        continue
+      }
+
+      if (C_KEYWORDS.has(word)) {
+        push(word, "text-tokyo-magenta")
+        prevKeyword = word
+        lineStart = false
+        continue
+      }
+
+      if (prevKeyword === "struct" || prevKeyword === "union" || prevKeyword === "enum") {
+        push(word, "text-tokyo-cyan")
+        prevKeyword = ""
+        lineStart = false
+        continue
+      }
+
+      if (C_BUILTIN_TYPES.has(word)) {
+        push(word, "text-tokyo-cyan")
+        prevKeyword = ""
+        lineStart = false
+        continue
+      }
+
+      let la = pos
+      while (la < len && (code[la] === " " || code[la] === "\t")) la++
+      if (la < len && code[la] === "(") {
+        push(word, "text-primary")
+        prevKeyword = ""
+        lineStart = false
+        continue
+      }
+
+      if (word[0] >= "A" && word[0] <= "Z") {
+        push(word, "text-tokyo-cyan")
+        prevKeyword = ""
+        lineStart = false
+        continue
+      }
+
+      push(word, "")
+      prevKeyword = ""
+      lineStart = false
+      continue
+    }
+
+    if (pos + 1 < len) {
+      const two = code.slice(pos, pos + 2)
+      if (
+        two === "->" ||
+        two === "++" ||
+        two === "--" ||
+        two === "==" ||
+        two === "!=" ||
+        two === "<=" ||
+        two === ">=" ||
+        two === "&&" ||
+        two === "||" ||
+        two === "+=" ||
+        two === "-=" ||
+        two === "*=" ||
+        two === "/=" ||
+        two === "%=" ||
+        two === "&=" ||
+        two === "|=" ||
+        two === "^=" ||
+        two === "<<" ||
+        two === ">>"
+      ) {
+        push(two, "text-secondary-foreground")
+        pos += 2
+        lineStart = false
+        continue
+      }
+    }
+
+    if ("(){}[]<>;,.:=+-*/%&|^!?~".includes(c)) {
+      push(c, "text-secondary-foreground")
+      pos++
+      lineStart = false
+      continue
+    }
+
+    push(c, "")
+    pos++
+    lineStart = false
+  }
+
+  return tokens
+}
+
 // ── TOML date/time pattern: 2024-01-15, 14:30:00, 2024-01-15T14:30:00Z ──
 const TOML_DATETIME = /^\d{4}-\d{2}-\d{2}([T ]\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:\d{2})?)?$/
 const TOML_LOCAL_TIME = /^\d{2}:\d{2}(:\d{2}(\.\d+)?)?$/
