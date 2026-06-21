@@ -6,7 +6,7 @@ developer portfolio — tokyo night, monospace everything, and maybe a few secre
 
 - React 19, TypeScript, Vite
 - Tailwind CSS 4, Radix UI, shadcn/ui
-- Framer Motion, Zustand
+- Motion
 - Iosevka mono, Tokyo Night
 
 ## run locally
