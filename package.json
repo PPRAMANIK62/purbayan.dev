@@ -7,8 +7,12 @@
   "scripts": {
     "dev:web": "bun --filter web dev",
     "dev:vault": "bun --filter vault dev",
+    "build": "bun run build:web && bun run build:vault",
     "build:web": "bun --filter web build",
     "build:vault": "bun --filter vault build",
+    "lint": "oxlint apps/web apps/vault --ignore-pattern 'apps/*/dist/**' --ignore-pattern 'apps/*/node_modules/**' --ignore-pattern 'apps/vault/.astro/**' --deny-warnings",
+    "format:check": "oxfmt --check .",
+    "check": "bun run format:check && bun run lint && bun run build",
     "prepare": "husky"
   },
   "devDependencies": {
