@@ -26,7 +26,7 @@ export default function ProjectsPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
         {projects.map((project, index) => (
           <FadeUp key={project.slug} delay={index * 0.1}>
-            <div className="group relative border border-border/50 rounded-lg p-6 transition-all duration-200 hover:border-primary/50 hover:shadow-[0_0_20px_rgba(122,162,247,0.1)]">
+            <div className="group relative border border-border/50 rounded-lg p-6 transition-[border-color,box-shadow,transform] duration-200 hover:border-primary/50 hover:shadow-[0_0_20px_rgba(122,162,247,0.1)] active:scale-[0.99] active:duration-75">
               <Link
                 to={`/projects/${project.slug}`}
                 className="absolute inset-0 z-10"

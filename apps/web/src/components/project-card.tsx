@@ -10,7 +10,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
   return (
     <Link
       to={`/projects/${project.slug}`}
-      className="group block border border-border/50 rounded-lg p-6 transition-all duration-200 hover:border-primary/50 hover:shadow-[0_0_20px_rgba(122,162,247,0.1)]"
+      className="group block border border-border/50 rounded-lg p-6 transition-[border-color,box-shadow,transform] duration-200 hover:border-primary/50 hover:shadow-[0_0_20px_rgba(122,162,247,0.1)] active:scale-[0.99] active:duration-75"
     >
       <h3 className="font-mono font-semibold text-lg text-foreground">{project.title}</h3>
 

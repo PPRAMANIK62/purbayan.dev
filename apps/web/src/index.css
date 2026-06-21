@@ -188,6 +188,13 @@
   margin-left: 2px;
 }
 
+.hero-cursor {
+  width: 0.24em;
+  height: 0.5em;
+  margin-left: 0.08em;
+  vertical-align: -0.02em;
+}
+
 @keyframes blink {
   0%,
   100% {

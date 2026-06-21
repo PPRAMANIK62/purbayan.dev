@@ -57,7 +57,7 @@ export default function AboutPage() {
           {skillAreas.map((area) => (
             <div
               key={area.title}
-              className="group border border-border/50 rounded-lg p-5 transition-all duration-150 hover:border-primary/50 hover:shadow-[0_0_20px_rgba(122,162,247,0.1)]"
+              className="group border border-border/50 rounded-lg p-5 transition-[border-color,box-shadow,transform] duration-150 hover:border-primary/50 hover:shadow-[0_0_20px_rgba(122,162,247,0.1)] active:scale-[0.99] active:duration-75"
             >
               <div className="flex items-center gap-3">
                 <area.icon className="size-5 text-primary shrink-0" />

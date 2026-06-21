@@ -26,7 +26,7 @@ export default function ExperiencePage() {
       <div className="space-y-6">
         {experiences.map((exp, index) => (
           <FadeUp key={`${exp.company}-${exp.type}`} delay={0.1 * (index + 1)}>
-            <div className="group border border-border/50 rounded-lg p-6 transition-all duration-150 hover:border-primary/50 hover:shadow-[0_0_20px_rgba(122,162,247,0.1)]">
+            <div className="group border border-border/50 rounded-lg p-6 transition-[border-color,box-shadow,transform] duration-150 hover:border-primary/50 hover:shadow-[0_0_20px_rgba(122,162,247,0.1)] active:scale-[0.99] active:duration-75">
               {/* Header: Role + Type Badge */}
               <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div className="flex items-start gap-3">

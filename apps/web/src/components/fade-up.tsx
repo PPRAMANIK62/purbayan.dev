@@ -17,7 +17,7 @@ export function FadeUp({ children, delay = 0, className }: FadeUpProps) {
       ref={ref}
       initial={{ opacity: 0, y: 24 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay, ease: EASE_OUT }}
+      transition={{ duration: 0.32, delay, ease: EASE_OUT }}
       className={className}
     >
       {children}

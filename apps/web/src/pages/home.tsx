@@ -18,22 +18,25 @@ export default function HomePage() {
     <>
       {/* Hero */}
       <section className="relative min-h-screen flex flex-col justify-center max-w-3xl mx-auto px-6 pt-16">
-        <motion.div initial="hidden" animate="visible" transition={{ staggerChildren: 0.15 }}>
+        <motion.div initial="hidden" animate="visible" transition={{ staggerChildren: 0.07 }}>
           <motion.div
             variants={LINE_VARIANTS}
-            transition={{ duration: 0.4, ease: EASE_OUT }}
+            transition={{ duration: 0.28, ease: EASE_OUT }}
             className="flex items-baseline"
           >
             <span className="text-muted-foreground mr-2 text-4xl md:text-6xl font-mono">&gt;</span>
             <h1 className="text-4xl md:text-6xl font-bold font-mono text-foreground">
-              Purbayan Pramanik
+              Purbayan{" "}
+              <span className="whitespace-nowrap">
+                Pramanik
+                <span className="cursor hero-cursor" aria-hidden="true" />
+              </span>
             </h1>
-            <span className="cursor" />
           </motion.div>
 
           <motion.p
             variants={LINE_VARIANTS}
-            transition={{ duration: 0.4, ease: EASE_OUT }}
+            transition={{ duration: 0.28, ease: EASE_OUT }}
             className="text-lg md:text-xl text-secondary-foreground font-mono mt-4"
           >
             full-stack developer · systems enthusiast
@@ -41,7 +44,7 @@ export default function HomePage() {
 
           <motion.p
             variants={LINE_VARIANTS}
-            transition={{ duration: 0.4, ease: EASE_OUT }}
+            transition={{ duration: 0.28, ease: EASE_OUT }}
             className="text-base md:text-lg text-muted-foreground leading-relaxed font-mono mt-4 whitespace-pre-line"
           >
             {
@@ -51,7 +54,7 @@ export default function HomePage() {
 
           <motion.div
             variants={LINE_VARIANTS}
-            transition={{ duration: 0.4, ease: EASE_OUT }}
+            transition={{ duration: 0.28, ease: EASE_OUT }}
             className="flex items-center gap-6 mt-8"
           >
             <Link to="/experience" className="text-primary font-mono hover:underline">

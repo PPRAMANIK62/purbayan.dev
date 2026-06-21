@@ -125,12 +125,21 @@ let entryIndex = 0
     margin-right: -0.75rem;
     border-radius: 0.5rem;
     border-left: 2px solid transparent;
-    transition: all 150ms ease;
+    transition:
+      background-color 150ms ease,
+      border-color 150ms ease,
+      color 150ms ease,
+      transform 150ms ease;
   }
 
   .vault-entry:hover {
     background-color: color-mix(in srgb, var(--color-surface) 70%, transparent);
     border-left-color: var(--color-cyan);
+  }
+
+  .vault-entry:active {
+    transform: scale(0.99);
+    transition-duration: 75ms;
   }
 
   .vault-fade {

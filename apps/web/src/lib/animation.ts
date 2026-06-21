@@ -1,4 +1,4 @@
-export const EASE_OUT = [0.25, 0.46, 0.45, 0.94] as const
+export const EASE_OUT = [0.23, 1, 0.32, 1] as const
 
 export const FADE_UP_VARIANTS = {
   hidden: { opacity: 0, y: 24 },

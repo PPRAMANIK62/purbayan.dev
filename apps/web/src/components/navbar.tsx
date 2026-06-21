@@ -117,11 +117,16 @@ export function Navbar() {
       </motion.header>
 
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-        <SheetContent side="right" className="w-72">
-          <SheetHeader>
-            <SheetTitle className="sr-only">Navigation</SheetTitle>
+        <SheetContent
+          side="right"
+          className="w-[min(22rem,calc(100vw-3rem))] border-l-primary/20 bg-background/95 shadow-[0_0_40px_rgba(122,162,247,0.08)] backdrop-blur-md"
+        >
+          <SheetHeader className="px-6 pt-6 pb-2">
+            <SheetTitle className="font-mono text-base text-foreground">
+              <span className="text-primary">&gt;</span> menu
+            </SheetTitle>
           </SheetHeader>
-          <nav className="flex flex-col px-2 pt-4">
+          <nav className="flex flex-col px-6 pt-2">
             {navLinks.map((link) => (
               <NavLink
                 key={link.path}
@@ -133,14 +138,14 @@ export function Navbar() {
                 {link.label}
               </NavLink>
             ))}
-            <div className="mt-4 border-t border-border/50 pt-4">
+            <div className="mt-5 border-t border-border/50 pt-5">
               <button
                 type="button"
                 onClick={() => {
                   setMobileOpen(false)
                   setCommandOpen(true)
                 }}
-                className="flex items-center gap-2 font-mono text-sm text-muted-foreground hover:text-foreground transition-colors duration-150"
+                className="flex items-center gap-2 font-mono text-sm text-muted-foreground transition-[color,transform] duration-150 hover:text-foreground active:scale-[0.98] active:duration-75"
               >
                 <span className="border border-border/50 text-xs px-2 py-0.5 rounded-md">⌘K</span>
                 <span>Command palette</span>
