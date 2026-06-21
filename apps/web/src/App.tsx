@@ -1,4 +1,3 @@
-import { lazy, Suspense } from "react"
 import {
   createBrowserRouter,
   RouterProvider,
@@ -19,8 +18,6 @@ import ResumePage from "@/pages/resume"
 import BlogPage from "@/pages/blog"
 import BlogPostPage from "@/pages/blog-post"
 import NotFoundPage from "@/pages/not-found"
-
-const TerminalPage = lazy(() => import("@/pages/terminal"))
 
 function RouteError() {
   const error = useRouteError()
@@ -58,15 +55,6 @@ const router = createBrowserRouter([
       { path: "/blog/:slug", element: <BlogPostPage /> },
       { path: "*", element: <NotFoundPage /> },
     ],
-  },
-  {
-    path: "/terminal",
-    errorElement: <RouteError />,
-    element: (
-      <Suspense fallback={null}>
-        <TerminalPage />
-      </Suspense>
-    ),
   },
 ])
 

@@ -198,42 +198,6 @@
   }
 }
 
-/* Terminal theme variants */
-[data-terminal-theme="default"] {
-  --terminal-text: #a9b1d6;
-  --terminal-prompt: #7aa2f7;
-  --terminal-accent: #7aa2f7;
-}
-
-[data-terminal-theme="amber"] {
-  --terminal-text: #ffc777;
-  --terminal-prompt: #ff966c;
-  --terminal-accent: #ff966c;
-}
-
-[data-terminal-theme="green"] {
-  --terminal-text: #9ece6a;
-  --terminal-prompt: #73daca;
-  --terminal-accent: #73daca;
-}
-
-[data-terminal-theme="cyan"] {
-  --terminal-text: #7dcfff;
-  --terminal-prompt: #89ddff;
-  --terminal-accent: #89ddff;
-}
-
-/* Terminal themed text utilities */
-[data-terminal-theme] .terminal-text {
-  color: var(--terminal-text);
-}
-[data-terminal-theme] .terminal-prompt {
-  color: var(--terminal-prompt);
-}
-[data-terminal-theme] .terminal-accent {
-  color: var(--terminal-accent);
-}
-
 /* CRT Glitch effect */
 @keyframes crt-glitch {
   0% {
