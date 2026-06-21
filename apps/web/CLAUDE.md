@@ -13,11 +13,11 @@ bun run preview      # preview production build
 
 ## Architecture
 
-**Routing:** React Router DOM v7. All routes defined in `src/App.tsx`. The `/terminal` route is lazy-loaded via `React.lazy`.
+**Routing:** React Router DOM v7. All routes defined in `src/App.tsx`.
 
-**Data:** All content (projects, experience, skills, blog posts, social links) lives in `src/data/` as TypeScript files. No CMS, no API calls — edit these to update site content.
+**Data:** Structured site data (projects, experience, social links, about content) lives in `src/data/` as TypeScript files. Blog posts live in `src/content/blog/*.md` and are loaded by `src/data/blog.ts`. No CMS or API calls.
 
-**State:** Zustand store at `src/stores/terminal-store.ts` manages terminal open/close state and Konami code flag.
+**Content authoring:** Add a new blog post by creating a Markdown file in `src/content/blog/`. The filename becomes the route slug. Required frontmatter: `title`, `date`, `tags`, `summary`, and `readingTime`.
 
 **Path alias:** `@` maps to `src/` (configured in `vite.config.ts` and `tsconfig.app.json`).
 
@@ -35,26 +35,19 @@ bun run preview      # preview production build
 src/
   App.tsx              # route definitions
   index.css            # Tokyo Night CSS vars + global styles
-  data/                # all site content as TS files
+  content/blog/        # Markdown blog posts
+  data/                # typed structured data + blog loader
   components/
     ui/                # shadcn/ui primitives
-    terminal/          # terminal easter egg
-      filesystem/      # virtual filesystem
-      commands/        # command handlers
-  stores/
-    terminal-store.ts  # Zustand store
   lib/
     utils.ts           # cn() helper
   pages/               # page-level components
   hooks/               # custom React hooks
 ```
 
-## Terminal Easter Egg
-
-Triggered by Konami code (↑↑↓↓←→←→BA) or Ctrl+`. Implementation lives entirely in `src/components/terminal/`. Has a virtual filesystem and command registry — add new commands in `src/components/terminal/commands/`.
-
 ## Conventions
 
 - No new dependencies without good reason — stack is intentionally lean
 - Keep page components in `src/pages/`, reusable components in `src/components/`
-- All content edits go in `src/data/` — never hardcode content in components
+- Blog writing goes in `src/content/blog/`; structured portfolio data goes in `src/data/`
+- Never hardcode content in components

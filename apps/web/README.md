@@ -23,6 +23,22 @@ bun run build
 bun preview
 ```
 
+## content
+
+Blog posts live in `src/content/blog/*.md`. Add a new Markdown file with frontmatter:
+
+```md
+---
+title: "Post title"
+date: "2026-06-21"
+tags: ["tag"]
+summary: "Short description."
+readingTime: "4 min read"
+---
+```
+
+The filename becomes the route slug.
+
 ## deployment
 
 This app uses React Router with browser-history routes. Static hosts must rewrite nested
