@@ -69,7 +69,7 @@ Can they use AI tools effectively and critically, not blindly? This is 2026. I e
 5. **Has a blog with technical depth.** The Canvas layers article isn't a tutorial. It's an architectural deep-dive. That's rare.
 6. **Can explain tradeoffs, not just solutions.** "We could do X, but the tradeoff is Y. We went with Z because..."
 7. **Shows genuine curiosity.** "I built musializer to understand FFT. I built 4at to understand TCP." That's not resume padding. That's a builder.
-8. **Has production experience.** 48+ PRs across 6 repos. Canvas rendering, auth flows, build pipelines. Real work with real users.
+8. **Has production experience.** 57 merged PRs across 4 SamurAI codebases, plus 48+ PRs at fiddle-factory. AI pipelines, frontend, backend, auth, tests, and CI.
 
 ---
 
@@ -82,7 +82,7 @@ No sugarcoating. Here's where you stand.
 - NIT Durgapur, B.Tech Mechanical Engineering (graduating 2026)
 - Self-taught developer, no CS degree
 - Stack: TypeScript, React 19, Next.js 15, Rust, C, Go, Tailwind, Zustand, PostgreSQL
-- Experience: fiddle-factory (8 months, intern then contractor, 48+ PRs across 6 repos)
+- Experience: SamurAI Studios (Software Engineer, 57 merged PRs across 4 codebases) and fiddle-factory (intern then contractor)
 - Open Source: Apache ECharts (merged PR in a 65k-star project)
 - Projects: 5 major builds (mdt, Canvas Kit, 4at, seroost, musializer) plus portfolio and others
 
@@ -92,7 +92,7 @@ No sugarcoating. Here's where you stand.
 | ----------------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | Technical Depth   | **STRONG**         | Built TCP from sockets, FFT from math, TF-IDF from scratch, Canvas layers from Canvas API. These aren't wrappers around libraries.                                                                                   | Practice articulating these verbally under time pressure. Knowing it and explaining it in 2 minutes are different skills.            |
 | Problem-Solving   | **STRONG**         | Multiple complex bug fixes at fiddle: canvas loading race condition (React Query cold cache + tldraw onMount timing), iframe clipboard focus theft, sandbox timeout restoration. Each required systematic debugging. | Practice structured problem-solving out loud. Interviewers can't see your thinking unless you narrate it.                            |
-| Real Experience   | **STRONG**         | fiddle-factory has real users. 48+ PRs shipped. Worked across 6 repos: frontend, component libraries, build infrastructure, auth, canvas rendering.                                                                  | Can credibly say "I shipped code that real users depend on." Don't undersell this.                                                   |
+| Real Experience   | **STRONG**         | 57 merged PRs at SamurAI across document intelligence, storyboards, media generation, frontend/backend, tests, and CI; plus production work at fiddle-factory.                                                       | Can credibly say "I shipped code that real users depend on." Don't undersell this.                                                   |
 | Learning Velocity | **EXCEPTIONAL**    | Mechanical Engineering to full-stack with Rust, C, Go depth in roughly 3 years. Migrated react-flow to tldraw (learned a new canvas library under deadline). Picked up e2b sandboxes for cloud migration.            | Frame this as your biggest strength in behavioral answers. The non-CS angle is a feature, not a bug.                                 |
 | Communication     | **NEEDS PRACTICE** | Blog shows strong writing ability. PR descriptions are detailed and clear. But verbal interview communication is a different muscle.                                                                                 | Practice explaining projects in 2 minutes (elevator pitch) and 10 minutes (deep dive). Record yourself. Listen back. Cut the filler. |
 | Ownership         | **STRONG**         | Proactively fixed 15+ bugs at fiddle. Set up Storybook across 4 repos without being asked. Contributed to Apache ECharts on your own initiative.                                                                     | Have 2-3 "I noticed X was broken and fixed it without being asked" stories rehearsed and ready.                                      |
@@ -122,8 +122,8 @@ You have a Go DSA repo. That's a start. But coding rounds require speed and patt
 
 Don't recite your resume. Tell a story.
 
-- **Present:** "I'm a full-stack developer finishing my B.Tech at NIT Durgapur. I've been working as a contractor at fiddle-factory, shipping features across their canvas editor, component libraries, and build infrastructure."
-- **Past:** "I taught myself programming through curiosity about how things work. That curiosity took me from building TCP servers from raw sockets in Rust and Go, to writing an FFT library in C, to shipping 48+ PRs in a production codebase."
+- **Present:** "I'm a software engineer at SamurAI Studios, building full-stack systems for AI-assisted creative production. My work spans creative-brief ingestion, storyboards, media generation, frontend, backend, tests, and CI."
+- **Past:** "Before that, I worked at fiddle-factory on canvas rendering, component libraries, chat, auth, and build infrastructure. I taught myself programming through curiosity about how things work, from TCP servers in Rust and Go to an FFT library in C."
 - **Future:** "I'm looking for a role where I can combine my frontend and systems experience to build products that work well at every layer of the stack."
 
 **Common mistake:** Going on for 5 minutes. Reciting every project. Sounding rehearsed. Keep it tight. Let them ask follow-ups.
@@ -196,7 +196,7 @@ Example: "Explain the event loop."
 
 Don't be generic. Connect your specific experience to what they need.
 
-"Three things set me apart. First, I have depth across the stack. I've built things from the TCP socket level up to React 19 UIs, so I can debug problems at any layer. Second, I ship real code. 48 PRs at fiddle-factory, a merged contribution to Apache ECharts. I'm not just building side projects. Third, I learn fast. I went from mechanical engineering to contributing to 65k-star open source projects in about three years. I don't just use tools. I understand how they work, which means I debug faster and make better architectural decisions."
+"Three things set me apart. First, I have depth across the stack. I've built things from the TCP socket level up to React UIs and production AI pipelines, so I can debug problems at any layer. Second, I ship real code: 57 merged PRs across four SamurAI codebases, earlier production work at fiddle-factory, and a merged Apache ECharts contribution. Third, I learn fast. I went from mechanical engineering to owning document-intelligence, storyboard, and media-generation systems in a few years."
 
 **Common mistake:** Being humble to the point of invisibility. This is the one question where you're supposed to sell yourself. Have your three points ready. Say them with confidence.
 
@@ -210,7 +210,9 @@ Don't be generic. Connect your specific experience to what they need.
 
 _Interviewer's Note: I'm checking if they can be concise, coherent, and interesting in 90 seconds. Most candidates ramble._
 
-"I'm a full-stack developer finishing my B.Tech at NIT Durgapur. I've been working as a contractor at fiddle-factory for the past 8 months, shipping features across their canvas editor, component libraries, and build pipeline. Before that, I interned there and led a major migration from react-flow to tldraw.
+"I'm a software engineer at SamurAI Studios, where I build full-stack systems for AI-assisted film and advertising workflows. I've shipped 57 merged PRs across four codebases, covering creative-brief ingestion, multi-scene storyboards, media generation, frontend, backend, tests, and CI.
+
+Before that, I worked at fiddle-factory on a canvas editor, component libraries, chat, auth, and build infrastructure. I started there as an intern and helped migrate the canvas from react-flow to tldraw.
 
 What got me into programming was curiosity about how things actually work. So I built a TCP chat server from raw sockets in Rust and Go, an FFT audio visualizer in C, and a search engine from scratch in Rust. I also contributed a merged fix to Apache ECharts, which has 65k stars.
 

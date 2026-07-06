@@ -15,7 +15,10 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage[english]{babel}
 \usepackage{tabularx}
-\input{glyphtounicode}
+\usepackage{iftex}
+\ifPDFTeX
+  \input{glyphtounicode}
+\fi
 
 %----------FONT OPTIONS----------
 % sans-serif
@@ -49,7 +52,9 @@
 ]
 
 % Ensure that generate pdf is machine readable/ATS parsable
-\pdfgentounicode=1
+\ifPDFTeX
+  \pdfgentounicode=1
+\fi
 
 %-------------------------
 % Custom commands
@@ -114,20 +119,26 @@
   %-----------SUMMARY-----------
   \section{SUMMARY}
   \vspace{-1pt}
-  \small{Full-Stack Software Engineer with production experience shipping 49+ merged PRs across 5 repositories---building canvas rendering systems, real-time chat features, auth flows, and CI/CD pipelines. Personally curious about systems programming with projects in Rust, Go, and C. Contributor to Apache ECharts (65k+ stars). Seeking Full-Stack Engineer roles.}
+  \small{Full-Stack Software Engineer building AI-assisted creative production systems. Shipped 57 merged PRs across 4 codebases at SamurAI Studios, spanning document intelligence, storyboards, media generation, frontend, backend, tests, and CI. Previously built canvas, chat, auth, and build infrastructure at fiddle-factory.}
   \vspace{-8pt}
 
   %-----------EXPERIENCE-----------
   \section{EXPERIENCE}
-  \resumeSubHeadingListStart \resumeSubheading {\href{https://fiddle.is}{fiddle-factory}}{Dec 2025 -- Present}
-  {\underline{Software Engineer (Contractor)}}{Remote} \resumeItemListStart \resumeItem{\normalsize{Shipped 49+ merged PRs across 5 repositories spanning canvas rendering, real-time chat, auth systems, and build infrastructure for a tldraw-based AI component design tool.}}
-  \resumeItem{\normalsize{Built drag-and-drop component placement, theme/mode switching, and visual component grid; fixed canvas loading race condition that blocked all first-time user activations.}}
-  \resumeItem{\normalsize{Integrated Storybook across 4 repositories with stories for all 56 UI primitives (6,000+ lines); built MutationObserver-based readiness detection enabling automated screenshot pipelines.}}
-  \resumeItem{\normalsize{Implemented PKCE auth flow and role-based access control; restructured chat to non-blocking message send; migrated toast system and resolved ESLint violations across 23 files.}}
-  \resumeItemListEnd \resumeSubheading {\href{https://fiddle.is}{fiddle-factory}}{May 2025 -- Aug 2025}
+  \resumeSubHeadingListStart \resumeSubheading {\href{https://www.samur-ai.in}{SamurAI Studios}}{Apr 2026 -- Present}
+  {\underline{Software Engineer}}{Remote} \resumeItemListStart
+  \resumeItem{\normalsize{Shipped 57 merged PRs across 4 production codebases for AI-assisted film and advertising workflows.}}
+  \resumeItem{\normalsize{Built a story-first creative-brief pipeline for presentation decks with media extraction, visual captioning, structured schemas, provider abstractions, golden evaluations, and an authenticated operator console.}}
+  \resumeItem{\normalsize{Delivered multi-scene storyboard workspaces end to end: persistence, REST APIs, version history, backward compatibility, frontend routes, and regression tests.}}
+  \resumeItem{\normalsize{Integrated multi-provider image/video generation with continuity prompts, run monitoring, usage logging, and real-time sync; modernized the UI with shared components and Tailwind CSS v4.}}
+  \resumeItemListEnd
+  \resumeSubheading {\href{https://fiddle.is}{fiddle-factory}}{Dec 2025 -- Apr 2026}
+  {\underline{Software Engineer (Contractor)}}{Remote} \resumeItemListStart
+  \resumeItem{\normalsize{Shipped 49+ merged PRs across 5 repositories spanning canvas rendering, real-time chat, auth systems, and build infrastructure for an AI component design tool.}}
+  \resumeItem{\normalsize{Integrated Storybook across 4 repositories and fixed a canvas hydration race condition affecting first-time users; also implemented PKCE auth and non-blocking chat updates.}}
+  \resumeItemListEnd
+  \resumeSubheading {\href{https://fiddle.is}{fiddle-factory}}{May 2025 -- Aug 2025}
   {\underline{Software Engineer Intern}}{Remote} \resumeItemListStart \resumeItem{\normalsize{Migrated canvas system from react-flow to tldraw---built custom shapes, tools, preview components, and data conversion utilities across 84 files.}}
-  \resumeItem{\normalsize{Migrated cloud sandbox from StackBlitz WebContainers to e2b---configured custom templates, API integration, and sandbox session lifecycle management.}}
-  \resumeItem{\normalsize{Built the ``make real'' AI feature (2,500+ lines) integrating canvas drawings as chat attachments, plus interactive onboarding flow with progress tracking.}}
+  \resumeItem{\normalsize{Migrated cloud sandboxes from StackBlitz WebContainers to e2b and built the ``make real'' AI flow for turning canvas drawings into generated components.}}
   \resumeItemListEnd \resumeSubHeadingListEnd
   \vspace{-14pt}
 
@@ -142,12 +153,6 @@
   \section{PROJECTS}
   \vspace{-5pt}
   \resumeSubHeadingListStart \resumeProjectHeading
-  {\href{https://canvas-kit.vercel.app}{\textbf{\underline{Canvas Kit}}} \href{https://github.com/PPRAMANIK62/canvas-kit}{} $|$ \underline{TypeScript, Next.js 15, React 19, Tailwind CSS, Canvas API}}{2025}\\
-  \resumeItemListStart \resumeItem{\normalsize{Lightweight drawing application with layer system, multiple tools (Brush, Eraser, Rectangle, Circle), keyboard shortcuts, and PNG export.}}
-  \resumeItem{\normalsize{Built with Next.js 15 and React 19 using Canvas API with offscreen buffers for per-layer rendering; deployed on Vercel.}}
-  \resumeItemListEnd
-  \vspace{-13pt}
-  \resumeProjectHeading
   {\href{https://github.com/PPRAMANIK62/4at}{\textbf{\underline{4at}}} $|$ \underline{Rust, Go, TCP, Concurrency}}{2025}\\
   \resumeItemListStart \resumeItem{\normalsize{Multi-user TCP chat server built from raw sockets---dual implementation in Rust and Go comparing OS threads vs green threads.}}
   \resumeItem{\normalsize{Token-based authentication, rate limiting, ban system, and broadcast messaging with near-zero dependencies.}}
@@ -162,15 +167,15 @@
 
   %-----------OPEN SOURCE-----------
   \section{OPEN SOURCE}
-  \resumeSubHeadingListStart \resumeItemListStart \resumeItem{\normalsize{Contributor to \textbf{Apache ECharts} (65,000+ stars)---fixed candlestick rendering bug with series.encode mapping (PR merged).}}
-  \resumeItem{\normalsize{Contributed to the \textbf{shadcn ecosystem} through \textbf{fiddle-factory}---component library PRs across multiple repositories.}}
-  \resumeItemListEnd \resumeSubHeadingListEnd
-  \vspace{-14pt}
+  \resumeItemListStart
+  \resumeItem{\normalsize{\textbf{Apache ECharts} contributor (65,000+ stars)---merged candlestick rendering fix.}}
+  \resumeItemListEnd
+  \vspace{-8pt}
 
   %-----------EDUCATION-----------
   \section{EDUCATION}
   \resumeSubHeadingListStart \resumeSubheading
-  {National Institute Of Technology Durgapur}{2022 -- 2026 (Expected April 2026)}
+  {National Institute Of Technology Durgapur}{2022 -- 2026}
   {B.Tech - Mechanical Engineering}{Durgapur, West Bengal}
   \resumeSubHeadingListEnd
 \end{document}

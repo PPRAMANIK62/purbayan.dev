@@ -108,9 +108,9 @@ export default function HomePage() {
         <FadeUp>
           <SectionHeading title="experience" />
           <p className="text-lg text-secondary-foreground leading-relaxed mt-6">
-            Currently building full-stack features at fiddle-factory — from canvas rendering and
-            real-time chat to authentication infrastructure. Previously interned there, shipping
-            platform migrations and an AI feature.
+            Currently building AI-assisted creative workflows at SamurAI Studios — from brief
+            ingestion and storyboard systems to media generation and production tooling. Before
+            that, I shipped canvas, chat, auth, and build infrastructure at fiddle-factory.
           </p>
           <Link
             to="/experience"

@@ -27,9 +27,9 @@ export default function AboutPage() {
                 Linux desktop.
               </p>
               <p>
+                At SamurAI Studios, I build full-stack systems for AI-assisted creative production.
                 I got into programming through curiosity about how things work under the hood, and
-                that hasn't really changed. I still pick projects mostly based on what I'd learn
-                from them.
+                that hasn't really changed.
               </p>
             </div>
           </div>

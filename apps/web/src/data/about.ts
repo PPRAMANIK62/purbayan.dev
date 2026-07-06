@@ -7,8 +7,8 @@ export const skillAreas = [
     title: "Web Development",
     points: [
       "TypeScript, React, Next.js",
-      "Building interactive UIs, component architecture",
-      "shadcn/ui ecosystem contributions (fiddle-factory PRs)",
+      "Production frontend, backend, and AI workflow systems",
+      "Component architecture, testing, and developer tooling",
     ],
   },
   {

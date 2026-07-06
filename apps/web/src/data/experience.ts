@@ -5,7 +5,7 @@ export interface Experience {
   company: string
   role: string
   period: string
-  type: "Contract" | "Internship"
+  type: "Full-time" | "Contract" | "Internship"
   description: string
   highlights: string[]
   technologies: string[]
@@ -13,11 +13,39 @@ export interface Experience {
   icon: LucideIcon
 }
 
-export const experiences = [
+export const experiences: readonly Experience[] = [
+  {
+    company: "SamurAI Studios",
+    role: "Software Engineer",
+    period: "Apr 2026 — Present",
+    type: "Full-time",
+    url: "https://www.samur-ai.in",
+    description:
+      "Building full-stack systems for AI-assisted film and advertising workflows, from creative-brief ingestion to storyboards, media generation, and production tooling.",
+    highlights: [
+      "Shipped 57 merged PRs across 4 production codebases covering frontend, backend, AI pipelines, internal tools, tests, and CI",
+      "Built a story-first creative brief pipeline for presentation decks — media extraction, visual captioning, structured schemas, provider abstractions, golden evaluations, and an authenticated operator console",
+      "Delivered multi-scene storyboard workspaces end to end, including persistence, REST APIs, version history, backward compatibility, frontend route separation, and regression coverage",
+      "Integrated image and video generation workflows across multiple model providers with continuity prompts, run monitoring, usage logging, and real-time workspace synchronization",
+      "Modernized the product UI with a shared component system, Tailwind CSS v4 design tokens, responsive media galleries, loading states, and optimistic updates",
+      "Improved media delivery with role-based image URLs, optimized WebP previews, preview-aware rendering, and safer generation-provider authentication",
+    ],
+    technologies: [
+      "TypeScript",
+      "React",
+      "Node.js",
+      "PostgreSQL",
+      "OpenAI",
+      "Playwright",
+      "Vitest",
+      "GitHub Actions",
+    ],
+    icon: Briefcase,
+  },
   {
     company: "fiddle-factory",
     role: "Full Stack Developer",
-    period: "Dec 2025 — Present",
+    period: "Dec 2025 — Apr 2026",
     type: "Contract",
     url: "https://fiddle.is",
     description:
@@ -51,4 +79,4 @@ export const experiences = [
     technologies: ["TypeScript", "React", "tldraw", "e2b", "Figma API"],
     icon: GraduationCap,
   },
-] as const
+]

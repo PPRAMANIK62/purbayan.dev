@@ -25,7 +25,7 @@ Everything you need to recall before walking into any technical interview. Every
 
 You're a Mechanical Engineering student who taught yourself to code. Not from a CS background, not from a coding bootcamp. You got into programming through raw curiosity about how things work under the hood. That curiosity didn't stop at "how do I build a website." It pulled you into systems programming, networking, audio processing, search engines, and distributed systems.
 
-The trajectory matters: you didn't just learn React and call it a day. You went deep. You built a TCP chat server from raw sockets in two languages. You wrote an FFT library from scratch in C. You implemented TF-IDF search without a search library. Then you took all that depth and applied it to real production work at fiddle-factory, shipping 48+ PRs across 6 repositories.
+The trajectory matters: you didn't just learn React and call it a day. You went deep. You built a TCP chat server from raw sockets in two languages. You wrote an FFT library from scratch in C. You implemented TF-IDF search without a search library. Then you applied that depth to production work at fiddle-factory and, now, to AI-assisted creative production at SamurAI Studios. Since joining SamurAI in April 2026, you have shipped 57 merged PRs across 4 codebases.
 
 > **Interview Angle:** Lead with the non-CS background. It's a strength, not a weakness. It shows you're self-driven, genuinely curious, and capable of learning anything fast. The breadth of your stack (React to Rust to C to Go) proves you don't just follow tutorials. You understand fundamentals.
 
@@ -37,15 +37,15 @@ For every technology listed here, you can point to a real project where you used
 
 ### Languages
 
-| Language       | Why You Know It                                                                                                                                 | Where You Used It                                                 |
-| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| **TypeScript** | Your primary language. Type safety matters when you're building complex UIs and shared codebases.                                               | Portfolio site, fiddle-factory (all 6 repos), Canvas Kit, harmony |
-| **Rust**       | You wanted to understand memory management, ownership, and zero-cost abstractions. Rust forces you to think about what your code actually does. | 4at TCP chat server, seroost search engine                        |
-| **Go**         | Clean concurrency model. You built the same TCP chat in Go to compare goroutines vs OS threads.                                                 | 4at (Go version), snippetbox, proglog, DSA practice               |
-| **C**          | The foundation. You wrote a real-time audio visualizer with a custom FFT library. No hand-holding from a runtime.                               | musializer (~670 lines, custom FFT, raylib)                       |
-| **JavaScript** | The web's lingua franca. You know it deeply because TypeScript is built on it.                                                                  | All web projects, early work                                      |
-| **Shell**      | You daily-drive Fedora with Hyprland. Comfortable with scripting and dotfiles.                                                                  | Dotfile management, shell scripts                                 |
-| **Python**     | Used for data pipelines and ML work.                                                                                                            | distributed-log-processing-system, video-sentiment-model          |
+| Language       | Why You Know It                                                                                                                                 | Where You Used It                                        |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| **TypeScript** | Your primary language. Type safety matters when you're building complex UIs and shared codebases.                                               | SamurAI Studios, fiddle-factory, portfolio, Canvas Kit   |
+| **Rust**       | You wanted to understand memory management, ownership, and zero-cost abstractions. Rust forces you to think about what your code actually does. | 4at TCP chat server, seroost search engine               |
+| **Go**         | Clean concurrency model. You built the same TCP chat in Go to compare goroutines vs OS threads.                                                 | 4at (Go version), snippetbox, proglog, DSA practice      |
+| **C**          | The foundation. You wrote a real-time audio visualizer with a custom FFT library. No hand-holding from a runtime.                               | musializer (~670 lines, custom FFT, raylib)              |
+| **JavaScript** | The web's lingua franca. You know it deeply because TypeScript is built on it.                                                                  | All web projects, early work                             |
+| **Shell**      | You daily-drive Fedora with Hyprland. Comfortable with scripting and dotfiles.                                                                  | Dotfile management, shell scripts                        |
+| **Python**     | Used for data pipelines and ML work.                                                                                                            | distributed-log-processing-system, video-sentiment-model |
 
 > **Interview Angle:** When asked "what's your strongest language," say TypeScript for production work, but mention Rust and C to show you understand what happens below the abstraction. Interviewers remember candidates who can talk about memory layout and syscalls.
 
@@ -77,7 +77,7 @@ Routing in your portfolio. At fiddle-factory, you also worked with Remix's routi
 ### Backend
 
 **Node.js / Express.js**
-Your server-side JavaScript runtime. Listed in your skills, used across fiddle-factory's backend services.
+Your server-side JavaScript runtime. Used for production APIs, document-processing services, media workflows, and backend tooling.
 
 **Raw TCP Sockets**
 This is the one that turns heads. In 4at, you built a multi-user chat server from raw TCP sockets. In Rust, that's `std::net::TcpListener` and `std::net::TcpStream`. In Go, it's the `net` package. No HTTP, no WebSocket library, no framework. Just raw bytes over TCP.
@@ -119,7 +119,7 @@ Real-time frequency spectrum visualization. You read raw audio samples, apply FF
 
 | Tool                       | How You Use It                                                                                                         |
 | -------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| **Git**                    | Daily driver. 48+ PRs at fiddle-factory alone. You know rebasing, squashing, branch management in a team.              |
+| **Git**                    | Daily driver. 57 merged PRs at SamurAI across 4 codebases, plus 48+ PRs at fiddle-factory.                             |
 | **Docker**                 | Containerization for development and deployment                                                                        |
 | **Linux**                  | Daily driver. Fedora with Hyprland (tiling Wayland compositor). Built mdt — a terminal markdown viewer/editor in Rust. |
 | **Zed / Neovim / VS Code** | You use multiple editors. Zed for speed, Neovim for terminal work, VS Code when needed.                                |
@@ -131,9 +131,31 @@ Real-time frequency spectrum visualization. You read raw audio samples, apply FF
 
 ---
 
-## 3. Professional Experience at fiddle-factory
+## 3. Professional Experience at SamurAI Studios
 
-### Role 1: Software Engineer Contractor (Dec 2025 to Present, Remote)
+### Software Engineer (Apr 2026 to Present, Remote)
+
+You build production systems for AI-assisted film and advertising workflows. The work spans creative-document ingestion, structured brief extraction, multi-scene storyboards, image and video generation, production frontend/backend, operator tooling, testing, and CI.
+
+Verified GitHub record as of July 6, 2026: **73 PRs authored, 57 merged, across 4 private codebases**.
+
+The complete contribution record, architecture stories, chronological audit, and interview answers are in [SamurAI Contributions](./samurai-contributions).
+
+Key themes:
+
+- Built a story-first creative-brief pipeline for presentation decks, including media extraction, visual captioning, typed schemas, provider abstractions, golden evaluations, and an authenticated operator console.
+- Delivered scene-owned storyboard workspaces across the data model, REST APIs, version history, compatibility layer, frontend routes, and regression tests.
+- Integrated multi-provider image/video generation with continuity prompts, run monitoring, usage logging, and real-time synchronization.
+- Improved media delivery with explicit image roles, WebP previews, preview-aware rendering, and responsive galleries.
+- Modernized the product UI with shared compound components, Tailwind CSS v4 design tokens, loading states, and optimistic updates.
+
+> **Interview Angle:** Lead with the multi-scene storyboard architecture for end-to-end ownership, or the creative-brief parser for AI pipeline design and observability. Both stories cross product, backend, frontend, tests, and operations.
+
+---
+
+## 4. Earlier Experience at fiddle-factory
+
+### Role 1: Software Engineer Contractor (Dec 2025 to Apr 2026, Remote)
 
 You work across 6 repositories: **fiddle** (main app), **shadcn-ui**, **eleven-labs-ui**, **design-engineer**, **dashboard**, **repo-build-server**.
 
@@ -287,7 +309,7 @@ An API route that takes canvas drawings and sends them as chat attachments. The 
 
 ---
 
-## 4. Open Source Contributions
+## 5. Open Source Contributions
 
 ### Apache ECharts (65,000+ stars)
 
@@ -299,13 +321,13 @@ Fixing tooltip behavior when charts are connected (linked interactions across mu
 
 ### fiddle-factory Ecosystem
 
-48+ PRs across 6 repositories, as detailed in Section 3.
+48+ PRs across 6 repositories, as detailed in the fiddle-factory section.
 
 > **Interview Angle:** Contributing to a 65k-star Apache project is significant. You can talk about the process: reading the codebase, understanding the rendering pipeline, writing a fix that doesn't break other chart types, and going through code review with maintainers. This shows you can work in large, unfamiliar codebases.
 
 ---
 
-## 5. Personal Projects (Quick Recall)
+## 6. Personal Projects (Quick Recall)
 
 **mdt** | Rust
 Fast, terminal-based markdown viewer and editor. File tree, rendered preview with syntax highlighting, vim-style editor, live split-pane preview. Published on crates.io as mdtui.
@@ -344,7 +366,7 @@ Your developer portfolio. Tokyo Night theme. Has a terminal easter egg. State ma
 
 ---
 
-## 6. Blog / Technical Writing
+## 7. Blog / Technical Writing
 
 ### "Layers on an Immediate-Mode Canvas"
 
@@ -364,7 +386,7 @@ This isn't a tutorial. It's a technical deep-dive into an architectural problem 
 
 ---
 
-## 7. What Makes This Profile Unique (Interview Talking Points)
+## 8. What Makes This Profile Unique (Interview Talking Points)
 
 ### 1. Non-CS Background
 
@@ -387,7 +409,7 @@ This signals that you understand what frameworks do for you, because you've done
 
 ### 4. Real Production Experience
 
-48+ PRs at fiddle-factory across 6 repos. Canvas rendering, build pipelines, auth flows, Storybook infrastructure, performance optimization. You've worked in a real codebase with real users and real code review.
+57 merged PRs at SamurAI across 4 codebases, plus 48+ PRs at fiddle-factory. Your production work spans AI pipelines, frontend, backend, tests, CI, canvas rendering, auth, and developer infrastructure.
 
 ### 5. Open Source at Scale
 
@@ -398,8 +420,8 @@ Contributing to Apache ECharts (65k stars) means you can navigate large codebase
 The Canvas architecture blog post shows you can explain complex ideas clearly. This matters in teams.
 
 > **Interview Angle (The 30-Second Pitch):**
-> "I'm a self-taught developer from a Mechanical Engineering background at NIT Durgapur. I've built systems-level projects in Rust and C, like a TCP chat server from raw sockets and an FFT audio visualizer. I've also shipped 48+ PRs at fiddle-factory, working on canvas rendering, build pipelines, and component infrastructure across 6 repos. I contributed a merged fix to Apache ECharts, a 65k-star project. I pick up new technologies fast because I focus on understanding fundamentals, not just APIs."
+> "I'm a software engineer at SamurAI Studios, where I build full-stack systems for AI-assisted creative production. I've shipped 57 merged PRs across four codebases covering document intelligence, storyboards, media generation, frontend, backend, tests, and CI. Before that, I worked at fiddle-factory on canvas rendering, build pipelines, auth, and component infrastructure. My systems projects in Rust and C help me reason below the framework layer, and I pick up new technologies quickly because I focus on fundamentals, not just APIs."
 
 ---
 
-_Last updated: February 2026_
+_Last updated: July 2026_
