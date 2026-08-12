@@ -10,7 +10,8 @@ import { usePageMeta } from "@/hooks/use-page-meta"
 export default function ProjectsPage() {
   usePageMeta({
     title: "Projects",
-    description: "Projects by Purbayan Pramanik — five projects, five languages, five domains.",
+    description:
+      "Projects by Purbayan Pramanik — six projects across systems, tooling, and interface design.",
   })
 
   return (
@@ -20,7 +21,9 @@ export default function ProjectsPage() {
       </FadeUp>
 
       <FadeUp delay={0.1}>
-        <p className="text-muted-foreground mt-2">Five projects. Five languages. Five domains.</p>
+        <p className="text-muted-foreground mt-2">
+          Six projects across systems, tooling, and interface design.
+        </p>
       </FadeUp>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">

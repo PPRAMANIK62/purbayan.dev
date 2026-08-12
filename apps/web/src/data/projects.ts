@@ -16,6 +16,35 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    slug: "trovecn",
+    title: "trove/cn",
+    description: "Open-source registry of premium interface patterns for React",
+    longDescription:
+      "An open-source registry of interface patterns observed on real products and rebuilt from scratch as copyable React source. Browse live previews, inspect the implementation, and install individual components into a project.",
+    tags: ["next.js", "react", "typescript", "tailwind", "shadcn", "motion"],
+    github: "https://github.com/PPRAMANIK62/trovecn",
+    demo: "https://trovecn.dev",
+    language: "TypeScript",
+    tagline: "A collected registry of premium UI patterns, ready to make your own",
+    problem:
+      "Well-crafted interface details are often difficult to study, reproduce, and adapt. Existing component libraries can hide the implementation behind packages or impose their own design system, making it harder to learn from the patterns themselves and own the resulting code.",
+    solution:
+      "trove/cn collects carefully rebuilt interface patterns and distributes them as copyable source in the shadcn registry format. Each pattern has a live preview and implementation that developers can inspect and bring into their own React projects without adding a runtime dependency.",
+    technicalDetails: [
+      "Stack: Next.js App Router, React 19, TypeScript, and Tailwind CSS v4",
+      "Uses Base UI primitives and the shadcn registry format for composable, distributable components",
+      "Motion powers polished interactions, while Shiki provides syntax-highlighted source examples",
+      "Live site includes component previews, source browsing, and dark-mode support",
+      "MIT licensed and developed with Bun; the public registry is regenerated from registry metadata",
+    ],
+    challenges: [
+      "Recreating polished interaction details while keeping every component understandable and adaptable",
+      "Designing components that feel cohesive as a collection without forcing a monolithic design system",
+      "Packaging source for straightforward installation and use in downstream projects",
+      "Balancing rich live previews with fast, accessible documentation pages",
+    ],
+  },
+  {
     slug: "mdt",
     title: "mdt",
     description: "Fast, terminal-based markdown viewer and editor built with Rust",
