@@ -45,17 +45,19 @@ cd apps/vault && bun run preview   # Preview production build
 
 ## Web App Architecture (`apps/web`)
 
-**Routing:** React Router DOM v7. Routes defined in `src/App.tsx`. The `/terminal` route is lazy-loaded.
+**Routing:** React Router DOM v7. Routes defined in `src/App.tsx`.
 
 **Data layer:** All content (projects, experience, skills, blog posts) lives as TypeScript files in `src/data/`. No CMS or API calls — edit these files to update site content.
 
-**State:** Zustand store at `src/stores/terminal-store.ts` manages terminal open/close state and Konami code flag.
-
 **Path alias:** `@` maps to `src/` (configured in both `vite.config.ts` and `tsconfig.app.json`).
 
-**Styling:** Tailwind CSS 4 with Tokyo Night theme defined as CSS custom properties in `src/index.css`. Use `cn()` from `src/lib/utils.ts` for conditional classnames. shadcn/ui components live in `src/components/ui/`.
+**Styling:** Tailwind CSS 4. The palette lives as `--c-*` custom properties in `src/index.css` and is exposed to Tailwind through `@theme inline` (`bg-ground`, `text-ink`, `text-dim`, `text-faint`, `border-line`, `text-brand`). Use `cn()` from `src/lib/utils.ts` for conditional classnames. A trimmed set of shadcn/ui primitives lives in `src/components/ui/`.
 
-**Terminal easter egg:** Triggered by Konami code (↑↑↓↓←→←→BA) or Ctrl+`. Implementation in `src/components/terminal/` with a virtual filesystem (`src/components/terminal/filesystem/`) and commands (`src/components/terminal/commands/`).
+**Theming:** dark only. `data-theme="dark"` is hardcoded on `<html>` in `index.html` so Tailwind's `dark:` variant still resolves for the shadcn primitives; there is no toggle, no light palette, and no `prefers-color-scheme` branch. The palette is a single `:root` block.
+
+**Inspector easter egg:** press `i` anywhere to overlay inspector chrome on the page (`src/components/inspector-mode.tsx`). Esc exits.
+
+**Hero canvas:** `src/components/hero-canvas.tsx` is an imperative canvas with a real object model — hit-testing, drag-to-move, marquee select, Alt/middle-drag pan. It is deliberately _not_ driven by React state; per-frame re-renders would tank it.
 
 ## Vault App Architecture (`apps/vault`)
 
@@ -67,6 +69,7 @@ cd apps/vault && bun run preview   # Preview production build
 
 ## Design Conventions
 
-- **Theme:** Tokyo Night throughout both apps — use existing CSS custom properties (e.g., `--color-tokyo-cyan`, `--color-tokyo-green`)
-- **Typography:** Iosevka mono is the primary font
+- **Theme:** `apps/web` is dark-only and uses the palette described above. `apps/vault` is still on Tokyo Night and has not been migrated yet — the two intentionally diverge for now.
+- **Typography:** Bricolage Grotesque (display, `font-display`) and Instrument Sans (body, `font-sans`), self-hosted via `@fontsource-variable`. Monospace is system-only, for code blocks.
+- **Motion:** `motion` v12. Any component that hides content while animating must opt out under `prefers-reduced-motion` via `useReducedMotion()` — motion writes inline styles, so the global CSS reduced-motion rule cannot reach it.
 - **No new dependencies** without good reason — the stack is intentionally lean

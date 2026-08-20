@@ -11,7 +11,7 @@ Everything you need to recall before walking into any technical interview. Every
 ## 1. Professional Identity
 
 **Name:** Purbayan Pramanik
-**Education:** B.Tech Mechanical Engineering, NIT Durgapur (2022-2026, graduating 2026)
+**Education:** B.Tech Mechanical Engineering, NIT Durgapur (2022-2026, graduated 2026)
 **Location:** Kolkata, West Bengal, India
 
 **Links:**

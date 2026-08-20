@@ -1,8 +1,6 @@
 import type { ReactNode } from "react"
 import type { ContentBlock } from "@/data/blog"
 import { CodeBlock } from "@/components/blog/code-block"
-import { SectionHeading } from "@/components/section-heading"
-import { BulletList } from "@/components/bullet-list"
 
 export function renderInlineText(text: string): ReactNode[] {
   const parts: ReactNode[] = []
@@ -17,7 +15,7 @@ export function renderInlineText(text: string): ReactNode[] {
 
     if (match[2]) {
       parts.push(
-        <strong key={match.index} className="text-foreground font-medium">
+        <strong key={match.index} className="font-medium text-ink">
           {match[2]}
         </strong>,
       )
@@ -25,7 +23,7 @@ export function renderInlineText(text: string): ReactNode[] {
       parts.push(
         <code
           key={match.index}
-          className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono text-primary"
+          className="rounded bg-sink px-1.5 py-0.5 font-mono text-[0.9em] text-brand"
         >
           {match[3]}
         </code>,
@@ -46,24 +44,31 @@ export function renderBlock(block: ContentBlock, index: number): ReactNode {
   switch (block.type) {
     case "paragraph":
       return (
-        <p key={index} className="text-secondary-foreground leading-relaxed">
+        <p key={index} className="max-w-[68ch] text-dim">
           {renderInlineText(block.text)}
         </p>
       )
     case "heading":
-      return <SectionHeading key={index} title={block.text} className="pt-4" />
+      return (
+        <h2
+          key={index}
+          className="pt-6 font-display text-[clamp(1.3rem,2.4vw,1.75rem)] font-semibold tracking-[-0.022em] text-ink [font-variation-settings:'wdth'_95]"
+        >
+          {block.text}
+        </h2>
+      )
     case "code":
       return <CodeBlock key={index} language={block.language} code={block.code} />
     case "list":
       return (
-        <BulletList
-          key={index}
-          items={block.items.map((item, i) => (
-            <span key={i}>{renderInlineText(item)}</span>
+        <ul key={index} className="max-w-[68ch]">
+          {block.items.map((item, i) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <li key={i} className="border-b border-line py-3 text-dim last:border-b-0">
+              {renderInlineText(item)}
+            </li>
           ))}
-          bullet="-"
-          className="space-y-3"
-        />
+        </ul>
       )
   }
 }

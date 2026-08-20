@@ -9,6 +9,11 @@ export const SOCIAL = {
     label: "LinkedIn",
     display: "ppramanik62",
   },
+  x: {
+    url: "https://x.com/ppramanik62",
+    label: "X",
+    display: "ppramanik62",
+  },
   email: {
     url: "mailto:purbayan.dev@gmail.com",
     label: "Email",

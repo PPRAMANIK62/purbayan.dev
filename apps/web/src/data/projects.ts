@@ -1,5 +1,7 @@
 export interface Project {
   slug: string
+  /** Frontend work leads the page; systems work is a secondary list. */
+  kind: "product" | "systems"
   title: string
   description: string
   longDescription: string
@@ -12,55 +14,61 @@ export interface Project {
   solution: string
   technicalDetails: string[]
   challenges: string[]
+  /** Real screenshot of the running app, 4:3, served from public/projects/. */
+  image?: string
+  imageAlt?: string
 }
 
 export const projects: Project[] = [
   {
     slug: "trovecn",
+    kind: "product",
     title: "trove/cn",
-    description: "Open-source registry of premium interface patterns for React",
+    description: "Open-source registry of copyable React interface patterns",
     longDescription:
-      "An open-source registry of interface patterns observed on real products and rebuilt from scratch as copyable React source. Browse live previews, inspect the implementation, and install individual components into a project.",
+      "Interface patterns I noticed on real products, rebuilt from scratch as React source you can copy. Every pattern has a live preview sitting next to its implementation, and you install one component at a time.",
     tags: ["next.js", "react", "typescript", "tailwind", "shadcn", "motion"],
     github: "https://github.com/PPRAMANIK62/trovecn",
     demo: "https://trovecn.dev",
+    image: "/projects/trovecn.webp",
+    imageAlt: "The trove/cn docs, showing the Switch page with live component previews",
     language: "TypeScript",
-    tagline: "A collected registry of premium UI patterns, ready to make your own",
+    tagline: "UI patterns from real products, rebuilt as source you own",
     problem:
-      "Well-crafted interface details are often difficult to study, reproduce, and adapt. Existing component libraries can hide the implementation behind packages or impose their own design system, making it harder to learn from the patterns themselves and own the resulting code.",
+      "Good interface details are hard to learn from. You can watch the animation on someone else's product but not read the code behind it, and component libraries hand you a package instead of an implementation, usually with a design system attached that you did not ask for.",
     solution:
-      "trove/cn collects carefully rebuilt interface patterns and distributes them as copyable source in the shadcn registry format. Each pattern has a live preview and implementation that developers can inspect and bring into their own React projects without adding a runtime dependency.",
+      "trove/cn rebuilds those patterns and ships them as source in the shadcn registry format. Each one has a live preview next to the code that produces it, and installing a component copies the files into your project. No runtime dependency, no wrapper package.",
     technicalDetails: [
       "Stack: Next.js App Router, React 19, TypeScript, and Tailwind CSS v4",
-      "Uses Base UI primitives and the shadcn registry format for composable, distributable components",
-      "Motion powers polished interactions, while Shiki provides syntax-highlighted source examples",
-      "Live site includes component previews, source browsing, and dark-mode support",
-      "MIT licensed and developed with Bun; the public registry is regenerated from registry metadata",
+      "Base UI primitives underneath, distributed in the shadcn registry format",
+      "Motion drives the interactions, Shiki renders the highlighted source",
+      "The docs site renders every component live, with its source one tab away",
+      "MIT licensed, built with Bun. The public registry JSON is generated from component metadata",
     ],
     challenges: [
-      "Recreating polished interaction details while keeping every component understandable and adaptable",
-      "Designing components that feel cohesive as a collection without forcing a monolithic design system",
-      "Packaging source for straightforward installation and use in downstream projects",
-      "Balancing rich live previews with fast, accessible documentation pages",
+      "Matching an interaction closely enough to be worth copying, without the code turning into something nobody wants to read",
+      "Keeping the collection coherent without turning it into a design system you have to adopt wholesale",
+      "Getting the registry format right so one add command pulls the correct files and dependencies",
+      "Running dozens of live, animated previews on one page without the docs going sluggish",
     ],
   },
   {
     slug: "mdt",
+    kind: "systems",
     title: "mdt",
     description: "Fast, terminal-based markdown viewer and editor built with Rust",
     longDescription:
-      "A fast, terminal-based markdown viewer and editor built with Rust. File tree navigation, fully rendered markdown preview with syntax highlighting, built-in vim-style editor, and live split-pane preview — all inside your terminal.",
+      "A fast, terminal-based markdown viewer and editor built with Rust. File tree navigation, fully rendered markdown preview with syntax highlighting, built-in vim-style editor, and live split-pane preview, all inside your terminal.",
     tags: ["rust", "tui", "markdown", "editor", "ratatui"],
     github: "https://github.com/PPRAMANIK62/mdt",
     demo: "https://mdt.purbayan.me",
     language: "Rust",
     tagline: "Fast, terminal-based markdown viewer and editor built with Rust",
     problem:
-      "Most markdown tools are either browser-based or require a GUI. I wanted something that lives entirely in the terminal — a tool that lets you browse, preview, and edit markdown files without leaving your workflow. Existing terminal options lacked features like live preview, syntax highlighting, or proper file management.",
+      "Most markdown tools are browser-based or need a GUI. I wanted one that lives in the terminal, so browsing, previewing, and editing a file never costs me a context switch. The terminal options I tried were missing live preview, syntax highlighting, or file management.",
     solution:
       "mdt gives you a file tree, a fully rendered markdown preview, a built-in editor with vim-style keybindings, and a live split-pane preview that updates as you type. It renders headings, code blocks with syntax highlighting (via syntect), tables, task lists, blockquotes, and more. Install with `cargo install mdtui`.",
     technicalDetails: [
-      "Languages: Rust 89.4%, MDX 4.9%, Astro 2.7%, CSS 2.3%, TypeScript 0.7%",
       "Published on crates.io as mdtui",
       "Features: collapsible file tree, file search/filter, fuzzy finder, file CRUD, nested path creation, file watching with auto-reload",
       "Markdown rendering: H1-H6 headings, bold/italic/strikethrough, inline code, fenced code blocks with syntax highlighting, tables with box-drawing borders, task lists, nested blockquotes, horizontal rules, link picker overlay",
@@ -77,22 +85,22 @@ export const projects: Project[] = [
   },
   {
     slug: "canvas-kit",
+    kind: "product",
     title: "Canvas Kit",
     description: "Lightweight drawing app with layers, tools, and export",
     longDescription:
-      "A lightweight drawing application built with Next.js and React featuring multiple drawing tools, a layer system with reordering and visibility toggles, keyboard shortcuts, and PNG export. Clean Canvas API usage with a modern component architecture.",
+      "A small drawing app built on the raw Canvas API. Brush, eraser, and shape tools, a layer system with reordering and visibility toggles, keyboard shortcuts for everything, and PNG export.",
     tags: ["next.js", "react", "typescript", "canvas"],
     github: "https://github.com/PPRAMANIK62/canvas-kit",
     demo: "https://canvas-kit.vercel.app",
     language: "TypeScript",
     tagline: "Lightweight drawing app with layers, tools, and export",
     problem:
-      "Most web-based drawing tools are either too complex (Figma-level) or too basic (MS Paint in a browser). I wanted something in between \u2014 a clean drawing tool with proper layer management, keyboard shortcuts, and export, built with modern web technologies.",
+      "Most web-based drawing tools are either too complex (Figma-level) or too basic (MS Paint in a browser). I wanted the middle: real layer management, keyboard shortcuts, and PNG export, and nothing past that.",
     solution:
-      "Canvas Kit uses the HTML5 Canvas API with a React component architecture. Features include multiple drawing tools (brush, eraser, shapes), a layer system with reordering and visibility toggles, keyboard shortcuts for common actions, and PNG export. Built with Next.js 15 and React 19.",
+      "Canvas Kit draws on the HTML5 Canvas API and keeps React for the UI around it. Each layer owns an offscreen buffer, and the visible canvas is a compositor that redraws them bottom to top, so visibility toggles and reordering are free. Brush, eraser, and shape tools, keyboard shortcuts, and PNG export. Next.js 15 and React 19.",
     technicalDetails: [
       "Live Demo: canvas-kit.vercel.app",
-      "Languages: TypeScript 94.5%, JavaScript 5.2%, CSS 0.3%",
       "Stack: Next.js 15.2.3, React 19.0.0, TypeScript 5.8.2, Tailwind CSS 4.0.15, Framer Motion 12.9.7",
       "Tools with keyboard shortcuts: Brush (B), Eraser (E), Rectangle (R), Circle (C)",
       "Features: Layer management with visibility toggles, color palette + custom picker, adjustable brush/eraser size, opacity controls, background customization, export as image",
@@ -107,39 +115,41 @@ export const projects: Project[] = [
   },
   {
     slug: "4at",
+    kind: "systems",
     title: "4at",
     description: "Multi-user TCP chat server in Rust with rate limiting",
     longDescription:
-      "A TCP chat server written in both Rust and Go, comparing OS threads vs green threads for concurrent connection handling. Features token-based authentication, rate limiting, ban system, and broadcast messaging \u2014 all built from raw TCP sockets with no frameworks.",
+      "A TCP chat server written in both Rust and Go, comparing OS threads vs green threads for concurrent connection handling. Features token-based authentication, rate limiting, ban system, and broadcast messaging, all built from raw TCP sockets with no frameworks.",
     tags: ["rust", "tcp", "concurrency", "networking"],
     github: "https://github.com/PPRAMANIK62/4at",
     language: "Rust",
     tagline: "Multi-user TCP chat server in Rust with rate limiting",
     problem:
-      "I wanted to understand networking from the socket level up. No frameworks, no abstractions \u2014 just raw TCP, threading, and state management. How do you handle multiple concurrent connections? How do you prevent abuse? How do OS threads compare to green threads?",
+      "I wanted to understand networking from the socket level up. No frameworks, no abstractions, just raw TCP, threading, and state management. How do you handle multiple concurrent connections? How do you stop abuse? How do OS threads compare to green threads?",
     solution:
       "4at is a TCP chat server written in both Rust and Go, comparing OS threads vs green threads for concurrent connection handling. Features include user authentication, rate limiting, ban system, and broadcast messaging. The README includes a detailed writeup comparing threading models.",
     technicalDetails: [
-      "Languages: Rust 54.0%, Go 46.0% | Rust Edition: 2024",
-      "Dependencies (Rust): getrandom v0.3.4 \u2014 nearly zero-dependency",
+      "Rust Edition: 2024, with a Go port of the same server for comparison",
+      "Dependencies (Rust): getrandom v0.3.4, so effectively zero-dependency",
       "Network: TCP on port 6979, telnet-compatible client interface",
       "Auth: Server generates auth token on startup; clients authenticate via telnet",
       "Features: Token-based authentication, rate limiting, ban system, broadcast messaging, text filter",
       "Structure: src/main.rs (Rust server), archive/main.go (Go implementation kept for comparison)",
     ],
     challenges: [
-      "Safely sharing mutable state across threads \u2014 Rust's ownership model makes this explicit",
+      "Sharing mutable state across threads. Rust's ownership model makes the cost of that explicit",
       "Implementing rate limiting without a separate data store",
-      "Graceful connection handling \u2014 detecting disconnects and cleaning up resources",
+      "Graceful connection handling: detecting disconnects and cleaning up after them",
       "Writing the same server in two languages to compare approaches",
     ],
   },
   {
     slug: "seroost",
+    kind: "systems",
     title: "seroost",
     description: "Local search engine using TF-IDF algorithm in Rust",
     longDescription:
-      "A local search engine that indexes documents using TF-IDF (Term Frequency-Inverse Document Frequency), ranks them by relevance, and serves results over HTTP. No search library \u2014 just the math and Rust. Full-stack: Rust backend with a JavaScript/HTML web frontend.",
+      "A local search engine that indexes documents using TF-IDF (Term Frequency-Inverse Document Frequency), ranks them by relevance, and serves results over HTTP. No search library, just the math and Rust. Full-stack: a Rust backend with a JavaScript and HTML frontend.",
     tags: ["rust", "search", "algorithms", "tf-idf"],
     github: "https://github.com/PPRAMANIK62/seroost",
     language: "Rust",
@@ -147,12 +157,11 @@ export const projects: Project[] = [
     problem:
       "How does search actually work? Not the Google-scale infrastructure, but the core algorithm. Given a collection of documents and a query, how do you rank results by relevance? I built seroost to find out.",
     solution:
-      "seroost indexes local documents using TF-IDF (Term Frequency-Inverse Document Frequency), ranks them by relevance to a query, and serves results over HTTP. No search library \u2014 just the math and Rust. It tokenizes documents, builds an inverted index, computes TF-IDF scores, and returns ranked results.",
+      "seroost indexes local documents using TF-IDF (Term Frequency-Inverse Document Frequency), ranks them by relevance to a query, and serves results over HTTP. No search library, just the math and Rust. It tokenizes documents, builds an inverted index, computes TF-IDF scores, and returns ranked results.",
     technicalDetails: [
-      "Languages: Rust 92.7%, JavaScript 5.6%, HTML 1.7% \u2014 full-stack project",
       "Rust Edition: 2024 | Dependencies: serde_json, tiny_http, xml-rs (only 3 external crates)",
       "Structure: src/main.rs (entry), src/model.rs (TF-IDF model), src/server.rs (HTTP server)",
-      "Frontend: index.html + index.js \u2014 web UI for querying and displaying results",
+      "Frontend: index.html + index.js, the web UI for querying and displaying results",
       "Document parsing: Uses XML parsing (xml-rs) for document indexing",
       "TF-IDF implementation: tokenization, inverted index, term frequency, inverse document frequency scoring",
     ],
@@ -165,6 +174,7 @@ export const projects: Project[] = [
   },
   {
     slug: "musializer",
+    kind: "systems",
     title: "musializer",
     description: "Real-time audio spectrum visualizer using FFT in C",
     longDescription:
@@ -174,19 +184,19 @@ export const projects: Project[] = [
     language: "C",
     tagline: "Real-time audio spectrum visualizer using FFT in C",
     problem:
-      "What does sound look like? Audio is just waveforms \u2014 pressure over time. But our ears hear frequencies, not waveforms. The Fast Fourier Transform bridges that gap, decomposing audio into its frequency components. I wanted to see it happen in real time.",
+      "What does sound look like? Audio is waveforms, pressure over time. Ears hear frequencies instead. The Fast Fourier Transform crosses that gap by decomposing audio into its frequency components, and I wanted to watch it happen in real time.",
     solution:
-      "musializer takes audio input, applies FFT (implemented as a header-only C library), and renders the frequency spectrum in real time using raylib. The FFT library is written from scratch \u2014 no external DSP dependencies. The README explains the theory behind audio processing and DSP.",
+      "musializer takes audio input, applies FFT (implemented as a header-only C library), and renders the frequency spectrum in real time using raylib. The FFT library is written from scratch, with no external DSP dependencies. The README explains the theory behind audio processing and DSP.",
     technicalDetails: [
-      "Languages: C 99.1%, Shell 0.9% | ~670 lines of C code",
-      "Dependencies: raylib (graphics + audio) \u2014 only external dependency",
+      "~670 lines of C",
+      "Dependencies: raylib (graphics + audio), the only external one",
       "Structure: src/musializer.c (main app), src/fft.h (header-only FFT/DFT library), build.sh",
       "FFT specs: 256 frequency bins, O(N log N) complexity",
       "Audio specs: 44,100 Hz sample rate, 32-bit sample size, stereo support",
       "Controls: Space = play/pause, ESC = exit | Custom FFT implementation (not FFTW)",
     ],
     challenges: [
-      "Implementing FFT correctly \u2014 butterfly operations, bit-reversal permutation",
+      "Implementing FFT correctly: butterfly operations, bit-reversal permutation",
       "Achieving real-time performance in C without dropping frames",
       "Mapping frequency bins to meaningful visual representations",
       "Handling audio buffering and synchronization with the render loop",

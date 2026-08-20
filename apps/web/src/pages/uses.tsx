@@ -1,160 +1,70 @@
-import { Link } from "react-router-dom"
-import { FadeUp } from "@/components/fade-up"
-import { UsesItem } from "@/components/uses-item"
-import { PageHeading, SectionHeading } from "@/components/section-heading"
-import { PageContainer } from "@/components/page-container"
+import { usesGroups } from "@/data/uses"
+import { Container } from "@/components/container"
+import { Reveal } from "@/components/reveal"
+import { SectionHead } from "@/components/section-head"
 import { usePageMeta } from "@/hooks/use-page-meta"
 
 export default function UsesPage() {
   usePageMeta({
     title: "Uses",
-    description: "Tools, hardware, and software Purbayan uses daily.",
+    description: "The hardware, tools, and software Purbayan uses daily.",
   })
 
   return (
-    <PageContainer className="space-y-16">
-      {/* Page Heading */}
-      <FadeUp>
-        <PageHeading title="uses" />
-        <p className="mt-4 font-mono text-base md:text-lg text-secondary-foreground leading-relaxed">
-          Tools, hardware, and software I use daily.
+    <Container className="pb-[clamp(72px,10vw,150px)] pt-[clamp(120px,16vh,180px)]">
+      <Reveal>
+        <h1 className="font-display text-[clamp(2.2rem,5.4vw,3.6rem)] font-semibold leading-[1.04] tracking-[-0.03em] [font-variation-settings:'wdth'_94]">
+          Uses
+        </h1>
+        <p className="mt-4 max-w-[54ch] text-[clamp(17px,1.4vw,19px)] text-dim">
+          The hardware, tools, and software I reach for every day.
         </p>
-      </FadeUp>
+      </Reveal>
 
-      {/* Hardware */}
-      <FadeUp delay={0.1}>
-        <section>
-          <SectionHeading title="hardware" />
-          <div className="mt-6">
-            <UsesItem
-              category="laptop"
-              tool="Acer Swift Go 14"
-              note="daily driver, portable enough for everything"
-            />
-          </div>
-        </section>
-      </FadeUp>
+      <div className="mt-[clamp(48px,7vw,88px)] space-y-[clamp(40px,5vw,64px)]">
+        {usesGroups.map((group) => (
+          <Reveal key={group.title}>
+            <section>
+              <SectionHead title={group.title} />
+              <dl>
+                {group.entries.map((entry) => (
+                  <div
+                    key={`${group.title}-${entry.category}`}
+                    className="flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b border-line py-3 last:border-b-0"
+                  >
+                    <dt className="w-32 shrink-0 text-sm text-faint">{entry.category}</dt>
+                    <dd className="text-ink">
+                      {entry.tool}
+                      {entry.note && (
+                        <span className="ml-2 text-sm text-dim max-sm:block max-sm:ml-0">
+                          — {entry.note}
+                        </span>
+                      )}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </section>
+          </Reveal>
+        ))}
 
-      {/* Desktop Environment */}
-      <FadeUp delay={0.15}>
-        <section>
-          <SectionHeading title="desktop" />
-          <div className="mt-6 space-y-0.5">
-            <UsesItem category="os" tool="Fedora + Hyprland" />
-            <UsesItem category="bar" tool="Waybar" />
-            <UsesItem category="launcher" tool="Rofi" />
-            <UsesItem category="notifications" tool="SwayNC" />
-            <UsesItem category="wallpaper" tool="Hyprpaper" />
-            <UsesItem category="lock" tool="Hyprlock" />
-            <UsesItem category="theme" tool="Tokyo Night" note="everywhere" />
-          </div>
-        </section>
-      </FadeUp>
-
-      {/* Terminal & Shell */}
-      <FadeUp delay={0.2}>
-        <section>
-          <SectionHeading title="terminal" />
-          <div className="mt-6 space-y-0.5">
-            <UsesItem category="terminal" tool="Ghostty" />
-            <UsesItem category="shell" tool="Zsh + Oh My Zsh + plugins" />
-            <UsesItem category="font" tool="Iosevka Mono" note="the only usable font" />
-            <UsesItem category="multiplexer" tool="tmux" />
-          </div>
-        </section>
-      </FadeUp>
-
-      {/* Editors */}
-      <FadeUp delay={0.25}>
-        <section>
-          <SectionHeading title="editors" />
-          <div className="mt-6 space-y-0.5">
-            <UsesItem category="primary" tool="Zed" />
-            <UsesItem category="trying" tool="Neovim (someday)" />
-          </div>
-        </section>
-      </FadeUp>
-
-      {/* Browsers */}
-      <FadeUp delay={0.3}>
-        <section>
-          <SectionHeading title="browsers" />
-          <div className="mt-6 space-y-0.5">
-            <UsesItem
-              category="everything"
-              tool="Zen Browser"
-              note="the browser Firefox should have been"
-            />
-            <UsesItem category="dev" tool="Helium" note="chromium without the Google" />
-          </div>
-        </section>
-      </FadeUp>
-
-      {/* Apps */}
-      <FadeUp delay={0.35}>
-        <section>
-          <SectionHeading title="apps" />
-          <div className="mt-6 space-y-0.5">
-            <UsesItem category="recording" tool="OBS Studio" note="streams and screen recordings" />
-            <UsesItem category="notes" tool="Obsidian" note="second brain, markdown everything" />
-          </div>
-        </section>
-      </FadeUp>
-
-      {/* Dev Tools */}
-      <FadeUp delay={0.4}>
-        <section>
-          <SectionHeading title="dev tools" />
-          <div className="mt-6 space-y-0.5">
-            <UsesItem category="runtime" tool="Bun, Node.js, pnpm" />
-            <UsesItem category="languages" tool="TypeScript, Rust, Go, C" />
-            <UsesItem category="frameworks" tool="Next.js, React" />
-          </div>
-        </section>
-      </FadeUp>
-
-      {/* CLI Tools */}
-      <FadeUp delay={0.45}>
-        <section>
-          <SectionHeading title="cli" />
-          <div className="mt-6 space-y-0.5">
-            <UsesItem category="ls" tool="eza" note="ls but pretty" />
-            <UsesItem category="cat" tool="bat" note="cat with wings" />
-            <UsesItem category="search" tool="fzf" note="fuzzy find everything" />
-            <UsesItem category="files" tool="yazi" note="terminal file manager" />
-            <UsesItem category="cd" tool="zoxide" note="smarter cd" />
-            <UsesItem category="fetch" tool="fastfetch" note="system info, fast" />
-          </div>
-        </section>
-      </FadeUp>
-
-      {/* Dotfiles */}
-      <FadeUp delay={0.5}>
-        <section>
-          <SectionHeading title="dotfiles" />
-          <p className="mt-6 font-mono text-base md:text-lg text-secondary-foreground leading-relaxed">
-            All my configs are managed through dotfiles — Tokyo Night themed across 22 config files.
-          </p>
-          <div className="mt-4 flex flex-wrap items-center gap-4">
-            <Link
-              to="/projects/mdt"
-              className="inline-flex items-center gap-2 font-mono text-primary hover:underline"
-            >
-              <span>&rarr;</span>
-              <span>view mdt</span>
-            </Link>
+        <Reveal>
+          <section>
+            <SectionHead title="Dotfiles" />
+            <p className="max-w-[60ch] text-dim">
+              All my configs live in a dotfiles repo. Same theme across 22 files.
+            </p>
             <a
-              href="https://github.com/PPRAMANIK62/mdt"
+              href="https://github.com/PPRAMANIK62"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 font-mono text-muted-foreground hover:text-foreground transition-colors duration-150"
+              className="mt-4 inline-block border-b border-line-2 pb-[5px] text-sm transition-colors duration-[380ms] hover:border-brand hover:text-brand"
             >
-              <span>&rarr;</span>
-              <span>github repo</span>
+              GitHub
             </a>
-          </div>
-        </section>
-      </FadeUp>
-    </PageContainer>
+          </section>
+        </Reveal>
+      </div>
+    </Container>
   )
 }

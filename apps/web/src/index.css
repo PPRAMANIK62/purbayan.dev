@@ -1,262 +1,191 @@
 @import "tailwindcss";
+/* Supplies animate-in / animate-out used by the dialog and sheet primitives. */
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+/*
+  The site is dark only. `data-theme="dark"` is hardcoded on <html> in index.html
+  so Tailwind's `dark:` variant (used by the shadcn button) still resolves — there
+  is no runtime toggle and no light palette to fall back to.
+
+  Raw props are prefixed --c-* deliberately: shadcn's --muted and --accent are surface
+  colours, while this design's "muted"/"accent" are a text colour and a signal colour.
+  Sharing the names would make command-palette hover states flood with the accent.
+*/
+@custom-variant dark (&:is([data-theme="dark"] *));
 
 @theme inline {
-  /* Font families */
-  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-sans:
+    "Instrument Sans Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif;
   --font-mono:
-    "Iosevka", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono",
-    monospace;
+    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
-  /* Tokyo Night extended color tokens */
-  --color-tokyo-cyan: hsl(197 100% 74%);
-  --color-tokyo-green: hsl(89 54% 61%);
-  --color-tokyo-magenta: hsl(265 60% 78%);
-  --color-tokyo-red: hsl(352 79% 75%);
-  --color-tokyo-yellow: hsl(35 63% 64%);
-  --color-tokyo-orange: hsl(22 100% 70%);
-  --color-tokyo-teal: hsl(161 58% 65%);
+  /* This design's palette */
+  --color-ground: var(--c-ground);
+  --color-raise: var(--c-raise);
+  --color-sink: var(--c-sink);
+  --color-ink: var(--c-ink);
+  --color-dim: var(--c-dim);
+  --color-faint: var(--c-faint);
+  --color-line: var(--c-line);
+  --color-line-2: var(--c-line-2);
+  --color-brand: var(--c-brand);
+  --color-brand-ink: var(--c-brand-ink);
+  --color-brand-wash: var(--c-brand-wash);
 
-  /* shadcn radius */
-  --radius: 0.5rem;
+  /* shadcn compatibility — button / command / dialog / sheet read these */
+  --color-background: var(--c-ground);
+  --color-foreground: var(--c-ink);
+  --color-popover: var(--c-raise);
+  --color-popover-foreground: var(--c-ink);
+  --color-primary: var(--c-brand);
+  --color-primary-foreground: var(--c-brand-ink);
+  --color-secondary: var(--c-sink);
+  --color-secondary-foreground: var(--c-ink);
+  --color-muted: var(--c-sink);
+  --color-muted-foreground: var(--c-dim);
+  --color-accent: var(--c-sink);
+  --color-accent-foreground: var(--c-ink);
+  --color-destructive: var(--c-destructive);
+  --color-border: var(--c-line);
+  --color-input: var(--c-line);
+  --color-ring: var(--c-brand);
 
-  /* shadcn color mappings */
-  --color-background: hsl(var(--background));
-  --color-foreground: hsl(var(--foreground));
-  --color-card: hsl(var(--card));
-  --color-card-foreground: hsl(var(--card-foreground));
-  --color-popover: hsl(var(--popover));
-  --color-popover-foreground: hsl(var(--popover-foreground));
-  --color-primary: hsl(var(--primary));
-  --color-primary-foreground: hsl(var(--primary-foreground));
-  --color-secondary: hsl(var(--secondary));
-  --color-secondary-foreground: hsl(var(--secondary-foreground));
-  --color-muted: hsl(var(--muted));
-  --color-muted-foreground: hsl(var(--muted-foreground));
-  --color-accent: hsl(var(--accent));
-  --color-accent-foreground: hsl(var(--accent-foreground));
-  --color-destructive: hsl(var(--destructive));
-  --color-destructive-foreground: hsl(var(--destructive-foreground));
-  --color-border: hsl(var(--border));
-  --color-input: hsl(var(--input));
-  --color-ring: hsl(var(--ring));
-  --color-chart-1: hsl(var(--chart-1));
-  --color-chart-2: hsl(var(--chart-2));
-  --color-chart-3: hsl(var(--chart-3));
-  --color-chart-4: hsl(var(--chart-4));
-  --color-chart-5: hsl(var(--chart-5));
-  --color-sidebar: hsl(var(--sidebar));
-  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
-  --color-sidebar-primary: hsl(var(--sidebar-primary));
-  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
-  --color-sidebar-accent: hsl(var(--sidebar-accent));
-  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
-  --color-sidebar-border: hsl(var(--sidebar-border));
-  --color-sidebar-ring: hsl(var(--sidebar-ring));
+  /*
+    Syntax-highlight palette. The names are legacy — src/lib/syntax-highlighter.ts
+    is a hand-written tokenizer that emits `text-tokyo-*` classes across ~70 call
+    sites. Retuning the values here is far cheaper than renaming all of them, and
+    these are deliberately desaturated so they don't fight the lime accent.
+  */
+  --color-tokyo-green: var(--c-syn-string);
+  --color-tokyo-red: var(--c-syn-error);
+  --color-tokyo-yellow: var(--c-syn-type);
+  --color-tokyo-orange: var(--c-syn-number);
+  --color-tokyo-magenta: var(--c-syn-keyword);
+  --color-tokyo-cyan: var(--c-syn-func);
+  --color-tokyo-teal: var(--c-syn-func);
+
+  --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-brand-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --radius: 0.625rem;
 }
 
-/*
-  Tokyo Night — dark only, no light mode.
-  This IS the brand identity.
-*/
 @layer base {
+  /* Light — the base palette */
   :root {
-    --background: 228 14% 13%;
-    --foreground: 227 56% 87%;
-    --card: 226 19% 17%;
-    --card-foreground: 227 56% 87%;
-    --popover: 225 19% 19%;
-    --popover-foreground: 227 56% 87%;
-    --primary: 224 79% 72%;
-    --primary-foreground: 228 14% 13%;
-    --secondary: 226 19% 17%;
-    --secondary-foreground: 226 39% 74%;
-    --muted: 225 16% 21%;
-    --muted-foreground: 226 15% 44%;
-    --accent: 225 16% 21%;
-    --accent-foreground: 227 56% 87%;
-    --destructive: 352 79% 75%;
-    --destructive-foreground: 228 14% 13%;
-    --border: 227 13% 28%;
-    --input: 227 13% 28%;
-    --ring: 224 79% 72%;
-    --radius: 0.5rem;
+    --c-ground: #0b0b0c;
+    --c-raise: #141416;
+    --c-sink: #101012;
+    --c-ink: #f2f2f0;
+    --c-dim: #8b8b87;
+    --c-faint: #63635f;
+    --c-line: rgba(242, 242, 240, 0.11);
+    --c-line-2: rgba(242, 242, 240, 0.22);
+    --c-brand: #d0ff3c;
+    --c-brand-ink: #0b0b0c;
+    --c-brand-wash: rgba(208, 255, 60, 0.11);
+    --c-destructive: #ff6b6b;
+    --c-canvas-dot: rgba(242, 242, 240, 0.15);
+    --c-canvas-ink: rgba(242, 242, 240, 0.2);
+    --c-blur: 11, 11, 12;
 
-    /* Extended Tokyo Night tokens */
-    --tokyo-cyan: 197 100% 74%;
-    --tokyo-green: 89 54% 61%;
-    --tokyo-magenta: 265 60% 78%;
-    --tokyo-red: 352 79% 75%;
-    --tokyo-yellow: 35 63% 64%;
-    --tokyo-orange: 22 100% 70%;
-    --tokyo-teal: 161 58% 65%;
-
-    /* Chart colors (Tokyo Night palette) */
-    --chart-1: 224 79% 72%;
-    --chart-2: 197 100% 74%;
-    --chart-3: 89 54% 61%;
-    --chart-4: 265 60% 78%;
-    --chart-5: 352 79% 75%;
-
-    /* Sidebar (matches main theme) */
-    --sidebar: 226 19% 17%;
-    --sidebar-foreground: 227 56% 87%;
-    --sidebar-primary: 224 79% 72%;
-    --sidebar-primary-foreground: 228 14% 13%;
-    --sidebar-accent: 225 16% 21%;
-    --sidebar-accent-foreground: 227 56% 87%;
-    --sidebar-border: 227 13% 28%;
-    --sidebar-ring: 224 79% 72%;
+    --c-syn-string: #a3be8c;
+    --c-syn-error: #e86a6a;
+    --c-syn-type: #e6c384;
+    --c-syn-number: #e9a66b;
+    --c-syn-keyword: #c3a6ff;
+    --c-syn-func: #82aaff;
   }
 }
 
 @layer base {
   html {
     overflow-y: scroll;
-  }
-
-  * {
-    @apply border-border;
+    background: var(--c-ground);
+    scroll-behavior: smooth;
   }
 
   body {
-    @apply bg-background text-foreground font-mono;
     margin: 0;
     min-height: 100vh;
+    background: var(--c-ground);
+    color: var(--c-ink);
+    font-family: var(--font-sans);
+    font-size: 17px;
+    line-height: 1.65;
+    letter-spacing: -0.005em;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    transition:
+      background-color 420ms var(--ease-brand),
+      color 420ms var(--ease-brand);
+  }
+
+  ::selection {
+    background: var(--c-brand);
+    color: var(--c-brand-ink);
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--c-brand);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  [data-slot="command-input"]:focus-visible {
+    outline: none;
   }
 }
 
-/* Custom scrollbar */
+@utility label-xs {
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: 0.19em;
+}
+
+/* Inspector easter egg (press `i`): swap in a devtools-style picker cursor —
+   crosshair arms around a small filled dot. Drawn dark-on-white so one asset
+   reads on every theme state. */
+html[data-inspector],
+html[data-inspector] * {
+  cursor:
+    url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='24'%20height='24'%3E%3Cpath%20d='M12%202v6M12%2016v6M2%2012h6M16%2012h6'%20fill='none'%20stroke='%23fff'%20stroke-width='3.5'%20stroke-linecap='round'/%3E%3Ccircle%20cx='12'%20cy='12'%20r='3'%20fill='%23fff'/%3E%3Cpath%20d='M12%202v6M12%2016v6M2%2012h6M16%2012h6'%20fill='none'%20stroke='%23000'%20stroke-width='1.4'%20stroke-linecap='round'/%3E%3Ccircle%20cx='12'%20cy='12'%20r='1.6'%20fill='%23000'/%3E%3C/svg%3E")
+      12 12,
+    crosshair !important;
+}
+
+/* Scrollbars derive from tokens rather than hardcoded values */
 ::-webkit-scrollbar {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: hsl(228 14% 13%);
+  background: var(--c-ground);
 }
 ::-webkit-scrollbar-thumb {
-  background: hsl(227 13% 28%);
+  background: var(--c-line-2);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(226 15% 44%);
+  background: var(--c-faint);
 }
 
-/* Selection color */
-::selection {
-  background: rgba(122, 162, 247, 0.3);
-  color: #c0caf5;
-}
-
-/* Focus states — exclude command palette input */
-*:focus-visible {
-  outline: 2px solid hsl(var(--primary));
-  outline-offset: 2px;
-}
-
-[data-slot="command-input"]:focus-visible {
-  outline: none;
-}
-
-/* Command palette scrollbar */
-[data-slot="command-list"]::-webkit-scrollbar {
-  width: 4px;
-}
-[data-slot="command-list"]::-webkit-scrollbar-track {
-  background: transparent;
-}
-[data-slot="command-list"]::-webkit-scrollbar-thumb {
-  background: hsl(227 13% 28%);
-  border-radius: 2px;
-}
-[data-slot="command-list"]::-webkit-scrollbar-thumb:hover {
-  background: hsl(226 15% 44%);
-}
-
-.cursor {
-  display: inline-block;
-  width: 0.6em;
-  height: 1.1em;
-  background-color: hsl(var(--primary));
-  animation: blink 1s step-end infinite;
-  vertical-align: text-bottom;
-  margin-left: 2px;
-}
-
-.hero-cursor {
-  width: 0.24em;
-  height: 0.5em;
-  margin-left: 0.08em;
-  vertical-align: -0.02em;
-}
-
-@keyframes blink {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
-}
-
-/* CRT Glitch effect */
-@keyframes crt-glitch {
-  0% {
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-    transform: translateX(-2px);
-  }
-  20% {
-    opacity: 0.8;
-    transform: translateX(2px);
-  }
-  30% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  50% {
-    opacity: 0.6;
-  }
-  70% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
-.crt-glitch {
-  animation: crt-glitch 300ms ease-out forwards;
-  background: rgba(122, 162, 247, 0.05);
-}
-
-.crt-scanlines {
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.15),
-    rgba(0, 0, 0, 0.15) 1px,
-    transparent 1px,
-    transparent 2px
-  );
-}
-
-/* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
-  .cursor {
-    animation: none;
-    opacity: 1;
+  html {
+    scroll-behavior: auto;
   }
 
-  .crt-glitch {
-    animation: none;
-    display: none;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

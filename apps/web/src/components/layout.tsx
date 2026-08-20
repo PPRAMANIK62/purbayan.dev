@@ -1,36 +1,28 @@
-import { Outlet, useLocation, matchPath } from "react-router-dom"
-import { ScrollProgress } from "@/components/scroll-progress"
+import { Outlet, useLocation } from "react-router-dom"
 import { ScrollToTop } from "@/components/scroll-to-top"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
+import { InspectorMode } from "@/components/inspector-mode"
 import { ErrorBoundary } from "@/components/error-boundary"
 
-const knownRoutes = [
-  "/",
-  "/about",
-  "/projects",
-  "/projects/:slug",
-  "/experience",
-  "/uses",
-  "/blog",
-  "/blog/:slug",
-]
+/** Routes that render their own ending instead of the shared contact footer. */
+const NO_FOOTER = ["/resume", "/404"]
 
 export function Layout() {
   const location = useLocation()
-  const isKnownRoute = knownRoutes.some((pattern) => matchPath(pattern, location.pathname))
+  const showFooter = !NO_FOOTER.includes(location.pathname)
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="flex min-h-screen flex-col">
       <ScrollToTop />
-      <ScrollProgress />
       <Navbar />
       <main className="flex-1">
         <ErrorBoundary resetKey={location.pathname}>
           <Outlet />
         </ErrorBoundary>
       </main>
-      {isKnownRoute && <Footer />}
+      {showFooter && <Footer />}
+      <InspectorMode />
     </div>
   )
 }

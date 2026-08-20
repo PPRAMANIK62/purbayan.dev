@@ -1,159 +1,107 @@
-import { useState } from "react"
-import { Link, useLocation } from "react-router-dom"
-import { Menu } from "lucide-react"
-import { useScroll, useMotionValueEvent, motion } from "motion/react"
+import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
+import { Menu, Search } from "lucide-react"
+import { useScroll, useMotionValueEvent } from "motion/react"
 import { cn } from "@/lib/utils"
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
+import { Container } from "@/components/container"
 import { CommandPalette } from "@/components/command-palette"
+import { MobileMenu } from "@/components/mobile-menu"
 
 const navLinks = [
-  { label: "projects", path: "/projects" },
-  { label: "blog", path: "/blog" },
-  { label: "experience", path: "/experience" },
-  { label: "uses", path: "/uses" },
-  { label: "about", path: "/about" },
+  { label: "Work", to: "/#work" },
+  { label: "Projects", to: "/#projects" },
+  { label: "Writing", to: "/blog" },
+  { label: "Uses", to: "/uses" },
 ] as const
-
-function NavLink({
-  to,
-  active,
-  children,
-  onClick,
-  variant = "desktop",
-}: {
-  to: string
-  active: boolean
-  children: React.ReactNode
-  onClick?: () => void
-  variant?: "desktop" | "mobile"
-}) {
-  if (variant === "mobile") {
-    return (
-      <Link
-        to={to}
-        onClick={onClick}
-        className={cn(
-          "block py-3 font-mono text-lg transition-colors duration-150",
-          active ? "text-primary" : "text-muted-foreground hover:text-foreground",
-        )}
-      >
-        {children}
-      </Link>
-    )
-  }
-
-  return (
-    <Link
-      to={to}
-      onClick={onClick}
-      className={cn(
-        "group relative font-mono text-sm transition-colors duration-150",
-        active ? "text-primary" : "text-muted-foreground hover:text-foreground",
-      )}
-    >
-      {children}
-      <span
-        className={cn(
-          "absolute -bottom-1 left-0 h-px w-full origin-left transition-transform duration-150",
-          active ? "scale-x-100 bg-primary" : "scale-x-0 bg-foreground group-hover:scale-x-100",
-        )}
-      />
-    </Link>
-  )
-}
 
 export function Navbar() {
   const [commandOpen, setCommandOpen] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-  const location = useLocation()
+  const [stuck, setStuck] = useState(false)
   const { scrollY } = useScroll()
 
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    setScrolled(latest > 80)
-  })
+  useMotionValueEvent(scrollY, "change", (latest) => setStuck(latest > 24))
+
+  // Close the mobile sheet if the viewport grows past the breakpoint.
+  useEffect(() => {
+    const mq = matchMedia("(min-width: 768px)")
+    const onChange = () => mq.matches && setMobileOpen(false)
+    mq.addEventListener("change", onChange)
+    return () => mq.removeEventListener("change", onChange)
+  }, [])
 
   return (
     <>
-      <motion.header
-        className={cn(
-          "fixed top-0 w-full z-50 h-16 flex items-center justify-between px-6 md:px-8 transition-colors duration-300",
-          scrolled
-            ? "bg-background/80 backdrop-blur-md border-b border-border/50"
-            : "bg-transparent",
-        )}
-      >
-        <Link
-          to="/"
-          className="font-mono font-bold text-lg text-foreground hover:text-primary transition-colors duration-150"
-        >
-          Purbayan
-        </Link>
+      <header className="fixed inset-x-0 top-0 z-50 flex h-[70px] items-center">
+        {/* Progressive blur: a masked gradient rather than a hard border. */}
+        <div
+          aria-hidden="true"
+          className={cn(
+            "absolute inset-0 -z-10 backdrop-blur-[14px] transition-opacity duration-[420ms]",
+            "bg-[linear-gradient(to_bottom,rgba(var(--c-blur),0.86),rgba(var(--c-blur),0.55)_62%,rgba(var(--c-blur),0))]",
+            "[mask-image:linear-gradient(to_bottom,#000_52%,transparent)]",
+            "[-webkit-mask-image:linear-gradient(to_bottom,#000_52%,transparent)]",
+            stuck ? "opacity-100" : "opacity-0",
+          )}
+        />
 
-        <nav className="hidden md:flex items-center gap-6">
-          {navLinks.map((link) => (
-            <NavLink key={link.path} to={link.path} active={location.pathname === link.path}>
-              {link.label}
-            </NavLink>
-          ))}
-
-          <button
-            type="button"
-            onClick={() => setCommandOpen(true)}
-            className="border border-border/50 text-muted-foreground text-xs font-mono px-2 py-1 rounded-md hover:text-primary hover:border-primary/50 transition-colors duration-150 active:scale-[0.98] active:duration-[50ms]"
+        <Container className="flex items-center justify-between gap-4">
+          <Link
+            to="/"
+            className="font-display text-base font-semibold tracking-[-0.02em] [font-variation-settings:'wdth'_92]"
           >
-            ⌘K
-          </button>
-        </nav>
+            Purbayan Pramanik
+          </Link>
 
-        <button
-          type="button"
-          onClick={() => setMobileOpen(true)}
-          className="md:hidden text-muted-foreground hover:text-foreground transition-colors duration-150 active:scale-[0.98] active:duration-[50ms]"
-          aria-label="Open navigation menu"
-        >
-          <Menu className="size-5" />
-        </button>
-      </motion.header>
-
-      <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-        <SheetContent
-          side="right"
-          className="w-[min(22rem,calc(100vw-3rem))] border-l-primary/20 bg-background/95 shadow-[0_0_40px_rgba(122,162,247,0.08)] backdrop-blur-md"
-        >
-          <SheetHeader className="px-6 pt-6 pb-2">
-            <SheetTitle className="font-mono text-base text-foreground">
-              <span className="text-primary">&gt;</span> menu
-            </SheetTitle>
-          </SheetHeader>
-          <nav className="flex flex-col px-6 pt-2">
+          <nav className="hidden items-center gap-[clamp(14px,2.4vw,30px)] md:flex">
             {navLinks.map((link) => (
-              <NavLink
-                key={link.path}
-                to={link.path}
-                active={location.pathname === link.path}
-                onClick={() => setMobileOpen(false)}
-                variant="mobile"
+              <Link
+                key={link.to}
+                to={link.to}
+                className="text-[13.5px] text-dim transition-colors duration-[260ms] hover:text-ink"
               >
                 {link.label}
-              </NavLink>
+              </Link>
             ))}
-            <div className="mt-5 border-t border-border/50 pt-5">
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileOpen(false)
-                  setCommandOpen(true)
-                }}
-                className="flex items-center gap-2 font-mono text-sm text-muted-foreground transition-[color,transform] duration-150 hover:text-foreground active:scale-[0.98] active:duration-75"
-              >
-                <span className="border border-border/50 text-xs px-2 py-0.5 rounded-md">⌘K</span>
-                <span>Command palette</span>
-              </button>
-            </div>
+
+            <button
+              type="button"
+              onClick={() => setCommandOpen(true)}
+              aria-label="Open command palette"
+              className="group inline-flex items-center gap-2 rounded-full border border-line py-1 pl-3 pr-1.5 text-[13px] text-faint transition-colors duration-[260ms] hover:border-line-2 hover:text-dim"
+            >
+              <Search className="size-3.5" />
+              <kbd className="inline-flex h-[19px] items-center rounded-full border border-line px-1.5 font-sans text-[10.5px] text-faint transition-colors duration-[260ms] group-hover:text-dim">
+                ⌘K
+              </kbd>
+            </button>
           </nav>
-        </SheetContent>
-      </Sheet>
+
+          <div className="flex items-center gap-3 md:hidden">
+            <button
+              type="button"
+              onClick={() => setMobileOpen(true)}
+              aria-label="Open navigation menu"
+              className="text-dim transition-colors duration-150 hover:text-ink"
+            >
+              <Menu className="size-5" />
+            </button>
+          </div>
+        </Container>
+      </header>
+
+      <MobileMenu
+        open={mobileOpen}
+        onOpenChange={setMobileOpen}
+        links={navLinks}
+        // Both are Radix dialogs. Opening the palette in the same tick as the
+        // sheet closes races their scroll locks and can leave the body with
+        // pointer-events: none, so wait out the sheet's 180ms close.
+        onSearch={() => {
+          setMobileOpen(false)
+          window.setTimeout(() => setCommandOpen(true), 200)
+        }}
+      />
 
       <CommandPalette open={commandOpen} onOpenChange={setCommandOpen} />
     </>

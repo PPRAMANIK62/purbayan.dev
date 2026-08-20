@@ -1,70 +1,67 @@
 import { Download } from "lucide-react"
-import { FadeUp } from "@/components/fade-up"
-import { Button } from "@/components/ui/button"
-import { PageHeading } from "@/components/section-heading"
+import { Container } from "@/components/container"
+import { Reveal } from "@/components/reveal"
 import { usePageMeta } from "@/hooks/use-page-meta"
+
+const PDF = "/resume/resume.pdf"
 
 export default function ResumePage() {
   usePageMeta({
-    title: "Resume",
-    description: "Resume — Purbayan Pramanik. Full-stack developer graduating 2026.",
+    title: "Résumé",
+    description: "Résumé for Purbayan Pramanik, frontend-focused full-stack engineer.",
   })
 
   return (
-    <div className="max-w-3xl mx-auto px-6 pt-20 pb-4 h-screen flex flex-col overflow-hidden">
-      {/* Header — takes natural size */}
-      <FadeUp>
-        <div className="flex items-center justify-between">
-          <PageHeading title="resume" />
-          <Button variant="outline" asChild className="hidden md:inline-flex">
-            <a href="/resume/resume.pdf" download className="font-mono">
-              <Download className="size-4" />
-              Download PDF
-            </a>
-          </Button>
-        </div>
-        <p className="mt-2 font-mono text-sm md:text-base text-secondary-foreground leading-relaxed">
-          My current resume — available as a PDF below.
-        </p>
-      </FadeUp>
-
-      {/* Desktop: PDF fills all remaining space */}
-      <div className="hidden md:flex flex-col flex-1 min-h-0 mt-4">
-        <object
-          data="/resume/resume.pdf"
-          type="application/pdf"
-          className="w-full h-full rounded-lg border border-border/50"
-        >
-          <iframe
-            src="/resume/resume.pdf"
-            className="w-full h-full rounded-lg border border-border/50"
-            title="Resume PDF"
+    <Container className="flex h-screen flex-col overflow-hidden pb-4 pt-[100px]">
+      <Reveal>
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <h1 className="font-display text-[clamp(1.6rem,3.2vw,2.2rem)] font-semibold tracking-[-0.028em] [font-variation-settings:'wdth'_94]">
+            Résumé
+          </h1>
+          <a
+            href={PDF}
+            download
+            className="inline-flex items-center gap-2 rounded-full border border-line px-3.5 py-1.5 text-sm text-dim transition-colors duration-[380ms] hover:border-brand hover:text-brand"
           >
-            <p className="font-mono text-muted-foreground p-8">
-              Your browser doesn't support embedded PDFs.{" "}
-              <a href="/resume/resume.pdf" download className="text-primary hover:underline">
-                Download the PDF
-              </a>{" "}
-              to view it.
+            <Download className="size-4" />
+            Download PDF
+          </a>
+        </div>
+      </Reveal>
+
+      {/* Desktop: the PDF fills the remaining height */}
+      <div className="mt-5 hidden min-h-0 flex-1 flex-col md:flex">
+        <object
+          data={PDF}
+          type="application/pdf"
+          className="size-full rounded-lg border border-line"
+        >
+          <iframe src={PDF} className="size-full rounded-lg border border-line" title="Résumé PDF">
+            <p className="p-8 text-dim">
+              Your browser can&rsquo;t display embedded PDFs.{" "}
+              <a href={PDF} download className="text-brand hover:underline">
+                Download it instead
+              </a>
+              .
             </p>
           </iframe>
         </object>
       </div>
 
-      {/* Mobile: Download card centered in remaining space */}
-      <div className="md:hidden flex-1 flex items-center justify-center">
-        <div className="rounded-lg border border-border/50 p-8 text-center space-y-4">
-          <p className="font-mono text-secondary-foreground">
-            PDF viewer isn't great on mobile — download the PDF to view it.
-          </p>
-          <Button variant="outline" asChild>
-            <a href="/resume/resume.pdf" download className="font-mono">
-              <Download className="size-4" />
-              Download PDF
-            </a>
-          </Button>
+      {/* Mobile: embedded PDF viewers are poor, so offer the download */}
+      <div className="flex flex-1 items-center justify-center md:hidden">
+        <div className="rounded-lg border border-line p-8 text-center">
+          <p className="text-dim">PDF viewers are rough on mobile. Grab the file instead.</p>
+          <a
+            href={PDF}
+            download
+            className="mt-5 inline-flex items-center gap-2 rounded-full border border-line px-3.5 py-1.5 text-sm text-dim transition-colors duration-[380ms] hover:border-brand hover:text-brand"
+          >
+            <Download className="size-4" />
+            Download PDF
+          </a>
         </div>
       </div>
-    </div>
+    </Container>
   )
 }

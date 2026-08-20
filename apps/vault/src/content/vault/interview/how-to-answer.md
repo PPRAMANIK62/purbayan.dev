@@ -79,7 +79,7 @@ No sugarcoating. Here's where you stand.
 
 ### Profile Summary
 
-- NIT Durgapur, B.Tech Mechanical Engineering (graduating 2026)
+- NIT Durgapur, B.Tech Mechanical Engineering (graduated 2026)
 - Self-taught developer, no CS degree
 - Stack: TypeScript, React 19, Next.js 15, Rust, C, Go, Tailwind, Zustand, PostgreSQL
 - Experience: SamurAI Studios (Software Engineer, 57 merged PRs across 4 codebases) and fiddle-factory (intern then contractor)

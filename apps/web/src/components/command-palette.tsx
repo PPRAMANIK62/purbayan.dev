@@ -1,60 +1,105 @@
-import { useEffect, useCallback } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import {
+  ArrowUpRight,
   Briefcase,
-  Code,
+  Check,
+  Copy,
+  FileDown,
   FileText,
   FolderOpen,
   Github,
   Home,
+  Layers,
   Linkedin,
   Mail,
+  PenLine,
+  ScanSearch,
   SearchX,
-  User,
+  Terminal,
   Wrench,
 } from "lucide-react"
 import {
   CommandDialog,
   CommandEmpty,
+  CommandFooter,
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandKey,
   CommandList,
-  CommandSeparator,
+  CommandMeta,
 } from "@/components/ui/command"
 import { blogPosts } from "@/data/blog"
-import { projects as projectsData } from "@/data/projects"
+import { projects } from "@/data/projects"
 import { SOCIAL } from "@/data/social-links"
+import { toggleInspector } from "@/lib/inspector"
+import { XIcon } from "@/components/x-icon"
 
 interface CommandPaletteProps {
   open: boolean
   onOpenChange: (open: boolean) => void
 }
 
+/**
+ * Keywords exist so search matches how people actually think — "cv" finds the
+ * résumé, "rust" finds the systems projects.
+ */
 const pages = [
-  { label: "Home", icon: Home, path: "/" },
-  { label: "Projects", icon: FolderOpen, path: "/projects" },
-  { label: "Experience", icon: Briefcase, path: "/experience" },
-  { label: "Uses", icon: Wrench, path: "/uses" },
-  { label: "About", icon: User, path: "/about" },
-  { label: "Resume", icon: FileText, path: "/resume" },
+  { label: "Home", icon: Home, path: "/", keywords: ["start", "index", "top"] },
+  {
+    label: "Work",
+    icon: Briefcase,
+    path: "/#work",
+    keywords: ["experience", "jobs", "roles", "career", "samurai", "fiddle"],
+  },
+  {
+    label: "Projects",
+    icon: FolderOpen,
+    path: "/#projects",
+    keywords: ["builds", "portfolio", "case study"],
+  },
+  {
+    label: "Writing",
+    icon: PenLine,
+    path: "/blog",
+    keywords: ["blog", "posts", "articles", "notes", "essays"],
+  },
+  {
+    label: "Uses",
+    icon: Wrench,
+    path: "/uses",
+    keywords: ["setup", "tools", "gear", "hardware", "software", "dotfiles"],
+  },
+  {
+    label: "Résumé",
+    icon: FileDown,
+    path: "/resume",
+    keywords: ["resume", "cv", "pdf", "download", "hire"],
+  },
 ] as const
 
-const projects = projectsData.map((p) => ({
-  label: p.title,
-  path: `/projects/${p.slug}`,
-}))
-
 const links = [
-  { label: SOCIAL.github.label, icon: Github, href: SOCIAL.github.url },
-  { label: SOCIAL.linkedin.label, icon: Linkedin, href: SOCIAL.linkedin.url },
-  { label: SOCIAL.email.label, icon: Mail, href: SOCIAL.email.url },
+  { label: "GitHub", icon: Github, href: SOCIAL.github.url, keywords: ["code", "source", "repos"] },
+  {
+    label: "LinkedIn",
+    icon: Linkedin,
+    href: SOCIAL.linkedin.url,
+    keywords: ["profile", "network"],
+  },
+  {
+    label: "X",
+    icon: XIcon,
+    href: SOCIAL.x.url,
+    keywords: ["twitter", "posts", "social"],
+  },
+  { label: "Email", icon: Mail, href: SOCIAL.email.url, keywords: ["contact", "mail", "reach"] },
 ] as const
 
 export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
   const navigate = useNavigate()
+  const [copied, setCopied] = useState(false)
 
-  // Cmd+K / Ctrl+K keyboard shortcut
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
@@ -62,101 +107,146 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
         onOpenChange(!open)
       }
     }
-
     document.addEventListener("keydown", handleKeyDown)
     return () => document.removeEventListener("keydown", handleKeyDown)
   }, [open, onOpenChange])
 
-  const runCommand = useCallback(
-    (command: () => void) => {
+  // Reset the copy confirmation whenever the palette reopens.
+  useEffect(() => {
+    if (!open) setCopied(false)
+  }, [open])
+
+  const run = useCallback(
+    (action: () => void) => {
       onOpenChange(false)
-      command()
+      action()
     },
     [onOpenChange],
   )
 
+  const copyEmail = useCallback(() => {
+    navigator.clipboard
+      ?.writeText(SOCIAL.email.display)
+      .then(() => setCopied(true))
+      .catch(() => setCopied(false))
+  }, [])
+
   return (
-    <CommandDialog
-      open={open}
-      onOpenChange={onOpenChange}
-      title="Command Palette"
-      description="Search for pages, projects, and links"
-      showCloseButton={false}
-    >
-      <CommandInput placeholder="Type a command or search..." className="font-mono" />
+    <CommandDialog open={open} onOpenChange={onOpenChange}>
+      <CommandInput placeholder="Search or jump to…" />
+
       <CommandList>
-        <CommandEmpty className="py-12 font-mono">
+        <CommandEmpty>
           <div className="flex flex-col items-center gap-3">
-            <SearchX className="size-6 text-muted-foreground/50" />
+            <SearchX className="size-5 text-faint" />
             <div className="flex flex-col items-center gap-1">
-              <span className="text-muted-foreground">No matches found</span>
-              <span className="text-xs text-muted-foreground/50">Try a different search term</span>
+              <span className="text-dim">Nothing matches that</span>
+              <span className="text-xs text-faint">Try a project name, a tag, or “resume”</span>
             </div>
           </div>
         </CommandEmpty>
 
-        <CommandGroup heading="Pages">
+        <CommandGroup heading="Go to">
           {pages.map((page) => (
             <CommandItem
               key={page.path}
               value={page.label}
-              onSelect={() => runCommand(() => navigate(page.path))}
-              className="font-mono"
+              keywords={[...page.keywords]}
+              onSelect={() => run(() => navigate(page.path))}
             >
-              <page.icon className="size-4" />
+              <page.icon />
               <span>{page.label}</span>
             </CommandItem>
           ))}
         </CommandGroup>
 
-        <CommandSeparator />
-
         <CommandGroup heading="Projects">
           {projects.map((project) => (
             <CommandItem
-              key={project.path}
-              value={project.label}
-              onSelect={() => runCommand(() => navigate(project.path))}
-              className="font-mono"
+              key={project.slug}
+              value={project.title}
+              keywords={[...project.tags, project.language, project.description]}
+              onSelect={() => run(() => navigate(`/projects/${project.slug}`))}
             >
-              <Code className="size-4" />
-              <span>{project.label}</span>
+              {project.kind === "product" ? <Layers /> : <Terminal />}
+              <span>{project.title}</span>
+              <CommandMeta>{project.language}</CommandMeta>
             </CommandItem>
           ))}
         </CommandGroup>
 
-        <CommandSeparator />
-
-        <CommandGroup heading="Blog">
+        <CommandGroup heading="Writing">
           {blogPosts.map((post) => (
             <CommandItem
               key={post.slug}
               value={post.title}
-              onSelect={() => runCommand(() => navigate(`/blog/${post.slug}`))}
-              className="font-mono"
+              keywords={[...post.tags, post.summary]}
+              onSelect={() => run(() => navigate(`/blog/${post.slug}`))}
             >
-              <FileText className="size-4" />
-              <span>{post.title}</span>
+              <FileText />
+              <span className="truncate">{post.title}</span>
+              <CommandMeta>{post.readingTime}</CommandMeta>
             </CommandItem>
           ))}
         </CommandGroup>
 
-        <CommandSeparator />
+        <CommandGroup heading="Actions">
+          <CommandItem
+            value="Inspect elements"
+            keywords={["inspector", "debug", "devtools", "layout", "boxes"]}
+            onSelect={() => run(toggleInspector)}
+          >
+            <ScanSearch />
+            <span>Inspect elements</span>
+            <CommandMeta>
+              <CommandKey>I</CommandKey>
+            </CommandMeta>
+          </CommandItem>
 
-        <CommandGroup heading="Links">
+          <CommandItem
+            value="Copy email address"
+            keywords={["contact", "mail", "address", "clipboard"]}
+            onSelect={copyEmail}
+          >
+            {copied ? <Check /> : <Copy />}
+            <span>{copied ? "Copied to clipboard" : "Copy email address"}</span>
+            <CommandMeta>{SOCIAL.email.display}</CommandMeta>
+          </CommandItem>
+        </CommandGroup>
+
+        <CommandGroup heading="Elsewhere">
           {links.map((link) => (
             <CommandItem
               key={link.label}
               value={link.label}
-              onSelect={() => runCommand(() => window.open(link.href, "_blank"))}
-              className="font-mono"
+              keywords={[...link.keywords]}
+              onSelect={() => run(() => window.open(link.href, "_blank", "noopener,noreferrer"))}
             >
-              <link.icon className="size-4" />
+              <link.icon />
               <span>{link.label}</span>
+              <CommandMeta>
+                <ArrowUpRight className="size-3" />
+              </CommandMeta>
             </CommandItem>
           ))}
         </CommandGroup>
       </CommandList>
+
+      <CommandFooter>
+        <span className="flex items-center gap-1.5">
+          <CommandKey>↑</CommandKey>
+          <CommandKey>↓</CommandKey>
+          navigate
+        </span>
+        <span className="flex items-center gap-1.5">
+          <CommandKey>↵</CommandKey>
+          open
+        </span>
+        <span className="flex items-center gap-1.5">
+          <CommandKey className="px-1.5">esc</CommandKey>
+          close
+        </span>
+      </CommandFooter>
     </CommandDialog>
   )
 }

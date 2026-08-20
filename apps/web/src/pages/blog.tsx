@@ -1,78 +1,51 @@
 import { Link } from "react-router-dom"
 import { blogPosts } from "@/data/blog"
-import { FadeUp } from "@/components/fade-up"
-import { Badge } from "@/components/ui/badge"
-import { PageHeading } from "@/components/section-heading"
-import { PageContainer } from "@/components/page-container"
+import { Container } from "@/components/container"
+import { Reveal } from "@/components/reveal"
 import { usePageMeta } from "@/hooks/use-page-meta"
 
 export default function BlogPage() {
   usePageMeta({
-    title: "Blog",
-    description: "Blog — writing about TypeScript, Rust, systems programming, and whatever else.",
+    title: "Writing",
+    description: "Writing about interfaces, rendering, systems programming, and whatever else.",
   })
 
   return (
-    <PageContainer className="space-y-16">
-      {/* Page Heading */}
-      <FadeUp>
-        <PageHeading title="blog" />
-        <p className="mt-4 font-mono text-base md:text-lg text-secondary-foreground leading-relaxed">
-          Writing about TypeScript, Rust, systems programming, and whatever else I'm thinking about.
+    <Container className="pb-[clamp(72px,10vw,150px)] pt-[clamp(120px,16vh,180px)]">
+      <Reveal>
+        <h1 className="font-display text-[clamp(2.2rem,5.4vw,3.6rem)] font-semibold leading-[1.04] tracking-[-0.03em] [font-variation-settings:'wdth'_94]">
+          Writing
+        </h1>
+        <p className="mt-4 max-w-[56ch] text-[clamp(17px,1.4vw,19px)] text-dim">
+          Notes on interfaces, rendering, and the layers underneath. Mostly written to find out
+          whether I understood the thing.
         </p>
-      </FadeUp>
+      </Reveal>
 
-      {/* Blog Posts */}
-      {blogPosts.length > 0 ? (
-        <div className="space-y-6">
-          {blogPosts.map((post, index) => (
-            <FadeUp key={post.slug} delay={0.1 + index * 0.1}>
-              <div className="group relative border border-border/50 rounded-lg p-6 transition-[border-color,box-shadow,transform] duration-200 hover:border-primary/50 hover:shadow-[0_0_20px_rgba(122,162,247,0.1)] active:scale-[0.99] active:duration-75">
-                <Link
-                  to={`/blog/${post.slug}`}
-                  className="absolute inset-0 z-10"
-                  aria-label={`Read ${post.title}`}
-                />
-
-                <div className="flex items-center justify-between">
-                  <h2 className="font-mono font-bold text-xl text-foreground">{post.title}</h2>
-                  <span className="text-muted-foreground font-mono text-xs shrink-0 ml-4">
-                    {post.readingTime}
+      <div className="mt-[clamp(48px,7vw,88px)]">
+        {blogPosts.length > 0 ? (
+          blogPosts.map((post, i) => (
+            <Reveal key={post.slug} delay={i * 0.06}>
+              <Link
+                to={`/blog/${post.slug}`}
+                className="group block border-b border-line py-[clamp(22px,2.8vw,32px)] transition-[padding-left] duration-500 ease-brand hover:pl-2.5"
+              >
+                <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+                  <h2 className="font-display text-[clamp(1.2rem,2.2vw,1.6rem)] font-semibold tracking-[-0.022em] transition-colors duration-[380ms] group-hover:text-brand">
+                    {post.title}
+                  </h2>
+                  <span className="whitespace-nowrap text-[12.5px] tabular-nums text-faint">
+                    {post.date} · {post.readingTime}
                   </span>
                 </div>
-
-                <p className="text-muted-foreground font-mono text-sm mt-1">{post.date}</p>
-
-                <p className="text-secondary-foreground text-sm leading-relaxed mt-3">
-                  {post.summary}
-                </p>
-
-                <div className="flex flex-wrap gap-2 mt-4">
-                  {post.tags.map((tag) => (
-                    <Badge key={tag} variant="outline" className="font-mono text-xs">
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-
-                <div className="flex items-center justify-end mt-4">
-                  <span className="text-sm text-primary font-mono transition-transform duration-200 group-hover:translate-x-1">
-                    → read post
-                  </span>
-                </div>
-              </div>
-            </FadeUp>
-          ))}
-        </div>
-      ) : (
-        <FadeUp delay={0.1}>
-          <section>
-            <div>
-              <p className="text-muted-foreground font-mono">No posts yet. Check back soon.</p>
-            </div>
-          </section>
-        </FadeUp>
-      )}
-    </PageContainer>
+                <p className="mt-2.5 max-w-[64ch] text-[15.5px] text-dim">{post.summary}</p>
+              </Link>
+            </Reveal>
+          ))
+        ) : (
+          <p className="text-dim">Nothing published yet.</p>
+        )}
+      </div>
+    </Container>
   )
 }

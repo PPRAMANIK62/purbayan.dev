@@ -1,121 +1,120 @@
 import { useParams, Link } from "react-router-dom"
-import { Github, ExternalLink } from "lucide-react"
+import { Github, ArrowUpRight, ArrowLeft } from "lucide-react"
 import { projects } from "@/data/projects"
-import { FadeUp } from "@/components/fade-up"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { SectionHeading } from "@/components/section-heading"
-import { PageContainer } from "@/components/page-container"
-import { BulletList } from "@/components/bullet-list"
+import { Container } from "@/components/container"
+import { Reveal } from "@/components/reveal"
+import { SectionHead } from "@/components/section-head"
+import { Chip } from "@/components/chip"
 import { usePageMeta } from "@/hooks/use-page-meta"
+
+function RuledList({ items }: { items: string[] }) {
+  return (
+    <ul>
+      {items.map((item) => (
+        <li key={item} className="border-b border-line py-3.5 text-dim last:border-b-0">
+          {item}
+        </li>
+      ))}
+    </ul>
+  )
+}
 
 export default function ProjectPage() {
   const { slug } = useParams<{ slug: string }>()
   const project = projects.find((p) => p.slug === slug)
 
   usePageMeta({
-    title: project?.title ?? "Not Found",
+    title: project?.title ?? "Not found",
     description: project?.tagline ?? "Project not found.",
   })
 
   if (!project) {
     return (
-      <PageContainer className="text-center">
-        <p className="text-muted-foreground font-mono">Project not found.</p>
-        <Link to="/projects" className="text-primary font-mono hover:underline">
-          → back to projects
+      <Container className="py-[clamp(120px,18vh,200px)] text-center">
+        <p className="text-dim">That project doesn&rsquo;t exist.</p>
+        <Link to="/#projects" className="mt-4 inline-block text-brand hover:underline">
+          Back to projects
         </Link>
-      </PageContainer>
+      </Container>
     )
   }
 
   return (
-    <PageContainer>
-      <div className="space-y-16">
-        {/* Header */}
-        <FadeUp>
-          <div>
-            <h1 className="text-4xl font-mono font-bold">{project.title}</h1>
-            <p className="text-muted-foreground text-lg mt-2">{project.tagline}</p>
+    <Container className="pb-[clamp(72px,10vw,150px)] pt-[clamp(120px,16vh,180px)]">
+      <Reveal>
+        <p className="label-xs text-faint">
+          {project.kind === "product" ? "Selected project" : "Also built"} · {project.language}
+        </p>
 
-            <div className="flex flex-wrap gap-2 mt-4">
-              {project.tags.map((tag) => (
-                <Badge key={tag} variant="outline" className="font-mono text-xs">
-                  {tag}
-                </Badge>
-              ))}
-            </div>
+        <h1 className="mt-4 font-display text-[clamp(2.2rem,5.4vw,3.6rem)] font-semibold leading-[1.04] tracking-[-0.03em] [font-variation-settings:'wdth'_94]">
+          {project.title}
+        </h1>
 
-            <div className="flex items-center gap-4 mt-6">
-              <Button variant="outline" asChild>
-                <a href={project.github} target="_blank" rel="noopener noreferrer">
-                  <Github className="size-4" />
-                  View on GitHub
-                </a>
-              </Button>
-              {project.demo && (
-                <Button variant="outline" asChild>
-                  <a href={project.demo} target="_blank" rel="noopener noreferrer">
-                    <ExternalLink className="size-4" />
-                    Live Demo
-                  </a>
-                </Button>
-              )}
-            </div>
-          </div>
-        </FadeUp>
+        <p className="mt-4 max-w-[56ch] text-[clamp(17px,1.4vw,19px)] text-dim">
+          {project.tagline}
+        </p>
 
-        {/* The Problem */}
-        <FadeUp delay={0.1}>
-          <div>
-            <SectionHeading title="the problem" />
-            <p className="text-secondary-foreground leading-relaxed mt-4">{project.problem}</p>
-          </div>
-        </FadeUp>
+        <div className="mt-5 flex flex-wrap gap-1.5">
+          {project.tags.map((tag) => (
+            <Chip key={tag}>{tag}</Chip>
+          ))}
+        </div>
 
-        {/* The Solution */}
-        <FadeUp delay={0.2}>
-          <div>
-            <SectionHeading title="the solution" />
-            <p className="text-secondary-foreground leading-relaxed mt-4">{project.solution}</p>
-          </div>
-        </FadeUp>
+        <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
+          <a
+            href={project.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 border-b border-line-2 pb-[5px] text-sm transition-colors duration-[380ms] hover:border-brand hover:text-brand"
+          >
+            <Github className="size-4" />
+            View source
+          </a>
+          {project.demo && (
+            <a
+              href={project.demo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-2 border-b border-line-2 pb-[5px] text-sm transition-colors duration-[380ms] hover:border-brand hover:text-brand"
+            >
+              {project.demo.replace(/^https?:\/\//, "")}
+              <ArrowUpRight className="size-3 transition-transform duration-500 ease-brand group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </a>
+          )}
+        </div>
+      </Reveal>
 
-        {/* Technical Details */}
-        <FadeUp delay={0.3}>
-          <div>
-            <SectionHeading title="technical details" />
-            <BulletList items={project.technicalDetails} />
-          </div>
-        </FadeUp>
+      <div className="mt-[clamp(56px,8vw,110px)] space-y-[clamp(48px,6vw,88px)]">
+        <Reveal>
+          <SectionHead title="The problem" />
+          <p className="max-w-[68ch] text-dim">{project.problem}</p>
+        </Reveal>
 
-        {/* Challenges */}
-        <FadeUp delay={0.4}>
-          <div>
-            <SectionHeading title="challenges" />
-            <BulletList items={project.challenges} />
-          </div>
-        </FadeUp>
+        <Reveal>
+          <SectionHead title="The solution" />
+          <p className="max-w-[68ch] text-dim">{project.solution}</p>
+        </Reveal>
 
-        {/* Demo Placeholder */}
-        <FadeUp delay={0.5}>
-          <div>
-            <SectionHeading title="demo" />
-            <div className="rounded-lg border border-border/50 bg-card p-12 mt-4 text-center">
-              <p className="text-muted-foreground font-mono text-sm">
-                Screenshots and demos coming soon.
-              </p>
-            </div>
-          </div>
-        </FadeUp>
+        <Reveal>
+          <SectionHead title="Technical details" />
+          <RuledList items={project.technicalDetails} />
+        </Reveal>
 
-        {/* Back Link */}
-        <FadeUp delay={0.6}>
-          <Link to="/projects" className="text-primary font-mono hover:underline">
-            ← back to projects
-          </Link>
-        </FadeUp>
+        <Reveal>
+          <SectionHead title="Challenges" />
+          <RuledList items={project.challenges} />
+        </Reveal>
       </div>
-    </PageContainer>
+
+      <Reveal>
+        <Link
+          to="/#projects"
+          className="mt-[clamp(56px,7vw,92px)] inline-flex items-center gap-2 text-sm text-dim transition-colors duration-[380ms] hover:text-brand"
+        >
+          <ArrowLeft className="size-3.5" />
+          All projects
+        </Link>
+      </Reveal>
+    </Container>
   )
 }

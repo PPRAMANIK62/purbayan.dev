@@ -1,32 +1,30 @@
 ---
-title: "Before mmap and ELF: Learning C Memory by Building Tiny Utilities"
+title: "Before mmap and ELF: learning C memory by building tiny utilities"
 date: "2026-06-17"
 tags: ["c", "memory", "systems", "learning"]
-summary: "Before jumping into mmap, ELF files, and operating system internals, I wanted to understand how my own C data structures own and grow memory."
+summary: "Before jumping into mmap, ELF files, and OS internals, I wanted to know whether I understood how my own C data structures own and grow memory."
 readingTime: "6 min read"
 ---
 
-Low-level programming has a way of pulling you toward the dramatic stuff.
+Low-level programming pulls you toward the dramatic stuff.
 
 ELF files. Assembly. `mmap`. File descriptors. System calls. Debuggers. Memory sanitizers.
 
-All of that is exciting, but I have been trying to slow down and ask a smaller question first:
+All of it is exciting, and I've been trying to slow down and ask a smaller question first. Do I actually understand how my own C data structures own memory?
 
-**Do I actually understand how my own C data structures own memory?**
+So I started a small personal C utility library. Nothing fancy. No arena allocator yet, no hash map, no logger. Just tools small enough that I can't hide from the basics.
 
-So I started building a small personal C utility library. Nothing fancy. No arena allocator yet. No hash map. No logger. Just small tools that force me to touch the basics directly.
+The first two were a dynamic array and a string builder. Boring on paper. Writing them made C memory a lot less abstract.
 
-The first two modules I built were a dynamic array and a string builder. They are common enough to look boring, but implementing them made C memory feel much less abstract.
+## The heap is where growable storage lives
 
-## The Heap Is Where Growable Storage Lives
-
-A normal local variable has a fixed size.
+A local variable has a fixed size.
 
 ```c
 int x;
 ```
 
-A struct also has a fixed size.
+A struct does too.
 
 ```c
 typedef struct {
@@ -36,36 +34,36 @@ typedef struct {
 } StringBuilder;
 ```
 
-That struct will never grow. It is just a small control object. The growable part is the memory pointed to by `data`.
+That struct will never grow. It's a small control object. The growable part is the memory `data` points at.
 
 ```text
 StringBuilder
   data --------> heap buffer
 ```
 
-That was an important shift for me. A dynamic array is not magic. A string builder is not magic. They are small structs that track heap memory.
+That distinction mattered more than I expected. A dynamic array isn't magic. A string builder isn't magic. They're small structs that keep track of heap memory.
 
-When more space is needed, the internal buffer is resized.
+When it needs more room, it resizes the buffer.
 
 ```c
 char *new_data = realloc(sb->data, new_capacity);
 ```
 
-The struct stays the same size. The buffer it points to changes. That is the core pattern.
+The struct stays the same size. The buffer it points at moves. That's the whole pattern.
 
-## realloc Is Useful, But It Has Teeth
+## realloc has teeth
 
-At first, it is tempting to write this:
+The tempting version:
 
 ```c
 sb->data = realloc(sb->data, new_capacity);
 ```
 
-It looks clean, but it has a problem.
+Clean, and wrong.
 
-If `realloc` fails, it returns `NULL`. If I assign that directly into `sb->data`, I lose the original pointer. Now I cannot free the old memory anymore.
+If `realloc` fails it returns `NULL`. Assign that straight into `sb->data` and the original pointer is gone. The old block is still allocated, and now nothing can free it.
 
-So the safer pattern is:
+So:
 
 ```c
 char *new_data = realloc(sb->data, new_capacity);
@@ -76,51 +74,45 @@ if (new_data == NULL)
 sb->data = new_data;
 ```
 
-This looks like a small detail, but it changed how I think about C.
+A small detail that changed how I read C. Every memory operation is also an ownership transition, and the question to ask each time is what happens on failure. Do I still own the old block? Can I still free it? Did I just drop the only pointer to it?
 
-In C, memory operations are not just operations. They are ownership transitions.
+One temporary variable carries all of that.
 
-You have to ask: if this fails, do I still own the old memory? Can I still free it? Did I lose the only pointer?
+## A string builder has one rule
 
-That one temporary variable carries a lot of responsibility.
+A dynamic array can hold arbitrary bytes. A string builder owes you something extra: it has to stay a valid C string.
 
-## A String Builder Has One Sacred Rule
-
-A dynamic array can store arbitrary bytes. A string builder has an extra responsibility: it must always remain a valid C string.
-
-That means after every append, this must be true:
+After every append, this has to hold.
 
 ```c
 sb->data[sb->length] = '\0';
 ```
 
-The null terminator is not decoration. It is how C string functions know where the string ends.
+The null terminator isn't decoration. It's how every C string function knows where to stop.
 
-If I forget it, the buffer may still contain my characters, but it is no longer safe to treat it like a string.
+Forget it and the buffer still holds your characters, but handing it to `printf` or `strlen` is no longer safe.
 
-That made me appreciate something simple: **in C, a string is not just characters. It is characters plus a stopping rule.**
+A C string is characters plus a stopping rule. A string builder is a growable buffer that re-establishes that rule after every change.
 
-A string builder is really a growable buffer that preserves that stopping rule after every change.
+## APIs decide who owns what
 
-## APIs Tell You Who Owns What
-
-My dynamic array uses this kind of API:
+My dynamic array's API:
 
 ```c
 DynArray *da_create(size_t item_size);
 void da_free(DynArray *array);
 ```
 
-`da_create` allocates the `DynArray` struct itself. The caller receives a pointer and later gives it back to `da_free`.
+`da_create` allocates the `DynArray` struct itself. The caller gets a pointer and later hands it back to `da_free`.
 
-The string builder API is different:
+The string builder's is different:
 
 ```c
 StringBuilder sb_create(void);
 void sb_free(StringBuilder *sb);
 ```
 
-Here, the struct is returned by value.
+The struct comes back by value.
 
 ```c
 StringBuilder sb = sb_create();
@@ -129,41 +121,27 @@ sb_append(&sb, "hello");
 sb_free(&sb);
 ```
 
-The `StringBuilder` struct can live on the stack, while its internal `char *data` still points to heap memory.
+The `StringBuilder` can live on the stack while its `char *data` still points into the heap.
 
-That difference helped me understand that API design is not just naming functions. The API decides the ownership model.
+Two structures, two ownership models, and the signatures are the only place either one is written down. When a function returns a pointer, I ask who allocated it and who frees it. When it takes one, I ask whether it borrows, mutates, or takes ownership. C answers neither question for you. The API has to.
 
-When a function returns a pointer, I ask: who allocated this, and who frees it?
+## Tests are memory questions written down
 
-When a function accepts a pointer, I ask: is it borrowing this, will it modify it, or will it take ownership?
+The tests are simple. Append a string. Append a character. Clear the builder. Reuse it. Append enough text to force a growth.
 
-C does not answer those questions for you. Your API has to make them clear.
-
-## Tests Are Memory Questions Written Down
-
-The tests I wrote were simple. Append a string. Append a character. Clear the builder. Reuse it. Append enough text to force growth.
-
-But those tests were really checking deeper rules:
+Underneath, each one checks a rule.
 
 - Does appending preserve the string?
-- Does clearing keep the builder reusable?
-- Does growth preserve old data?
+- Does clearing leave the builder reusable?
+- Does growth preserve the old data?
 - Does invalid input fail safely?
 
-That is another small mindset shift.
+I'm not proving the code is correct. I'm catching the obvious ways I break ownership, growth, or null termination.
 
-Tests are not only about expected output. For C code, they are also about checking memory invariants.
+## What I understand better now
 
-I am not trying to prove the code is perfect. I am trying to catch the obvious ways I might break ownership, growth, or null termination.
+Growable data lives behind pointers. `realloc` needs a temporary. A C string is only a string while its terminator is intact. An API picks an ownership model whether or not you thought about it.
 
-## What I Understand Better Now
+None of that is separate from the low-level work I actually want to do. Before `mmap`, file descriptors, binary formats, or a memory debugger make much sense, I need to be comfortable with the smaller memory decisions inside my own code.
 
-This project is small, but it taught me useful things.
-
-I understand why growable data lives behind pointers. I understand why `realloc` should be handled carefully. I understand why a C string must always preserve its null terminator. I understand that an API quietly defines ownership.
-
-And most importantly, I understand that these simple utilities are not separate from lower-level programming. They are preparation for it.
-
-Before I can really understand `mmap`, file descriptors, binary formats, or memory debuggers, I need to be comfortable with the smaller memory decisions inside my own code.
-
-So this is where I am starting. Not with a kernel. Not with an allocator. Just a dynamic array, a string builder, and a lot more respect for `malloc`.
+So this is where I'm starting. Not a kernel. Not an allocator. A dynamic array, a string builder, and a lot more respect for `malloc`.
