@@ -63,7 +63,7 @@
 \newcommand{\classesList}[4]{ \item\small{ {#1 #2 #3 #4 \vspace{-2pt}} } }
 
 \newcommand{\resumeSubheading}[4]{
-\vspace{-2pt}
+\vspace{2pt}
 \item
 \begin{tabular*}{1.0\textwidth}[t]{l@{\extracolsep{\fill}}r}
   \textbf{#1} & \textbf{\small #2} \\
@@ -119,7 +119,7 @@
   %-----------SUMMARY-----------
   \section{SUMMARY}
   \vspace{-1pt}
-  \small{Full-Stack Software Engineer focused on building thoughtful, reliable tools for creative and developer workflows. I work across frontend, backend, and AI integrations, with experience turning complex product ideas into polished, maintainable systems.}
+  \small{Frontend-leaning full-stack engineer. I build the difficult surfaces in creative and developer tools---drawing canvases, live editors, storyboard workspaces, and agent panels---and usually own them from the data model through to the screen.}
   \vspace{-8pt}
 
   %-----------EXPERIENCE-----------
@@ -132,19 +132,20 @@
   \resumeItemListEnd
   \resumeSubheading {\href{https://samur-ai.in}{SamurAI Studios}}{Apr 2026 -- Jul 2026}
   {\underline{Software Engineer}}{Remote} \resumeItemListStart
-  \resumeItem{\normalsize{Shipped 57 merged PRs across 4 production codebases for AI-assisted film and advertising workflows.}}
-  \resumeItem{\normalsize{Built a story-first creative-brief pipeline for presentation decks with media extraction, visual captioning, structured schemas, provider abstractions, golden evaluations, and an authenticated operator console.}}
-  \resumeItem{\normalsize{Delivered multi-scene storyboard workspaces end to end: persistence, REST APIs, version history, backward compatibility, frontend routes, and regression tests.}}
-  \resumeItem{\normalsize{Integrated multi-provider image/video generation with continuity prompts, run monitoring, usage logging, and real-time sync; modernized the UI with shared components and Tailwind CSS v4.}}
+  \resumeItem{\normalsize{Built the creative-brief pipeline that turns a client deck into a typed brief: deck ingestion, keyframe extraction, visual captioning, and per-stage evidence an operator console can inspect.}}
+  \resumeItem{\normalsize{Rebuilt storyboards from project-owned to scene-owned across the stack: schema migration, scene-scoped APIs, version history with snapshot restore, and a multi-scene frontend workspace, without breaking existing projects.}}
+  \resumeItem{\normalsize{Shipped per-beat image and video generation across four model providers, with continuity prompts to hold style between shots, run monitoring, and usage logging.}}
+  \resumeItem{\normalsize{Moved the product UI onto shared primitives and Tailwind CSS v4 tokens, and cut gallery payloads with role-specific WebP derivatives.}}
   \resumeItemListEnd
   \resumeSubheading {\href{https://fiddle.is}{fiddle-factory}}{Dec 2025 -- Apr 2026}
   {\underline{Software Engineer (Contractor)}}{Remote} \resumeItemListStart
-  \resumeItem{\normalsize{Shipped 49+ merged PRs across 5 repositories spanning canvas rendering, real-time chat, auth systems, and build infrastructure for an AI component design tool.}}
-  \resumeItem{\normalsize{Integrated Storybook across 4 repositories and fixed a canvas hydration race condition affecting first-time users; also implemented PKCE auth and non-blocking chat updates.}}
+  \resumeItem{\normalsize{Traced and fixed the canvas hydration race that left new users with a blank canvas: tldraw's onMount fired before the data query resolved, so mount now gates on readiness.}}
+  \resumeItem{\normalsize{Built the Storybook setup across four repositories, including a 56-component primitive catalogue, with render detection so screenshots capture real content.}}
+  \resumeItem{\normalsize{Added PKCE auth and allowlist access control to the dashboard, and made chat sends non-blocking so messages render before the write completes.}}
   \resumeItemListEnd
   \resumeSubheading {\href{https://fiddle.is}{fiddle-factory}}{May 2025 -- Aug 2025}
-  {\underline{Software Engineer Intern}}{Remote} \resumeItemListStart \resumeItem{\normalsize{Migrated canvas system from react-flow to tldraw---built custom shapes, tools, preview components, and data conversion utilities across 84 files.}}
-  \resumeItem{\normalsize{Migrated cloud sandboxes from StackBlitz WebContainers to e2b and built the ``make real'' AI flow for turning canvas drawings into generated components.}}
+  {\underline{Software Engineer Intern}}{Remote} \resumeItemListStart \resumeItem{\normalsize{Migrated the canvas from react-flow to tldraw: custom shapes and tools per component type, preview renderers, and converters that carried existing documents between two canvas models.}}
+  \resumeItem{\normalsize{Moved cloud sandboxes from StackBlitz WebContainers to e2b for reliable installs, and built the ``make real'' flow that turns a canvas drawing into a generated component.}}
   \resumeItemListEnd \resumeSubHeadingListEnd
   \vspace{-14pt}
 

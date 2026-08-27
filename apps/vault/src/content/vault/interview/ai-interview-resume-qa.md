@@ -54,9 +54,14 @@ format does not map cleanly onto tldraw's shape props" score differently on the 
 
 ### The verification question is the whole format
 
-"You said 84 files. What was in the other 70?" is not a trick. It is the cheapest possible test
-of whether a number is real. Any bullet with a number, a named library, or a named technique
-invites one. I should assume every single one gets probed and prepare accordingly.
+"You said 56 primitives. What was in them?" is not a trick. It is the cheapest possible test of
+whether a number is real. Any bullet with a number, a named library, or a named technique invites
+one. I should assume every single one gets probed and prepare accordingly.
+
+This is also why the resume no longer carries PR counts or a file count. A number that measures
+my output volume rather than the thing I built cannot survive the follow-up, because the honest
+answer to "what were those 57 PRs" is "a metric, mostly". Numbers that size the work still earn
+their place: 56 primitives, four model providers, a two-hour sandbox lifetime.
 
 ---
 
@@ -72,13 +77,13 @@ either prepare hard or remove from the uploaded version.
 | Sanitized HTML, footnotes, heading anchors, frontmatter            | Green | Each is a small, specific, explainable change.                                                                                                                                                                                                       |
 | Shared Agent Contract, Claude and Codex adapters, parity tests     | Amber | This is my best architecture story and my most probeable. Rehearse the interface boundary.                                                                                                                                                           |
 | Playwright E2E, cross-platform CI gates                            | Amber | Invites "how do you keep visual tests from being flaky", which has a real answer I must not fumble.                                                                                                                                                  |
-| 57 merged PRs across 4 codebases                                   | Red   | A number this specific gets verified. I need three named PRs behind it.                                                                                                                                                                              |
+| 57 merged PRs across 4 codebases                                   | Cut   | Measured my output volume, not the work. Burned a bullet and invited a verification probe I could only answer with "it is a bad metric". Replaced by the pipeline, storyboard, generation and UI bullets.                                            |
 | Creative-brief pipeline, golden evaluations, provider abstractions | Amber | "Golden evaluations" is jargon the interviewer will ask me to define.                                                                                                                                                                                |
 | Multi-scene storyboards, version history, backward compatibility   | Green | Full-stack migration story with a clean data-model spine.                                                                                                                                                                                            |
 | Multi-provider image and video generation, continuity prompts      | Amber | Naming providers means naming their differences.                                                                                                                                                                                                     |
-| 49+ merged PRs across 5 repositories                               | Red   | Same problem as the 57. Have the repos and two PRs ready.                                                                                                                                                                                            |
+| 49+ merged PRs across 5 repositories                               | Cut   | Same problem as the 57. The scope it carried now lives in three bullets that each name something built.                                                                                                                                              |
 | Storybook across 4 repos, canvas hydration race, PKCE              | Green | Three distinct, deep, well-understood stories.                                                                                                                                                                                                       |
-| react-flow to tldraw across 84 files                               | Amber | Best story on the resume. The follow-up is always the data conversion.                                                                                                                                                                               |
+| react-flow to tldraw migration                                     | Green | Best story on the resume. The follow-up is always the data conversion. The file count came off the page, so 84 is now a detail I volunteer rather than a claim I defend.                                                                             |
 | StackBlitz WebContainers to e2b                                    | Green | Clean tradeoff answer with a real constraint behind it.                                                                                                                                                                                              |
 | Languages line                                                     | Cut   | Was TypeScript, JavaScript, Rust, Go, C, Python, Shell. Now TypeScript, JavaScript. I have used Rust and Go enough to build with, not enough to be interviewed on.                                                                                   |
 | Remix in the frameworks line                                       | Amber | Defensible through fiddle, but I did not choose it. Say so.                                                                                                                                                                                          |
@@ -115,8 +120,8 @@ seconds out loud, which is the right length for this format.
 1. **The claim, in one sentence.** What I did. No preamble, no "so basically".
 2. **The mechanism.** One level below the bullet. Name the actual thing: the callback, the data
    format, the lifecycle, the type.
-3. **A number or a specific.** 84 files. Two-hour timeout. 56 primitives. Cold React Query
-   cache. Concrete beats adjectives every time.
+3. **A number or a specific.** Two-hour sandbox timeout. 56 primitives. Four model providers.
+   Cold React Query cache. Concrete beats adjectives every time.
 4. **The tradeoff or the cost.** What I gave up, what broke, or what I would do differently.
 
 Beat four is the one most candidates skip, and it is the one that separates "I used this" from
@@ -128,7 +133,7 @@ Worked example, using the tldraw bullet:
 > We moved the canvas off react-flow onto tldraw. [claim] react-flow models everything as nodes
 > and edges, so it is good for flowcharts, but fiddle needed freeform drawing and custom
 > component shapes, which meant building a new shape system rather than styling the old one.
-> [mechanism] It touched 84 files, and the bulk of that was not the shapes, it was the data
+> [mechanism] It came out to 84 files, and the bulk of that was not the shapes, it was the data
 > converters. [number] The migration cost us weeks and I would do it again, but I underestimated
 > the conversion: react-flow stores position, size, and connections, while tldraw stores shape
 > props, rotation, opacity, and parent-child relationships, so grouped nodes had to become
@@ -143,19 +148,24 @@ The interview usually opens with "tell me about yourself" or "walk me through yo
 work". Because the ramp is one-directional, this is the highest-value answer in the whole
 session. I use it to plant hooks, not to recite chronology.
 
-> I am a frontend-leaning full-stack engineer, mostly TypeScript and React. The last year has
-> been three things. I contract on
-> fiddle, an AI component design tool, where I migrated the canvas from react-flow to tldraw
-> across 84 files and later fixed the hydration race that was breaking first load for every new
-> user. At SamurAI Studios I built the storyboard architecture end to end, backend model
-> through frontend workspace, while keeping projects saved under the old schema working. Right
-> now I contribute to StashBase, a local-first Electron knowledge base, where I own the Markdown
-> editor and wrote the contract that lets Claude and Codex sit behind one interface. On the side
-> On the side I maintain trove/cn, a registry of copyable React components, and mdt, a terminal
-> Markdown editor I wrote while teaching myself Rust and published to crates.io.
+> I am a frontend-leaning full-stack engineer, mostly TypeScript and React, and the thread
+> through my work is that I keep building difficult interactive surfaces. Canvases, editors,
+> agent panels. At fiddle, an AI component design tool, I migrated the drawing canvas from
+> react-flow to tldraw and later traced the hydration race that was leaving every new user with a
+> blank canvas. At SamurAI Studios I rebuilt storyboards from project-owned to scene-owned, data
+> model through to the workspace, without breaking projects saved on the old shape. Right now I
+> contribute to StashBase, a local-first Electron knowledge base, where I own the Markdown editor
+> and wrote the contract that lets Claude and Codex sit behind one interface. On the side I
+> maintain trove/cn, a registry of copyable React components, and mdt, a terminal Markdown editor
+> I wrote while teaching myself Rust and published to crates.io.
 
-Six hooks in ninety seconds: tldraw migration, hydration race, storyboard schema, agent
+Five hooks in ninety seconds: tldraw migration, hydration race, storyboard schema, agent
 contract, registry format. Every one of them is a place I can go three questions deep.
+
+The first sentence is doing work the old version skipped. Naming the through-line, that I build
+hard interactive surfaces, gives the interviewer a frame to hang everything else on, and it is
+the same claim the resume summary now opens with. Without it the answer is a list of three jobs
+and the machine picks which one to probe.
 
 mdt is in there deliberately as the last clause rather than a headline, and the words "while
 teaching myself" are doing real work. They frame it as evidence that I ship and learn, not as a
@@ -397,41 +407,40 @@ question asks how I make a change stick, this is the answer.
 
 Resume bullets under review:
 
-1. Shipped 57 merged PRs across 4 production codebases for AI-assisted film and advertising
-   workflows.
-2. Built a story-first creative-brief pipeline for presentation decks with media extraction,
-   visual captioning, structured schemas, provider abstractions, golden evaluations, and an
-   authenticated operator console.
-3. Delivered multi-scene storyboard workspaces end to end: persistence, REST APIs, version
-   history, backward compatibility, frontend routes, and regression tests.
-4. Integrated multi-provider image/video generation with continuity prompts, run monitoring,
-   usage logging, and real-time sync; modernized the UI with shared components and Tailwind CSS
-   v4.
+1. Built the creative-brief pipeline that turns a client deck into a typed brief: deck ingestion,
+   keyframe extraction, visual captioning, and per-stage evidence an operator console can
+   inspect.
+2. Rebuilt storyboards from project-owned to scene-owned across the stack: schema migration,
+   scene-scoped APIs, version history with snapshot restore, and a multi-scene frontend
+   workspace, without breaking existing projects.
+3. Shipped per-beat image and video generation across four model providers, with continuity
+   prompts to hold style between shots, run monitoring, and usage logging.
+4. Moved the product UI onto shared primitives and Tailwind CSS v4 tokens, and cut gallery
+   payloads with role-specific WebP derivatives.
 
-### Q: You mention 57 merged PRs. What were they?
+### Q: Three months is short. What did you actually get done?
 
-**Why it comes:** Pure verification. A number that specific is either audited or invented, and
-the interviewer is finding out which.
+**Why it comes:** Apr to Jul 2026 is a brief tenure and the machine will notice. This used to be
+a "you claim 57 PRs, prove it" probe. Now that the count is off the page it arrives as a fair
+question about scope, which is a much better one to be asked.
 
 **Answer:**
 
-> Four codebases over about three months, from April to July 2026. The distribution was not
-> even. Most of the volume sat in the main product app, a large block in the document parser
-> service, and the rest split between the operator console and shared tooling. I can name the
-> shape of the work: April was foundation and product cleanup, early May was media contracts and
-> generation, mid-May was making storyboards scene-aware, late May was the document intelligence
-> slice end to end, June was shared UI and simplifying workflows the product had outgrown.
+> Four codebases, and the work went in phases rather than spread evenly. April was foundations
+> and product cleanup. Early May was media contracts and generation. Mid-May was making
+> storyboards scene-aware, which became the biggest piece. Late May was the document
+> intelligence slice end to end, ingestion through to the operator console. June was shared UI
+> and cutting workflows the product had outgrown. If you want one thing to judge me on, it is
+> the storyboard migration.
+
+Ending on a nomination is deliberate. It hands the interviewer the next question and the next
+question is one I can answer for five minutes.
 
 **Follow-up: "Why does your GitHub graph not show this?"**
 
 > Private repositories under a company account, and my commits are attributed to a work identity
 > rather than my personal one. It is a common gap and I would rather explain it up front than
 > have someone quietly assume I did nothing for three months.
-
-**How I handle a hostile version of this:** if the interviewer implies the number is padded, I
-do not defend the number. I move to the work. "The honest answer is that PR count is a bad
-metric and I put it on the resume because it is verifiable, not because it is meaningful. The
-storyboard architecture was maybe six of those 57 and it was most of the value."
 
 ### Q: Walk me through the creative-brief pipeline.
 
@@ -594,10 +603,12 @@ measure.
 
 Resume bullets under review:
 
-1. Shipped 49+ merged PRs across 5 repositories spanning canvas rendering, real-time chat, auth
-   systems, and build infrastructure for an AI component design tool.
-2. Integrated Storybook across 4 repositories and fixed a canvas hydration race condition
-   affecting first-time users; also implemented PKCE auth and non-blocking chat updates.
+1. Traced and fixed the canvas hydration race that left new users with a blank canvas: tldraw's
+   onMount fired before the data query resolved, so mount now gates on readiness.
+2. Built the Storybook setup across four repositories, including a 56-component primitive
+   catalogue, with render detection so screenshots capture real content.
+3. Added PKCE auth and allowlist access control to the dashboard, and made chat sends
+   non-blocking so messages render before the write completes.
 
 ### Q: What is fiddle?
 
@@ -609,11 +620,11 @@ Resume bullets under review:
 > the sandbox is e2b, and generated components pull from a shared library of 56 primitives in a
 > separate repo.
 
-**Follow-up: "Five repositories. Name them and what they do."**
+**Follow-up: "How many repositories was this across?"**
 
-> fiddle is the product. shadcn-ui holds the 56 shared primitives. eleven-labs-ui and
+> Five. fiddle is the product. shadcn-ui holds the 56 shared primitives. eleven-labs-ui and
 > design-engineer are the other component surfaces. repo-build-server builds user projects, and
-> there is a dashboard for admin and access control.
+> there is a dashboard for admin and access control. The Storybook work covered four of them.
 
 ### Q: Tell me about the canvas hydration race.
 
@@ -749,24 +760,29 @@ operations do not race the recreation.
 
 Resume bullets under review:
 
-1. Migrated canvas system from react-flow to tldraw, built custom shapes, tools, preview
-   components, and data conversion utilities across 84 files.
-2. Migrated cloud sandboxes from StackBlitz WebContainers to e2b and built the "make real" AI
-   flow for turning canvas drawings into generated components.
+1. Migrated the canvas from react-flow to tldraw: custom shapes and tools per component type,
+   preview renderers, and converters that carried existing documents between two canvas models.
+2. Moved cloud sandboxes from StackBlitz WebContainers to e2b for reliable installs, and built
+   the "make real" flow that turns a canvas drawing into a generated component.
 
 ### Q: Walk me through the react-flow to tldraw migration.
 
-**Why it comes:** Every time. It is the most concrete, largest-scope claim on the resume, and 84
-files is a number begging to be checked.
+**Why it comes:** Every time. It is the most concrete, largest-scope claim on the resume. The
+bullet now names what the migration required rather than how many files it touched, so the
+natural probe is the converters, which is exactly where I want it.
 
 **Answer:** use the worked example in Part 3. Claim, mechanism, number, tradeoff.
 
-**Follow-up: "What was in the 84 files?"**
+**Follow-up: "How big was it?"**
 
-> Four groups. Removing the node-based system, which touched everything that referenced a node
-> type. Custom tldraw shapes, one per component type, each with its own props schema and
-> renderer. Tools for placing and manipulating those shapes. And the data converters, which were
-> the smallest number of files and the largest share of the work.
+> Around 84 files, in four groups. Removing the node-based system, which touched everything that
+> referenced a node type. Custom tldraw shapes, one per component type, each with its own props
+> schema and renderer. Tools for placing and manipulating them. And the data converters, which
+> were the fewest files and the largest share of the work.
+
+Volunteering 84 here is fine and it is not the same as putting it on the resume. Offered inside
+an answer it sizes the migration for someone who asked. Printed as a bullet it was a claim about
+me, and the follow-up to a claim about me is always harder than the follow-up to a detail.
 
 **Follow-up: "Why were the converters the hard part?"**
 
@@ -1331,16 +1347,23 @@ anything I leave on the page is something I have agreed to be tested on.
 
 ## Part 14: the ninety-second cheat sheet
 
-Numbers, in case one is asked cold:
+Numbers, in case one is asked cold. The first group is on the resume, so I must have these. The
+second group is not, so I offer them inside an answer when they size something, and never lead
+with them.
 
-| Claim                | Detail                                               |
-| -------------------- | ---------------------------------------------------- |
-| SamurAI              | 57 merged PRs, 4 codebases, Apr to Jul 2026          |
-| fiddle contractor    | 49+ merged PRs, 5 repositories, Dec 2025 to Apr 2026 |
-| fiddle intern        | 84 files in the tldraw migration, May to Aug 2025    |
-| shadcn-ui primitives | 56, all with Storybook stories                       |
-| e2b sandbox lifetime | 2 hours, silent expiry                               |
-| StashBase            | Open source, commits public under PPRAMANIK62        |
+| On the page          | Detail                                         |
+| -------------------- | ---------------------------------------------- |
+| shadcn-ui primitives | 56, all with Storybook stories                 |
+| Storybook repos      | 4                                              |
+| Model providers      | 4 for generation: Runway, Veo, Seedance, Kling |
+| StashBase            | Open source, commits public under PPRAMANIK62  |
+
+| Held in reserve      | Detail                               |
+| -------------------- | ------------------------------------ |
+| tldraw migration     | ~84 files, May to Aug 2025           |
+| SamurAI              | 4 codebases, Apr to Jul 2026         |
+| fiddle contractor    | 5 repositories, Dec 2025 to Apr 2026 |
+| e2b sandbox lifetime | 2 hours, silent expiry               |
 
 The five stories I should never have to reach for:
 
@@ -1350,8 +1373,8 @@ The five stories I should never have to reach for:
    resolution, legacy routes kept working, tests proving no cross-scene leakage.
 3. Shared Agent Contract. One interface over Claude and Codex, parity tests as the thing that
    catches drift, capabilities rather than throwing methods.
-4. tldraw migration. Node-and-edge model to a shape model, 84 files, the converters were the
-   work, grouped nodes became frames.
+4. tldraw migration. Node-and-edge model to a shape model, the converters were the work, grouped
+   nodes became frames.
 5. Renderer layer enforcement. Cycles between common and store, moved the shared vocabulary,
    then made oxlint enforce it because a convention lasts one pull request.
 
