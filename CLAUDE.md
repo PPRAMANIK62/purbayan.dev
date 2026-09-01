@@ -65,11 +65,11 @@ cd apps/vault && bun run preview   # Preview production build
 
 **Routing:** Astro file-based. `src/pages/[category]/[...slug].astro` handles all doc pages. `src/pages/index.astro` builds the file explorer index.
 
-**Syntax highlighting:** Shiki with `tokyo-night` theme (configured in `astro.config.mjs`).
+**Syntax highlighting:** Shiki's `css-variables` theme, mapped to the shared syntax palette in `src/styles/global.css`.
 
 ## Design Conventions
 
-- **Theme:** `apps/web` is dark-only and uses the palette described above. `apps/vault` is still on Tokyo Night and has not been migrated yet — the two intentionally diverge for now.
+- **Theme:** Both apps use the same dark-only editorial palette and typography. Each app owns its CSS tokens so it can build and deploy independently.
 - **Typography:** Bricolage Grotesque (display, `font-display`) and Instrument Sans (body, `font-sans`), self-hosted via `@fontsource-variable`. Monospace is system-only, for code blocks.
 - **Motion:** `motion` v12. Any component that hides content while animating must opt out under `prefers-reduced-motion` via `useReducedMotion()` — motion writes inline styles, so the global CSS reduced-motion rule cannot reach it.
 - **No new dependencies** without good reason — the stack is intentionally lean

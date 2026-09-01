@@ -39,9 +39,9 @@ Existing categories: `interview/`, `roadmaps/`
 ## Styling
 
 - Tailwind CSS 4
-- Tokyo Night theme via CSS custom properties in `src/styles/`
-- Iosevka mono primary font
-- Syntax highlighting via Shiki with `tokyo-night` theme (configured in `astro.config.mjs`)
+- Dark-only editorial palette shared with `apps/web`, exposed as semantic Tailwind tokens in `src/styles/global.css`
+- Bricolage Grotesque for display type, Instrument Sans for body copy, and system mono for code
+- Syntax highlighting uses Shiki's `css-variables` theme, mapped to the shared syntax palette in `src/styles/global.css`
 
 ## Conventions
 

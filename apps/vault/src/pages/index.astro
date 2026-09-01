@@ -31,77 +31,58 @@ function getReadingTime(words: number): number {
 const totalDocs = allDocs.length
 const totalWords = allDocs.reduce((sum, doc) => sum + getWordCount(doc.body), 0)
 
-let entryIndex = 0
 ---
 
 <VaultLayout title="Index">
-  <!-- Hero -->
-  <div class="mb-12 vault-fade" style="--i:0">
-    <div class="flex items-center gap-3 mb-4">
-      <div class="h-px flex-1 bg-gradient-to-r from-cyan/40 to-transparent"></div>
-    </div>
+  <header class="vault-fade mb-16" style="--i:0">
+    <p class="label-xs text-brand">Personal knowledge base</p>
+    <h1 class="mt-4 font-display text-[clamp(2.6rem,8vw,4.75rem)] font-semibold leading-[0.95] tracking-[-0.045em] [font-variation-settings:'wdth'_92]">
+      Notes worth<br />keeping close.
+    </h1>
+    <p class="mt-6 max-w-md text-dim">Roadmaps, interview prep, and project notes.</p>
 
-    <p class="text-muted text-sm leading-relaxed max-w-md">
-      Personal knowledge base — roadmaps, interview prep, project notes.
-    </p>
-
-    <div class="flex items-center gap-4 mt-4 text-xs text-muted">
-      <span class="flex items-center gap-1.5">
-        <span class="inline-block size-1.5 rounded-full bg-green animate-pulse"></span>
-        <span class="text-cyan">{totalDocs}</span> documents
+    <div class="mt-6 flex flex-wrap gap-2 text-xs">
+      <span class="rounded-full bg-brand-wash px-2.5 py-1 text-brand">
+        {totalDocs} documents
       </span>
-      <span class="text-border">|</span>
-      <span>
-        <span class="text-cyan">{totalWords.toLocaleString()}</span> words
+      <span class="rounded-full border border-line px-2.5 py-1 text-dim">
+        {totalWords.toLocaleString()} words
       </span>
-      <span class="text-border">|</span>
-      <span>
-        <span class="text-cyan">{sortedCategories.length}</span> categories
+      <span class="rounded-full border border-line px-2.5 py-1 text-dim">
+        {sortedCategories.length} categories
       </span>
     </div>
-
-    <div class="flex items-center gap-3 mt-4">
-      <div class="h-px flex-1 bg-gradient-to-r from-border to-transparent"></div>
-    </div>
-  </div>
+  </header>
 
   <!-- Categories -->
   {sortedCategories.map((category, catIdx) => (
-    <section class="mb-10 vault-fade" style={`--i:${catIdx + 1}`}>
-      <div class="flex items-center gap-3 mb-4">
-        <h2 class="text-xs uppercase tracking-[0.2em] text-magenta font-semibold shrink-0">
+    <section class="vault-fade mb-14" style={`--i:${catIdx + 1}`}>
+      <header class="mb-3 flex items-baseline justify-between gap-5 border-b border-line pb-4">
+        <h2 class="font-display text-[clamp(1.15rem,1.9vw,1.4rem)] font-semibold tracking-[-0.02em] [font-variation-settings:'wdth'_94]">
           {kebabToTitle(category)}
         </h2>
-        <span class="text-xs text-muted/60">({grouped[category].length})</span>
-        <div class="h-px flex-1 bg-gradient-to-r from-magenta/20 to-transparent"></div>
-      </div>
+        <span class="label-xs text-faint">{grouped[category].length} entries</span>
+      </header>
 
-      <div class="grid gap-2">
+      <div>
         {grouped[category].map((doc) => {
           const slug = doc.id.includes("/") ? doc.id.split("/").slice(1).join("/") : doc.id
           const words = getWordCount(doc.body)
           const time = getReadingTime(words)
-          const idx = entryIndex++
           return (
             <a
               href={`/${category}/${slug}`}
-              class="vault-entry vault-fade group"
-              style={`--i:${idx + sortedCategories.length + 1}`}
+              class="vault-entry group"
             >
-              <div class="flex items-center justify-between gap-4">
-                <div class="flex items-center gap-3 min-w-0">
-                  <span class="text-muted/40 text-xs font-mono shrink-0 group-hover:text-cyan/60 transition-colors">
-                    {String(idx + 1).padStart(2, "0")}
-                  </span>
-                  <span class="text-fg group-hover:text-cyan transition-colors truncate">
-                    {doc.data.title}
-                  </span>
-                </div>
-                <div class="flex items-center gap-3 text-xs text-muted/50 shrink-0">
+              <div class="flex items-center justify-between gap-4 border-b border-line py-4">
+                <span class="min-w-0 truncate font-display text-[1.05rem] font-medium tracking-[-0.015em] transition-colors duration-[380ms] group-hover:text-brand">
+                  {doc.data.title}
+                </span>
+                <div class="flex shrink-0 items-center gap-2 text-xs tabular-nums text-faint">
                   <span>{words.toLocaleString()} w</span>
-                  <span class="text-border/50">·</span>
+                  <span aria-hidden="true">·</span>
                   <span>{time} min</span>
-                  <span class="text-cyan/0 group-hover:text-cyan/60 transition-colors ml-1">→</span>
+                  <span class="ml-1 text-brand opacity-0 transition-opacity duration-[380ms] group-hover:opacity-100" aria-hidden="true">→</span>
                 </div>
               </div>
             </a>
@@ -110,41 +91,25 @@ let entryIndex = 0
       </div>
     </section>
   ))}
-
-  <!-- EOF -->
-  <div class="vault-fade mt-8 pt-6 border-t border-border/30" style={`--i:${entryIndex + sortedCategories.length + 2}`}>
-    <p class="text-xs text-muted/30 text-center tracking-widest">EOF</p>
-  </div>
 </VaultLayout>
 
 <style>
   .vault-entry {
     display: block;
-    padding: 0.625rem 0.75rem;
-    margin-left: -0.75rem;
-    margin-right: -0.75rem;
-    border-radius: 0.5rem;
-    border-left: 2px solid transparent;
-    transition:
-      background-color 150ms ease,
-      border-color 150ms ease,
-      color 150ms ease,
-      transform 150ms ease;
+    transition: padding-left 500ms var(--ease-brand);
   }
 
   .vault-entry:hover {
-    background-color: color-mix(in srgb, var(--color-surface) 70%, transparent);
-    border-left-color: var(--color-cyan);
+    padding-left: 0.625rem;
   }
 
   .vault-entry:active {
-    transform: scale(0.99);
-    transition-duration: 75ms;
+    opacity: 0.7;
   }
 
   .vault-fade {
-    animation: vaultFadeIn 0.4s ease both;
-    animation-delay: calc(var(--i, 0) * 60ms);
+    animation: vaultFadeIn 600ms var(--ease-brand) both;
+    animation-delay: calc(var(--i, 0) * 80ms);
   }
 
   @keyframes vaultFadeIn {

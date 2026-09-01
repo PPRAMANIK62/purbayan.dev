@@ -5,7 +5,7 @@ Personal knowledge base — roadmaps, interview prep, project notes.
 ## stack
 
 - Astro 5, TypeScript
-- Tailwind CSS 4, Iosevka mono, Tokyo Night
+- Tailwind CSS 4 with the portfolio's dark editorial palette and typography
 - Shiki syntax highlighting
 
 ## run locally
