@@ -23,20 +23,20 @@ const readingTime = Math.ceil(wordCount / 200)
 ---
 
 <VaultLayout title={doc.data.title}>
-  <div class="mb-6">
+  <div class="mb-10">
     <a
       href="/"
-      class="text-sm text-muted hover:text-cyan transition-colors"
+      class="label-xs text-dim transition-colors duration-[380ms] hover:text-brand"
     >
       ← back
     </a>
   </div>
 
-  <div class="flex flex-wrap items-center gap-x-2 text-sm text-muted mb-8 pb-4 border-b border-border/50">
-    <span>{doc.data.title}</span>
-    <span>·</span>
+  <div class="label-xs mb-10 flex flex-wrap items-center gap-x-2 border-b border-line pb-4 text-faint">
+    <span class="text-brand">{doc.data.title}</span>
+    <span aria-hidden="true">·</span>
     <span>~{wordCount.toLocaleString()} words</span>
-    <span>·</span>
+    <span aria-hidden="true">·</span>
     <span>{readingTime} min read</span>
   </div>
 

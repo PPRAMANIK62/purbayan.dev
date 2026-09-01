@@ -7,7 +7,7 @@ export default defineConfig({
   },
   markdown: {
     shikiConfig: {
-      theme: "tokyo-night",
+      theme: "css-variables",
     },
   },
 })
