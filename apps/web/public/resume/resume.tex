@@ -126,8 +126,8 @@
   \section{EXPERIENCE}
   \resumeSubHeadingListStart \resumeSubheading {\href{https://github.com/liliu-z/stashbase}{StashBase}}{Jul 2026 -- Present}
   {\underline{Open Source Contributor}}{Remote} \resumeItemListStart
-  \resumeItem{\normalsize{Built the live Markdown editor on Milkdown Crepe for a local-first knowledge base: editing and preview in one surface, with source semantics preserved through links, code fences, lists, blockquotes, clipboard, and Find.}}
-  \resumeItem{\normalsize{Hardened Markdown rendering with sanitized HTML, package-native footnotes and heading anchors, alert blocks, and hidden frontmatter; added Quick Open, a command palette, and editor history.}}
+  \resumeItem{\normalsize{Built the live Markdown editor for a local-first knowledge base on Milkdown Crepe, unifying editing and preview in one surface without losing source fidelity.}}
+  \resumeItem{\normalsize{Hardened Markdown rendering for safety and completeness, and added navigation features (quick open, command palette, history) that made the editor usable day-to-day.}}
   \resumeItem{\normalsize{Wrote the Shared Agent Contract with Claude and Codex adapters and parity tests across both, and set up the Playwright E2E suite and cross-platform CI gates behind it.}}
   \resumeItemListEnd
   \resumeSubheading {\href{https://samur-ai.in}{SamurAI Studios}}{Apr 2026 -- Jul 2026}
@@ -135,12 +135,12 @@
   \resumeItem{\normalsize{Built the creative-brief pipeline that turns a client deck into a typed brief: deck ingestion, keyframe extraction, visual captioning, and per-stage evidence an operator console can inspect.}}
   \resumeItem{\normalsize{Rebuilt storyboards from project-owned to scene-owned across the stack: schema migration, scene-scoped APIs, version history with snapshot restore, and a multi-scene frontend workspace, without breaking existing projects.}}
   \resumeItem{\normalsize{Shipped per-beat image and video generation across four model providers, with continuity prompts to hold style between shots, run monitoring, and usage logging.}}
-  \resumeItem{\normalsize{Moved the product UI onto shared primitives and Tailwind CSS v4 tokens, and cut gallery payloads with role-specific WebP derivatives.}}
+  \resumeItem{\normalsize{Moved the product UI onto shared primitives and Tailwind CSS v4 tokens, and cut gallery payload sizes through image format optimization.}}
   \resumeItemListEnd
   \resumeSubheading {\href{https://fiddle.is}{fiddle-factory}}{Dec 2025 -- Apr 2026}
   {\underline{Software Engineer (Contractor)}}{Remote} \resumeItemListStart
-  \resumeItem{\normalsize{Traced and fixed the canvas hydration race that left new users with a blank canvas: tldraw's onMount fired before the data query resolved, so mount now gates on readiness.}}
-  \resumeItem{\normalsize{Built the Storybook setup across four repositories, including a 56-component primitive catalogue, with render detection so screenshots capture real content.}}
+  \resumeItem{\normalsize{Diagnosed and fixed a canvas hydration race condition that left new users with a blank canvas on first load.}}
+  \resumeItem{\normalsize{Built the Storybook setup across four repositories, including a shared component primitive catalogue, with visual regression testing via screenshots.}}
   \resumeItem{\normalsize{Added PKCE auth and allowlist access control to the dashboard, and made chat sends non-blocking so messages render before the write completes.}}
   \resumeItemListEnd
   \resumeSubheading {\href{https://fiddle.is}{fiddle-factory}}{May 2025 -- Aug 2025}
@@ -152,7 +152,7 @@
   %-----------TECHNICAL SKILLS-----------
   \section{TECHNICAL SKILLS}
   \begin{itemize}[leftmargin=0.15in, label={}]
-    \small{\item{ \textbf{\normalsize{Languages:}}{ \normalsize{TypeScript, JavaScript}} \\ \textbf{\normalsize{Frameworks:}}{ \normalsize{React 19, Next.js 15, Node.js, Express.js, Tailwind CSS 4, Remix}} \\ \textbf{\normalsize{Libraries \& Tools:}}{ \normalsize{shadcn/ui, Radix UI, Framer Motion, Zustand, Storybook, tldraw}} \\ \textbf{\normalsize{Databases:}}{ \normalsize{PostgreSQL, Supabase}} \\ \textbf{\normalsize{DevOps \& Tooling:}}{ \normalsize{Git, Docker, GitHub Actions, CI/CD, Linux, Bun, Vercel}} \\ \textbf{\normalsize{Concepts:}}{ \normalsize{REST APIs, OAuth/PKCE, WebSockets, Component Architecture, Performance Optimization}} \\ }}
+    \small{\item{ \textbf{\normalsize{Languages:}}{ \normalsize{TypeScript, JavaScript}} \\ \textbf{\normalsize{Frameworks:}}{ \normalsize{React 19, Next.js 15, Node.js, Tailwind CSS 4}} \\ \textbf{\normalsize{Libraries \& Tools:}}{ \normalsize{shadcn/ui, Radix UI, Framer Motion, Zustand, Storybook, tldraw}} \\ \textbf{\normalsize{Databases:}}{ \normalsize{PostgreSQL, Supabase}} \\ \textbf{\normalsize{DevOps \& Tooling:}}{ \normalsize{Git, GitHub Actions, CI/CD, Linux, Bun, Vercel}} \\ \textbf{\normalsize{Concepts:}}{ \normalsize{REST APIs, OAuth/PKCE, Component Architecture, Performance Optimization}} \\ }}
   \end{itemize}
   \vspace{-15pt}
 
@@ -163,12 +163,6 @@
   {\href{https://trovecn.dev}{\textbf{\underline{trove/cn}}} $|$ \underline{Next.js, React, TypeScript, Tailwind CSS}}{2026 -- Present}\\
   \resumeItemListStart \resumeItem{\normalsize{Open-source registry of interface patterns from real products, rebuilt as copyable React source with live previews beside the implementation.}}
   \resumeItem{\normalsize{Built with Next.js App Router, Base UI primitives, Motion, Shiki, and the shadcn registry format; released under the MIT license.}}
-  \resumeItemListEnd
-  \vspace{-13pt}
-  \resumeProjectHeading
-  {\href{https://github.com/PPRAMANIK62/mdt}{\textbf{\underline{mdt}}} $|$ \href{https://mdt.purbayan.me}{\underline{Live Demo}} $|$ \underline{Rust, ratatui, syntect, TUI}}{2026}\\
-  \resumeItemListStart \resumeItem{\normalsize{Fast, terminal-based markdown viewer and editor---file tree navigation, rendered preview with syntax highlighting, vim-style editor, and live split-pane preview.}}
-  \resumeItem{\normalsize{Published on crates.io as mdtui; custom terminal renderer with width-aware wrapping for nested lists, blockquotes, and tables.}}
   \resumeItemListEnd \resumeSubHeadingListEnd
   \vspace{-14pt}
 
